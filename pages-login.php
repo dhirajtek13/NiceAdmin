@@ -17,6 +17,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 session_start();
                 $_SESSION['loggedin'] = true;
                 $_SESSION['username'] = $username;
+                $_SESSION['user_type'] = $row['user_type'];
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['designation'] = $row['designation'];
                 //TODO -fetch other important data of user into session and use it
                 header("location: index.php");
             } 
@@ -123,7 +126,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       <button class="btn btn-primary w-100" type="submit">Login</button>
                     </div>
                     <div class="col-12">
-                      <p class="small mb-0">Don't have account? <a href="pages-register.php">Create an account</a></p>
+                      <p class="small mb-0">Don't have account? <a href="add-user.php">Create an account</a></p>
                     </div>
                   </form>
 

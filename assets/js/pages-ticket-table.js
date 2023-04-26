@@ -4,23 +4,14 @@ var table = $("#dataList").DataTable({
     serverSide: true,
     bLengthChange: false,
     // bFilter:false,
-    ajax: "db/ticket_list.php",
+    ajax: "db/pages-ticket_list.php",
     scrollX: true,
     columnDefs: [
       {
         orderable: false,
-        targets: 13,
-      },
-      {
-        orderable: false,
-        targets: 0,
+        targets: 12,
       },
     ],
-    fnRowCallback : function(nRow, aData, iDisplayIndex){
-      // console.log(nRow, aData, iDisplayIndex);
-      $("td:first", nRow).html(iDisplayIndex +1);
-      return nRow;
-    },
     orderCellsTop: true,
   //   fixedHeader: true,
     initComplete: function () {
@@ -94,13 +85,10 @@ var table = $("#dataList").DataTable({
   
     $("#ticket_id").val("");
     $("#type_id").val(1);
-    $("#c_status").val(5);
+    $("#c_status").val(1);
     $("#assignee_id").val(1);
-
-    const dt = new Date();
-    dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
-    var current_datetime = dt.toISOString().slice(0, 16);
-    $("#assigned_date").val(current_datetime);
+  
+    $("#assigned_date").val("");
     $("#plan_start_date").val("");
     $("#plan_end_date").val("");
     $("#actual_start_date").val("");
@@ -113,7 +101,7 @@ var table = $("#dataList").DataTable({
   }
   
   function editData(user_data) {
-      // console.log(user_data);
+      console.log(user_data);
       $(".frm-status").html("");
       $("#userModalLabel").html("Edit Ticket #" + user_data.ticket_id);
   
@@ -121,20 +109,22 @@ var table = $("#dataList").DataTable({
   
       $("#type_id option").filter(function() {return this.text == user_data.ticket_type ;}).attr('selected', true);
       $("#c_status option").filter(function() {return this.text == user_data.c_type_name ;}).attr('selected', true);
-      $("#assignee_id option").filter(function() {return this.text == user_data.assignee ;}).attr('selected', true);  
+      $("#assignee_id option").filter(function() {return this.text == user_data.assignee ;}).attr('selected', true);
+  
+      // $("#type_id").val(user_data.ticket_type);
+      // $("#c_status").val(user_data.c_status);
+      // $("#assignee_id").val(user_data.assignee_id);
     
       $("#assigned_date").val(user_data.assigned_date);
       $("#plan_start_date").val(user_data.plan_start_date);
       $("#plan_end_date").val(user_data.plan_end_date);
-      $("#planned_hrs").val(user_data.planned_hrs);
-      
-      $('#editID').val(user_data.id);
-      
       $("#actual_start_date").val(user_data.actual_start_date);
       $("#actual_end_date").val(user_data.actual_end_date);
     
+      $("#planned_hrs").val(user_data.planned_hrs);
       $("#actual_hrs").val(user_data.actual_hrs);
   
+      $('#editID').val(user_data.id);
       $("#userDataModal").modal("show");
   }
   
@@ -150,11 +140,12 @@ var table = $("#dataList").DataTable({
       document.getElementById("assigned_date").value,
       document.getElementById("plan_start_date").value,
       document.getElementById("plan_end_date").value,
+      document.getElementById("actual_start_date").value,
+      document.getElementById("actual_end_date").value,
+  
       document.getElementById("planned_hrs").value,
+      document.getElementById("actual_hrs").value,
       document.getElementById('editID').value,
-      // document.getElementById("actual_start_date").value,
-      // document.getElementById("actual_end_date").value,
-      // document.getElementById("actual_hrs").value,
     ];
   
     fetch("controller/ticket_eventHandler.php", {

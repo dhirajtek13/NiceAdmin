@@ -69,28 +69,37 @@ $primaryKey = 'id';
 // The `dt` parameter represents the DataTables column identifier. 
 $columns = array( 
     array( 
-        'db'        => 'dates', 
+        'db'        => 'id', 
         'dt'        => 0, 
+        'orderable' => false,
+        'formatter' => function( $d, $row ) { 
+            return $row['id'];
+            // return date( 'jS M Y', strtotime($d)); 
+        } 
+    ), 
+    array( 
+        'db'        => 'dates', 
+        'dt'        => 1, 
         'formatter' => function( $d, $row ) { 
             return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : '';
             // return date( 'jS M Y', strtotime($d)); 
         } 
     ), 
-    array( 'db' => 'hrs', 'dt' => 1 ), 
-    array( 'db' => 'c_type_name',  'dt' => 2 ), 
-    array( 'db' => 'what_is_done',      'dt' => 3 ), 
-    array( 'db' => 'what_is_pending',     'dt' => 4 ), 
-    array( 'db' => 'what_support_required',     'dt' => 5 ), 
+    array( 'db' => 'hrs', 'dt' => 2 ), 
+    array( 'db' => 'c_type_name',  'dt' => 3 ), 
+    array( 'db' => 'what_is_done',      'dt' => 4 ), 
+    array( 'db' => 'what_is_pending',     'dt' => 5 ), 
+    array( 'db' => 'what_support_required',     'dt' => 6 ), 
     array( 
         'db'        => 'id', 
-        'dt'        => 6,
+        'dt'        => 7,
         'formatter' => function( $d, $row ) { 
             return ' 
                 <a href="javascript:void(0);" class="edit" data-toggle="modal"  onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">
-                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                    <i class="bi bi-pencil-fill"></i> 
                 </a>&nbsp;
                 <a href="javascript:void(0);"  class="delete" data-toggle="modal" onclick="deleteData('.$d.')">
-                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                    <i class="bi bi-trash-fill"></i> 
                 </a>
                 
             '; 
@@ -99,7 +108,7 @@ $columns = array(
 ); 
  
 // Include SQL query processing class 
-require '../libraries/DataTables/ssp.class.php'; 
+require '../assets/libraries/DataTables/ssp.class.php'; 
  
 // Output data as json format 
 echo json_encode( 

@@ -17,9 +17,12 @@ $dbDetails = array(
 // print_r($dbDetails); die();
 // DB table to use 
 // $table = 'tickets';
-$table = <<<EOT
- (
-    SELECT 
+
+//get current user id
+session_start();
+$current_user_id =  $_SESSION['user_id'];
+
+$db_string = "SELECT 
     tickets.id, tickets.ticket_id as ticket_id, tickets.type_id as type_id,  tickets.c_status as c_status,   tickets.assignee_id as assignee_id, 
     tickets.assigned_date as assigned_date, tickets.plan_start_date as plan_start_date, tickets.plan_end_date as plan_end_date, tickets.actual_start_date as actual_start_date, tickets.actual_end_date as actual_end_date, tickets.planned_hrs as planned_hrs, tickets.actual_hrs as actual_hrs,
     ticket_types.type_name as ticket_type ,  c_status_types.type_name as c_type_name, users.username as assignee
@@ -30,7 +33,14 @@ $table = <<<EOT
     ON tickets.c_status = c_status_types.id
     LEFT JOIN 	users
     ON tickets.assignee_id = users.id
-    ORDER BY tickets.id DESC
+    WHERE users.id = '".$current_user_id."'
+    ORDER BY tickets.id DESC";
+
+
+$table = <<<EOT
+ (
+    $db_string
+    
  ) temp
 EOT; 
 // $table = <<<EOT
@@ -58,26 +68,20 @@ $columns = array(
     // array( 'db' => 'type_id', 'dt' => -1 ), 
     // array( 'db' => 'c_status', 'dt' => -1 ), 
     // array( 'db' => 'assignee_id', 'dt' => -1 ), 
+
     array( 
         'db' => 'ticket_id', 
         'dt' => 0, 
         'formatter' => function ($d, $row){
-            return $row['id']; 
-        }
-    ), 
-    array( 
-        'db' => 'ticket_id', 
-        'dt' => 1, 
-        'formatter' => function ($d, $row){
             return '<a href="/log.php?ticket='.$d.'"  >'.$d.'</a>'; 
         }
     ), 
-    array( 'db' => 'ticket_type',  'dt' => 2 ), 
-    array( 'db' => 'c_type_name',      'dt' => 3 ), 
-    array( 'db' => 'assignee',     'dt' => 4 ), 
+    array( 'db' => 'ticket_type',  'dt' => 1 ), 
+    array( 'db' => 'c_type_name',      'dt' => 2 ), 
+    array( 'db' => 'assignee',     'dt' => 3 ), 
     array( 
         'db'        => 'assigned_date', 
-        'dt'        => 5, 
+        'dt'        => 4, 
         'formatter' => function( $d, $row ) { 
             return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : '';
             // return date( 'jS M Y', strtotime($d)); 
@@ -85,28 +89,28 @@ $columns = array(
     ), 
     array( 
         'db'        => 'plan_start_date', 
-        'dt'        => 6, 
+        'dt'        => 5, 
         'formatter' => function( $d, $row ) { 
             return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : '';
         } 
     ),
     array( 
         'db'        => 'plan_end_date', 
-        'dt'        => 7, 
+        'dt'        => 6, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
         } 
     ),
     array( 
         'db'        => 'actual_start_date', 
-        'dt'        => 10, 
+        'dt'        => 9, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
         } 
     ),
     array( 
         'db'        => 'actual_end_date', 
-        'dt'        => 11, 
+        'dt'        => 10, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
         } 
@@ -114,14 +118,14 @@ $columns = array(
 
     array( 
         'db'        => 'planned_hrs', 
-        'dt'        => 8, 
+        'dt'        => 7, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0.00') ?  $d : ''; 
         } 
     ),
     array( 
         'db'        => 'actual_hrs', 
-        'dt'        => 9, 
+        'dt'        => 8, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0.00') ?  $d : ''; 
         } 
@@ -131,7 +135,7 @@ $columns = array(
 
     array( 
         'db'        => 'planned_hrs', 
-        'dt'        => 12, 
+        'dt'        => 11, 
         'formatter' => function( $d, $row ) {
             $variance = $row['planned_hrs'] - $row['actual_hrs'];// json_encode($row);
             return ($variance != '0') ?  $variance : ''; 
@@ -139,13 +143,12 @@ $columns = array(
     ), 
     array( 
         'db'        => 'id', 
-        'dt'        => 13,
+        'dt'        => 12,
         'formatter' => function( $d, $row ) { 
             
             return ' <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
                 <a href="/log.php?ticket='.$row['ticket_id'].'" class="btn btn-success">Log</a>&nbsp;
-                <a href="/timing.php?ticket='.$row['ticket_id'].'" class="btn btn-info">Timing</a>
                 </div>
             '; 
         } 

@@ -31,14 +31,16 @@ $c_status_types_row .= '</option></select>';
 
 
 //fetch assignees dropdown
-$sql = "SELECT * FROM assignees";
+$sql = "SELECT * FROM users";
 $assignees = $conn->query($sql);
 $assignees_row = '<select name="assignee_id" id="assignee_id" class="form-control">';
 if ($assignees->num_rows > 0) {
     while($row = $assignees->fetch_assoc()) {
-        $id = $row['id'];
-        $name = $row['name'];
-        $assignees_row .= '<option value="'.$id.'">'.$name.'</option>';
+        if($row['user_type'] != 1){ //dont select PM
+            $id = $row['id'];
+            $name = $row['fname']." ".$row['lname'];
+            $assignees_row .= '<option value="'.$id.'">'.$name.'</option>';
+        }
     }
 }
 $assignees_row .= '</option></select>';

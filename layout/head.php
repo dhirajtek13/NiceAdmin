@@ -4,6 +4,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
   header("location: pages-login.php");
   exit;
 }
+include "db/config.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +36,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
 
     <!-- version 1 inherited --> 
     <script src="./assets/libraries/js/jquery-3.6.4.min.js"  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./assets/css/custom_bt1.css" >
     <!-- <link rel="stylesheet" href="./assets/css/datatable_custom.css" > -->
     <!-- <link rel="stylesheet" href="./assets/css/mateial-icons.css" > -->
     <link rel="stylesheet" type="text/css" href="./assets/libraries/DataTables/jquery.dataTables.min.css"/>

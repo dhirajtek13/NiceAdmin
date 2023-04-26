@@ -1,15 +1,4 @@
-
  <?php include('layout/head.php'); ?>
- <?php 
-        //Middleware: check user type and restrict access 
-        if(isset($_SESSION) && $_SESSION['user_type'] != 1) {
-          header("location: pages-ticket.php");
-          exit;
-        }
-?>
-<!-- Fetch type, status, assignee dropdown -->
-<?php include "db/fetch_dropdown_data.php"; ?>
-
 <body>
 <?php include('layout/header.php'); ?>
 <?php include('layout/sidebar.php'); ?>
@@ -18,24 +7,20 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <div><h1>Ticket List</h1></div>
-      
-      <div class="addDataBtn"><a href="javascript:void(0);" class="btn btn-primary my-2 " onclick="addData()">Add New Ticket</a></div>
     </div><!-- End Page Title -->
-    
+    <!-- <?php echo $_SESSION['user_id']; ?> -->
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
-              <!-- <h5 class="card-title">Datatables</h5> -->
              
               <!-- Table with stripped rows -->
               <table  id="dataList" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>S.N</th>
+                        <!-- <th>S.N</th> -->
                         <th scope="col">Ticket Id</th>
                         <th scope="col">Type</th>
                         <th scope="col">C.Status</th>
@@ -131,13 +116,8 @@
 
   </main><!-- End #main -->
 
-  <?php include "layout/modal/pmticket_modal.php"; ?>
-
   <?php include('layout/footer.php'); ?>
-  <script src="assets/js/ticket-table.js"></script>
-  <script>
-   
-  </script>
+  <script src="assets/js/pages-ticket-table.js"></script>
 
 </body>
 
