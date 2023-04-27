@@ -38,76 +38,28 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <!-- <tfoot style="display:table-header-group">
+                <tfoot style="display:table-header-group">
                     <tr>
+                        <th>S.N</th>
                         <th>Ticket Id</th>
                         <th>Type</th>
                         <th>C.Status</th>
-                        <th>Assignee</th>
+                        <!-- <th>Assignee</th> -->
                         <th>Assigned Date</th>
                         <th>P.Start Date</th>
                         <th>P.End Date</th>
+                        <th>Planned Hours</th>
                         <th>A.Start Date</th>
                         <th>A.End Date</th>
-                        <th>Planned Hours</th>
                         <th>A . Hours</th>
                         <th>Variance </th>
                         <th></th>
                     </tr>
-                </tfoot> -->
+                </tfoot>
                 <tbody>
                     
                 </tbody>
               </table>
-              <!-- <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table> -->
-              <!-- End Table with stripped rows -->
 
             </div>
           </div>

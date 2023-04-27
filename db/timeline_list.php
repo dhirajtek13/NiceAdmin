@@ -91,18 +91,17 @@ $columns = array(
             return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y H:i:s', strtotime($d)) : '';
             // return date( 'jS M Y', strtotime($d)); 
         } 
-    ), 
-    array( 
-        'db'        => 'id', 
-        'dt'        => 5,
-        'formatter' => function( $d, $row ) { 
+    ), //TODO
+    // array( 
+    //     'db'        => 'id', 
+    //     'dt'        => 5,
+    //     'formatter' => function( $d, $row ) { 
             
-            return ' 
-                <a href="/log.php?ticket=11zx" class="btn btn-success">Log</a>&nbsp;
-                               
-            '; 
-        } 
-    ),
+    //         return ' 
+    //             <a href="javascript:void(0);" class="btn btn-warning" onclick="viewData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Details</a>&nbsp;
+    //         '; 
+    //     } 
+    // ),
 ); 
  
 // Include SQL query processing class 

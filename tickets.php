@@ -51,8 +51,9 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <!-- <tfoot style="display:table-header-group">
+                <tfoot style="display:table-header-group">
                     <tr>
+                        <th>S.N</th>
                         <th>Ticket Id</th>
                         <th>Type</th>
                         <th>C.Status</th>
@@ -67,7 +68,7 @@
                         <th>Variance </th>
                         <th></th>
                     </tr>
-                </tfoot> -->
+                </tfoot>
                 <tbody>
                     
                 </tbody>

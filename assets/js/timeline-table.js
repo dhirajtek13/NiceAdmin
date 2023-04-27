@@ -1,60 +1,55 @@
 
+$(document).ready(function () {
+    $('#dataList tfoot th').each(function () {
+        var title = $(this).text();
+        if(title) {
+          $(this).html('<input type="text" placeholder="' + title + '"   size="6" />');
+        }
+        if(title == 'S.N') {
+          $(this).html("");
+        }
+    });
 
+    var table = $("#dataList").DataTable({
+      processing: true,
+      serverSide: true,
+      bLengthChange: false, //hide pagination filter dropdown
+      // bFilter:false,//hide search bar //ISSUE: this also disable individual search functionality
+      ajax: "db/timeline_list.php?ticket="+$("#ticketId").val(),
+      scrollX: true,
+      columnDefs: [
+        // {
+        //   orderable: false,
+        //   targets: 5,
+        // },
+        {
+          orderable: false,
+          targets: 0,
+        },
+      ],
+      fnRowCallback : function(nRow, aData, iDisplayIndex){
+        // console.log(nRow, aData, iDisplayIndex);
+        $("td:first", nRow).html(iDisplayIndex +1);
+        return nRow;
+      },
+      orderCellsTop: true,
+    //   fixedHeader: true,
+      initComplete: function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
 
-// var ticketId = $("#ticketId").val();
-var table = $("#dataList").DataTable({
-    processing: true,
-    serverSide: true,
-    bLengthChange: false, //hide pagination filter dropdown
-    // bFilter:false,//hide search bar //ISSUE: this also disable individual search functionality
-    ajax: "db/timeline_list.php?ticket="+$("#ticketId").val(),
-    columnDefs: [
-      {
-        orderable: false,
-        targets: 5,
-      },
-      {
-        orderable: false,
-        targets: 0,
-      },
-    ],
-    fnRowCallback : function(nRow, aData, iDisplayIndex){
-      // console.log(nRow, aData, iDisplayIndex);
-      $("td:first", nRow).html(iDisplayIndex +1);
-      return nRow;
-    },
-    orderCellsTop: true,
-  //   fixedHeader: true,
-    initComplete: function () {
-      // Apply the search
-      this.api()
-        .columns()
-        .every(function () {
-          var that = this;
-  
-          $("input", this.footer()).on("keyup change clear", function () {
-            if (that.search() !== this.value) {
-              that.search(this.value).draw();
-            }
-          });
-        });
-    },
-  });
-  
-  $(document).ready(function () {
-      // Setup - add a text input to each footer cell
-        $("#dataList tfoot th").each(function () {
-          var title = $(this).text();
-        //   console.log(title);
-          if(title) {
-            $(this).html(
-              '<input type="text" placeholder="' + title + '"  size="8"/>'
-            );
-          }
-          if(title == 'S.N') {
-            $(this).html("");
-          }
-        });  
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+        },
+      });
+     
 
         // table.row($('.sorting_disabled')).remove().draw(false);
         setTimeout(() => {
@@ -136,7 +131,7 @@ var table = $("#dataList").DataTable({
             icon: "success",
           }).then((result) => {
             // Redraw the table
-            table.draw();
+            $("#dataList").DataTable().draw();
   
             $("#userDataModal").modal("hide");
             $("#userDataFrm")[0].reset();
@@ -182,7 +177,7 @@ var table = $("#dataList").DataTable({
                 title: data.msg,
                 icon: "success",
               }).then((result) => {
-                table.draw();
+                $("#dataList").DataTable().draw();
               });
             } else {
               Swal.fire(data.error, "", "error");

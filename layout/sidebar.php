@@ -58,6 +58,17 @@
         } 
       ?>
 
+      <?php 
+        if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) {
+          echo '<li class="nav-item">
+            <a class="nav-link collapsed" href="missing.php">
+            <i class="bi bi-circle"></i>
+              <span>Missing Log</span>
+            </a>
+          </li>';
+        } 
+      ?>
+
     <?php 
         if(isset($_SESSION) && $_SESSION['user_type'] != 1) {
           echo '<li class="nav-item">

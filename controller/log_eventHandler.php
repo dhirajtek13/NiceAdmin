@@ -25,6 +25,19 @@ if($jsonObj->request_type == 'addEdit'){
     $what_support_required = !empty($user_data[7])?$user_data[7]: 'NA';
 
     $id = !empty($user_data[8])?$user_data[8]:0; 
+
+    //TODO - for multi purpose
+    // $details = [
+    //     'ticket_id' => $ticket_id,
+    //     'dates' => $dates,
+    //     'hrs' => $hrs,
+    //     'c_status' => $c_status,
+    //     'what_is_done' => $what_is_done,
+    //     'what_is_pending' => $what_is_pending,
+    //     'what_support_required' => $what_support_required,
+    //     'ticket_id' => $ticket_id,
+    //     'ticket_id' => $ticket_id,
+    // ];
  
     $err = ''; 
     if(empty($dates)){ 
@@ -44,8 +57,8 @@ if($jsonObj->request_type == 'addEdit'){
  
             if($update){ 
                 //Also add in the log_timings
-                //TODO - get the logged in user / ticket assigned user
-                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG');
+                $details = json_encode($user_data);
+                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details);
                 $output = [ 
                     'status' => 1, 
                     'msg' => 'Log updated successfully!' 
@@ -76,7 +89,8 @@ if($jsonObj->request_type == 'addEdit'){
 
                 if ($insert) { 
                     //Also add in the log_timings
-                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG');
+                    $details = json_encode($user_data);
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $details);
                     $output = [ 
                         'status' => 1, 
                         'msg' => 'Log added successfully!' 
@@ -106,12 +120,12 @@ if($jsonObj->request_type == 'addEdit'){
     } 
 }
 
-function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type) {
+function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $details='') {
 
-    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type)
-                VALUES (?,?,?,?)"; 
+    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details)
+                VALUES (?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("iiis", $ticket_id, $user_id,  $ticket_status, $activity_type); 
+                $stmt->bind_param("iiiss", $ticket_id, $user_id,  $ticket_status, $activity_type,$details); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
 }

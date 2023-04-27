@@ -38,10 +38,10 @@
     <div class="pagetitle">
       <div><h1>Timeline for <b><?php echo $_GET['ticket']; ?></b></h1></div>
       
-      <!-- <div class="addDataBtn">
-        <a href="javascript:void(0);" class="btn btn-success " onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a>
-        <?php //if($_GET['ticket']) echo '<a href="/timing.php?ticket='.$_GET['ticket'].'" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View Timeline</a>'; ?>
-      </div> -->
+      <div class="addDataBtn">
+        <!-- <a href="javascript:void(0);" class="btn btn-success " onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a> -->
+        <?php if($_GET['ticket']) echo '<a href="/log.php?ticket='.$_GET['ticket'].'" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View Log</a>'; ?>
+      </div>
     </div><!-- End Page Title -->
     
     <section class="section">
@@ -62,7 +62,7 @@
                           <th>Status</th>
                           <th>Activity</th>
                           <th>Date</th>
-                          <th></th>
+                          <!-- <th></th> -->
                       </tr>
                   </thead>
                   <tfoot style="display:table-header-group">
@@ -73,7 +73,7 @@
                           <th>Status</th>
                           <th>Activity</th>
                           <th>Date</th>
-                          <th></th>
+                          <!-- <th></th> -->
                       </tr>
                   </tfoot>
                   <tbody>
