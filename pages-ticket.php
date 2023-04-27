@@ -1,4 +1,6 @@
  <?php include('layout/head.php'); ?>
+ <!-- Fetch type, status, assignee dropdown -->
+<?php include "db/fetch_dropdown_data.php"; ?>
 <body>
 <?php include('layout/header.php'); ?>
 <?php include('layout/sidebar.php'); ?>
@@ -115,7 +117,7 @@
     </section>
 
   </main><!-- End #main -->
-
+  <?php include "layout/modal/devticket_modal.php"; ?>
   <?php include('layout/footer.php'); ?>
   <script src="assets/js/pages-ticket-table.js"></script>
 

@@ -17,7 +17,7 @@ include_once "db/config.php";
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title><?php echo SITE_NAME; ?> - <span></span></title>
+  <title><?php echo SITE_NAME; ?>  </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 

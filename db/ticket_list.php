@@ -22,7 +22,7 @@ $table = <<<EOT
     SELECT 
     tickets.id, tickets.ticket_id as ticket_id, tickets.type_id as type_id,  tickets.c_status as c_status,   tickets.assignee_id as assignee_id, 
     tickets.assigned_date as assigned_date, tickets.plan_start_date as plan_start_date, tickets.plan_end_date as plan_end_date, tickets.actual_start_date as actual_start_date, tickets.actual_end_date as actual_end_date, tickets.planned_hrs as planned_hrs, tickets.actual_hrs as actual_hrs,
-    ticket_types.type_name as ticket_type ,  c_status_types.type_name as c_type_name, users.username as assignee
+    ticket_types.type_name as ticket_type ,  c_status_types.type_name as c_type_name, CONCAT(users.fname, ' ', users.lname) as assignee
     FROM tickets 
     LEFT JOIN ticket_types
     ON tickets.type_id = ticket_types.id

@@ -3,7 +3,7 @@
 
 <?php
 
-  if(isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == true){ //if already loggedin then can not access login again page, first log out
+  if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){ //if already loggedin then can not access login again page, first log out
     header("location: index.php");
     exit;
   }

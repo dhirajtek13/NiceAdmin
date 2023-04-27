@@ -153,12 +153,12 @@ var table = $("#dataList").DataTable({
       document.getElementById("assigned_date").value,
       document.getElementById("plan_start_date").value,
       document.getElementById("plan_end_date").value,
+      document.getElementById("planned_hrs").value,
+      document.getElementById('editID').value,
+
       document.getElementById("actual_start_date").value,
       document.getElementById("actual_end_date").value,
-  
-      document.getElementById("planned_hrs").value,
       document.getElementById("actual_hrs").value,
-      document.getElementById('editID').value,
     ];
   
     fetch("controller/ticket_eventHandler.php", {

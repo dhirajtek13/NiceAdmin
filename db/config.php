@@ -1,7 +1,7 @@
 <?php
 
 define('BASE_PATH', 'http://niceadmin.local'); 
-define('SITE_NAME', 'BugTracker'); 
+define('SITE_NAME', 'NiceAdmin'); 
 define('USERID', '1'); //temporay value as long there is no login system
 
 // Database credentials 

@@ -116,7 +116,7 @@ var table = $("#dataList").DataTable({
   }
   
   function editData(user_data) {
-      // console.log(user_data);
+      console.log(user_data);
       $(".frm-status").html("");
       $("#userModalLabel").html("Edit Ticket #" + user_data.ticket_id);
   

@@ -39,7 +39,12 @@ if ($assignees->num_rows > 0) {
         if($row['user_type'] != 1){ //dont select PM
             $id = $row['id'];
             $name = $row['fname']." ".$row['lname'];
-            $assignees_row .= '<option value="'.$id.'">'.$name.'</option>';
+            //show self as selected if not pm 
+            if($_SESSION['user_type'] != 1 && $_SESSION['user_id'] == $id ){
+                $assignees_row .= '<option value="'.$id.'" selected>'.$name.'</option>';
+            } else {
+                $assignees_row .= '<option value="'.$id.'">'.$name.'</option>';
+            }
         }
     }
 }
