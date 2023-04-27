@@ -3,7 +3,7 @@ $(document).ready(function () {
     $('#dataList tfoot th').each(function () {
         var title = $(this).text();
         if(title) {
-          $(this).html('<input type="text" placeholder="' + title + '"   size="6" />');
+          $(this).html('<input type="text" placeholder="' + title + '"   size="6"  class="form-control" />');
         }
         if(title == 'S.N') {
           $(this).html("");
