@@ -48,8 +48,7 @@ if($jsonObj->request_type == 'addEdit'){
  
             if($update){ 
                 //Also add in the log_timings
-                //TODO - using assignee_id as of now instead of logged in user
-                addTiming($conn, $id, $assignee_id,  $c_status, 'UPDATE_TICKET');
+                addTiming($conn, $id, $current_user_id,  $c_status, 'UPDATE_TICKET');
 
                 $output = [ 
                     'status' => 1, 
@@ -81,9 +80,7 @@ if($jsonObj->request_type == 'addEdit'){
 
 
                 if ($insert) { 
-
-                    //TODO - using assignee_id as of now instead of logged in user
-                    addTiming($conn, $ticket_id, $assignee_id,  $c_status, 'ADD_TICKET');
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_TICKET');
                     $output = [ 
                         'status' => 1, 
                         'msg' => 'Ticket added successfully!' 

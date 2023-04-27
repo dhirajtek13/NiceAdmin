@@ -20,18 +20,18 @@
               <table  id="dataList" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <!-- <th>S.N</th> -->
+                        <th>S.N</th>
                         <th scope="col">Ticket Id</th>
                         <th scope="col">Type</th>
                         <th scope="col">C.Status</th>
-                        <th scope="col">Assignee</th>
+                        <!-- <th scope="col">Assignee</th> -->
                         <th scope="col">Assigned Date</th>
                         <th scope="col">P.Start Date</th>
                         <th scope="col">P.End Date</th>
                         <th scope="col">Planned Hours</th>
-                        <th scope="col">A . Hours</th>
                         <th scope="col">A.Start Date</th>
                         <th scope="col">A.End Date</th>
+                        <th scope="col">A . Hours</th>
                         <th scope="col">Variance </th>
                         <th scope="col"></th>
                     </tr>
@@ -121,4 +121,4 @@
 
 </body>
 
-</html> -->
+</html>

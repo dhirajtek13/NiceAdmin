@@ -1,6 +1,11 @@
 
 .dataTables_paginate .current {
     border: none !important;
-    background: ;
+    background: #d9d9d9 !important;
 }
 .addDataBtn {text-align: right;}
+
+#dataList_filter {
+    margin:5px;
+}
+.required_mark {color: red;}

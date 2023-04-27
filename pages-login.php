@@ -1,77 +1,46 @@
+
+<?php include('layout/head.php'); ?>
+
 <?php
-$login = false;
-$showError = false;
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    include "db/config.php";
-    $username = $_POST["username"];
-    $password = $_POST["password"]; 
-    
-     
-    $sql = "Select * from users where username='$username' ";
-    $result = mysqli_query($conn, $sql);
-    $num = mysqli_num_rows($result);
-    if ($num == 1){
-        while($row=mysqli_fetch_assoc($result)){
-            if (password_verify($password, $row['password'])){ 
-                $login = true;
-                session_start();
-                $_SESSION['loggedin'] = true;
-                $_SESSION['username'] = $username;
-                $_SESSION['user_type'] = $row['user_type'];
-                $_SESSION['user_id'] = $row['id'];
-                $_SESSION['designation'] = $row['designation'];
-                //TODO -fetch other important data of user into session and use it
-                header("location: index.php");
-            } 
-            else{
-                $showError = "Invalid Credentials";
-            }
-        }
-    } else {
-      $showError = "Invalid Credentials";
-    }
+
+  if(isset($_SESSION['loggedin']) || $_SESSION['loggedin'] == true){ //if already loggedin then can not access login again page, first log out
+    header("location: index.php");
+    exit;
   }
-    
+
+  $login = false;
+  $showError = false;
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+      include "db/config.php";
+      $username = $_POST["username"];
+      $password = $_POST["password"]; 
+      
+      
+      $sql = "Select * from users where username='$username' ";
+      $result = mysqli_query($conn, $sql);
+      $num = mysqli_num_rows($result);
+      if ($num == 1){
+          while($row=mysqli_fetch_assoc($result)){
+              if (password_verify($password, $row['password'])){ 
+                  $login = true;
+                  session_start();
+                  $_SESSION['loggedin'] = true;
+                  $_SESSION['username'] = $username;
+                  $_SESSION['user_type'] = $row['user_type'];
+                  $_SESSION['user_id'] = $row['id'];
+                  $_SESSION['designation'] = $row['designation'];
+                  //TODO -fetch other important data of user into session and use it
+                  header("location: index.php");
+              } 
+              else{
+                  $showError = "Invalid Credentials";
+              }
+          }
+      } else {
+        $showError = "Invalid Credentials";
+      }
+    }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Pages / Login - NiceAdmin Bootstrap Template</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin
-  * Updated: Mar 09 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
-</head>
 
 <body>
 

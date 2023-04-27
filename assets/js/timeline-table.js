@@ -7,17 +7,22 @@ var table = $("#dataList").DataTable({
     serverSide: true,
     bLengthChange: false, //hide pagination filter dropdown
     // bFilter:false,//hide search bar //ISSUE: this also disable individual search functionality
-    ajax: "db/log_list.php?ticket="+$("#ticketId").val(),
+    ajax: "db/timeline_list.php?ticket="+$("#ticketId").val(),
     columnDefs: [
       {
         orderable: false,
-        targets: 7,
+        targets: 5,
       },
       {
         orderable: false,
         targets: 0,
       },
     ],
+    fnRowCallback : function(nRow, aData, iDisplayIndex){
+      // console.log(nRow, aData, iDisplayIndex);
+      $("td:first", nRow).html(iDisplayIndex +1);
+      return nRow;
+    },
     orderCellsTop: true,
   //   fixedHeader: true,
     initComplete: function () {
@@ -59,7 +64,7 @@ var table = $("#dataList").DataTable({
   
   
   //Modal CRUD operations 
-  function addData() {
+  function addData() {//TODO
     $(".frm-status").html("");
     $("#userModalLabel").html("Add New Log");
   
@@ -78,7 +83,7 @@ var table = $("#dataList").DataTable({
     $("#userDataModal").modal("show");
   }
   
-  function editData(user_data) {
+  function editData(user_data) {//TODO
       $(".frm-status").html("");
   
       $("#userModalLabel").html("Edit Log ");
@@ -96,7 +101,7 @@ var table = $("#dataList").DataTable({
       $("#userDataModal").modal("show");
   }
   
-  function submitUserData() {
+  function submitUserData() {//TODO
     $(".frm-status").html("");
     let input_data_arr = [
       document.getElementById("ticket_id").value,
@@ -148,7 +153,7 @@ var table = $("#dataList").DataTable({
   }
   
   
-  function deleteData(user_id) {
+  function deleteData(user_id) {//TODO
     Swal.fire({
       title: "Are you sure to Delete?",
       text: "You won't be able to revert this!",

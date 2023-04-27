@@ -82,8 +82,11 @@ var table = $("#dataList").DataTable({
           }
         });
 
+        setTimeout(() => {
+            $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
+        }, 100);
         // $('#dataList tfoot').hide();
-        $("#dataList_filter").hide();
+        // $("#dataList_filter").hide();
   });
   
   

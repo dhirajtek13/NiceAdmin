@@ -1,10 +1,14 @@
 <?php
 session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
-  header("location: pages-login.php");
-  exit;
+// echo "<pre>"; print_r($_SERVER); die();
+if($_SERVER['PHP_SELF'] != '/pages-login.php') {//just if not login page itself
+  if( !isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
+    header("location: pages-login.php");
+    exit;
+  }
 }
-include "db/config.php";
+
+include_once "db/config.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +17,7 @@ include "db/config.php";
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+  <title><?php echo SITE_NAME; ?> - <span></span></title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 

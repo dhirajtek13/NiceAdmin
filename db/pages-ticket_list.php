@@ -68,17 +68,23 @@ $columns = array(
     // array( 'db' => 'type_id', 'dt' => -1 ), 
     // array( 'db' => 'c_status', 'dt' => -1 ), 
     // array( 'db' => 'assignee_id', 'dt' => -1 ), 
-
     array( 
         'db' => 'ticket_id', 
         'dt' => 0, 
         'formatter' => function ($d, $row){
+            return $row['id']; 
+        }
+    ), 
+    array( 
+        'db' => 'ticket_id', 
+        'dt' => 1, 
+        'formatter' => function ($d, $row){
             return '<a href="/log.php?ticket='.$d.'"  >'.$d.'</a>'; 
         }
     ), 
-    array( 'db' => 'ticket_type',  'dt' => 1 ), 
-    array( 'db' => 'c_type_name',      'dt' => 2 ), 
-    array( 'db' => 'assignee',     'dt' => 3 ), 
+    array( 'db' => 'ticket_type',  'dt' => 2 ), 
+    array( 'db' => 'c_type_name',      'dt' => 3 ), 
+    // array( 'db' => 'assignee',     'dt' => 3 ), 
     array( 
         'db'        => 'assigned_date', 
         'dt'        => 4, 
@@ -102,21 +108,6 @@ $columns = array(
         } 
     ),
     array( 
-        'db'        => 'actual_start_date', 
-        'dt'        => 9, 
-        'formatter' => function( $d, $row ) { 
-           return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
-        } 
-    ),
-    array( 
-        'db'        => 'actual_end_date', 
-        'dt'        => 10, 
-        'formatter' => function( $d, $row ) { 
-           return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
-        } 
-    ),
-
-    array( 
         'db'        => 'planned_hrs', 
         'dt'        => 7, 
         'formatter' => function( $d, $row ) { 
@@ -124,8 +115,24 @@ $columns = array(
         } 
     ),
     array( 
-        'db'        => 'actual_hrs', 
+        'db'        => 'actual_start_date', 
         'dt'        => 8, 
+        'formatter' => function( $d, $row ) { 
+           return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
+        } 
+    ),
+    array( 
+        'db'        => 'actual_end_date', 
+        'dt'        => 9, 
+        'formatter' => function( $d, $row ) { 
+           return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : ''; 
+        } 
+    ),
+
+   
+    array( 
+        'db'        => 'actual_hrs', 
+        'dt'        => 10, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0.00') ?  $d : ''; 
         } 

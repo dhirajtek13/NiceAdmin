@@ -5,6 +5,10 @@
 // Include database configuration file
 require_once '../db/config.php'; 
  
+//get current user id
+session_start();
+$current_user_id =  $_SESSION['user_id'];
+
 // Retrieve JSON from POST body 
 $jsonStr = file_get_contents('php://input'); 
 $jsonObj = json_decode($jsonStr); 
@@ -33,15 +37,15 @@ if($jsonObj->request_type == 'addEdit'){
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
             // Update user data into the database 
-            $sqlQ = "UPDATE log_history SET ticket_id=?, dates=?, hrs=?, c_status=?, what_is_done=?, what_is_pending=?, what_support_required=?, updated_at=NOW()  WHERE id=?"; 
+            $sqlQ = "UPDATE log_history SET user_id=?, ticket_id=?, dates=?, hrs=?, c_status=?, what_is_done=?, what_is_pending=?, what_support_required=?, updated_at=NOW()  WHERE id=?"; 
             $stmt = $conn->prepare($sqlQ); 
-            $stmt->bind_param("isdisssi", $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required,  $id); 
+            $stmt->bind_param("iisdisssi", $current_user_id, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required,  $id); 
             $update = $stmt->execute(); 
  
             if($update){ 
                 //Also add in the log_timings
                 //TODO - get the logged in user / ticket assigned user
-                addTiming($conn, $ticket_id, USERID,  $c_status, 'UPDATE_LOG');
+                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG');
                 $output = [ 
                     'status' => 1, 
                     'msg' => 'Log updated successfully!' 
@@ -64,15 +68,15 @@ if($jsonObj->request_type == 'addEdit'){
             //     echo json_encode(['error' => "Ticket $ticket_id already exist.<br/>"]);
             // } else {
                 // Insert event data into the database 
-                $sqlQ = "INSERT INTO log_history (ticket_id,dates,hrs,c_status,what_is_done,what_is_pending,what_support_required)
-                VALUES (?,?,?,?,?,?,?)"; 
+                $sqlQ = "INSERT INTO log_history (user_id,ticket_id,dates,hrs,c_status,what_is_done,what_is_pending,what_support_required)
+                VALUES (?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("isdisss", $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required); 
+                $stmt->bind_param("iisdisss", $current_user_id, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required); 
                 $insert = $stmt->execute(); 
 
                 if ($insert) { 
                     //Also add in the log_timings
-                    addTiming($conn, $ticket_id, USERID,  $c_status, 'ADD_LOG');
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG');
                     $output = [ 
                         'status' => 1, 
                         'msg' => 'Log added successfully!' 

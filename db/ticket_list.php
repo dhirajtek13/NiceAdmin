@@ -145,7 +145,7 @@ $columns = array(
             return ' <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
                 <a href="/log.php?ticket='.$row['ticket_id'].'" class="btn btn-success">Log</a>&nbsp;
-                <a href="/timing.php?ticket='.$row['ticket_id'].'" class="btn btn-info">Timing</a>
+                <a href="/timeline.php?ticket='.$row['ticket_id'].'" class="btn btn-info">Timing</a>
                 </div>
             '; 
         } 

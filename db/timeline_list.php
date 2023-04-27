@@ -17,12 +17,14 @@ $dbDetails = array(
 
 $this_ticket = $_GET['ticket'];
 $db_string = "SELECT 
-                log_timing.*, c_status_types.type_name as c_type_name
+                log_timing.*, c_status_types.type_name as c_type_name, tickets.ticket_id as ticket, CONCAT(users.fname, ' ', users.lname) as assignee
                 FROM log_timing 
                 LEFT JOIN tickets
                 ON tickets.id = log_timing.ticket_id
                 LEFT JOIN c_status_types
                 ON log_timing.c_status = c_status_types.id
+                LEFT JOIN users
+                ON log_timing.user_id = users.id
                 WHERE tickets.ticket_id = '".$this_ticket."'";
 
 // print_r($db_string);
@@ -69,8 +71,17 @@ $primaryKey = 'id';
 // The `db` parameter represents the column name in the database.  
 // The `dt` parameter represents the DataTables column identifier. 
 $columns = array( 
-    array( 'db' => 'ticket_id', 'dt' => 0 ), 
-    array( 'db' => 'user_id', 'dt' => 1 ), 
+    array( 
+        'db'        => 'id', 
+        'dt'        => 0, 
+        'orderable' => false,
+        'formatter' => function( $d, $row ) { 
+            return $row['id'];
+            // return date( 'jS M Y', strtotime($d)); 
+        } 
+    ), 
+    // array( 'db' => 'ticket_id', 'dt' => 1 ), 
+    array( 'db' => 'assignee', 'dt' => 1 ), 
     array( 'db' => 'c_type_name',  'dt' => 2 ), 
     array( 'db' => 'activity_type',      'dt' => 3 ), 
     array( 
@@ -95,7 +106,7 @@ $columns = array(
 ); 
  
 // Include SQL query processing class 
-require '../libraries/DataTables/ssp.class.php'; 
+require '../assets/libraries/DataTables/ssp.class.php'; 
  
 // Output data as json format 
 echo json_encode( 

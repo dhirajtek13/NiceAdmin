@@ -1,65 +1,69 @@
-<?php
-
-session_start();
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
-  header("location: pages-login.php");
-  exit;
-}
-
-// if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
-//   $loggedin= true;
-// }
-// else{
-//   $loggedin = false;
-// }
-
-$showAlert = false;
-$showError = false;
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-  include "db/config.php";
-  $username = $_POST["username"];
-  $email = $_POST["email"];
-  $password = $_POST["password"];
-  $employee_id = $_POST["employee_id"];
-  $designation = $_POST["designation"];
-  $user_type = $_POST["user_type"];
-  
-  // Check whether this username exists
-  $existSql = "SELECT * FROM `users` WHERE username = '$username'";
-  $result = mysqli_query($conn, $existSql);
-  $numExistRows = mysqli_num_rows($result);
-  if($numExistRows > 0){
-      // $exists = true;
-      $showError = "Username Already Exists";
-  } 
-  else {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-
-
-        $sql = "INSERT INTO `users` ( `username`, `email`, `password`, `employee_id`, `designation`, `user_type`) VALUES ('$username', '$email', '$hash', '$employee_id', '$designation', '$user_type')";
-        $result = mysqli_query($conn, $sql);
-
-        // print_r($sql);
-        // die();
-        if($result){
-          $showAlert = true;
-          // header("Location: /forum/index.php?signupsuccess=true");
-          // exit();
-      }
-    
-  }
-
-}
-
-?>
 
 <?php include('layout/head.php'); ?>
+<?php
+
+  // session_start();
+  if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
+    header("location: pages-login.php");
+    exit;
+  }
+
+  // if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']==true){
+  //   $loggedin= true;
+  // }
+  // else{
+  //   $loggedin = false;
+  // }
+
+  $showAlert = false;
+  $showError = false;
+  if($_SERVER["REQUEST_METHOD"] == "POST"){
+    
+    // include "db/config.php";
+    $username = $_POST["username"];
+    $fname = $_POST["fname"];
+    $lname = $_POST["lname"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $employee_id = $_POST["employee_id"];
+    $designation = $_POST["designation"];
+    $user_type = $_POST["user_type"];
+    
+    // Check whether this username exists
+    $existSql = "SELECT * FROM `users` WHERE username = '$username'";
+    $result = mysqli_query($conn, $existSql);
+    $numExistRows = mysqli_num_rows($result);
+    if($numExistRows > 0){
+        // $exists = true;
+        $showError = "Username Already Exists";
+    } 
+    else {
+      
+          $hash = password_hash($password, PASSWORD_DEFAULT);
+
+
+          $sql = "INSERT INTO `users` ( `username`, `fname`, `lname`, `email`, `password`, `employee_id`, `designation`, `user_type`) VALUES ('$username', '$fname', '$lname','$email', '$hash', '$employee_id', '$designation', '$user_type')";
+          $result = mysqli_query($conn, $sql);
+          // echo '<pre>'; print_r($result); die();
+
+          // print_r($sql);
+          // die();
+          if($result){
+            $showAlert = true;
+            // header("Location: /forum/index.php?signupsuccess=true");
+            // exit();
+        }
+      
+    }
+
+  }
+?>
 <body>
 <?php include('layout/header.php'); ?>
 <?php include('layout/sidebar.php'); ?>
 
 
- <main id="main" class="main m-0 p-0">
+ <main id="main" class="main mt-10">
     <section class="section dashboard">
       <div class="row">
       <main>
@@ -107,6 +111,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <label for="floatingName">Username</label>
                       </div>
                     </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input name="fname" type="text" class="form-control" id="floatingfname" placeholder="First Name">
+                        <label for="floatingfname">First Name</label>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-floating">
+                        <input name="lname" type="text" class="form-control" id="floatinglname" placeholder="Last Name">
+                        <label for="floatinglname">Last Name</label>
+                      </div>
+                    </div>
                     <div class="col-md-12">
                       <div class="form-floating">
                         <input name="email" type="email" class="form-control" id="floatingEmail" placeholder="Your Email">
@@ -135,6 +151,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                       <div class="form-floating mb-3">
                         <select name="user_type" class="form-select" id="floatingSelect" aria-label="State">
                           <!-- <option selected>New York</option> -->
+                          <!-- TODO -->
                           <option value="1">PM</option>
                           <option value="2" selected>Dev</option>
                           <option value="3">TL</option>

@@ -11,7 +11,16 @@ var table = $("#dataList").DataTable({
         orderable: false,
         targets: 12,
       },
+      {
+        orderable: false,
+        targets: 0,
+      },
     ],
+    fnRowCallback : function(nRow, aData, iDisplayIndex){
+      // console.log(nRow, aData, iDisplayIndex);
+      $("td:first", nRow).html(iDisplayIndex +1);
+      return nRow;
+    },
     orderCellsTop: true,
   //   fixedHeader: true,
     initComplete: function () {
@@ -73,8 +82,12 @@ var table = $("#dataList").DataTable({
           }
         });
 
+        setTimeout(() => {
+          $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
+        }, 100);
+
         // $('#dataList tfoot').hide();
-        $("#dataList_filter").hide();
+        // $("#dataList_filter").hide();
   });
   
   
