@@ -13,12 +13,13 @@
 
       <li class="nav-heading">Pages</li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+      <!-- <li class="nav-item">
+        <a class="nav-link collapsed" href="users-profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li> -->
+      <!-- End Profile Page Nav -->
 
       <?php 
         if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) {
@@ -52,7 +53,7 @@
           echo '<li class="nav-item">
             <a class="nav-link collapsed" href="tickets.php">
             <i class="bi bi-circle"></i>
-              <span>Ticket List</span>
+              <span>Ticket Management</span>
             </a>
           </li>';
         } 
@@ -63,7 +64,18 @@
           echo '<li class="nav-item">
             <a class="nav-link collapsed" href="missing.php">
             <i class="bi bi-circle"></i>
-              <span>Missing Log</span>
+              <span>Weekly Log Report</span>
+            </a>
+          </li>';
+        } 
+      ?>
+
+      <?php 
+        if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) {
+          echo '<li class="nav-item">
+            <a class="nav-link collapsed" href="user_management.php">
+            <i class="bi bi-circle"></i>
+              <span>User Managment</span>
             </a>
           </li>';
         } 

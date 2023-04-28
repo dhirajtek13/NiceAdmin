@@ -58,6 +58,9 @@
 
   }
 ?>
+<!-- Fetch type, status, assignee dropdown -->
+<?php include "db/fetch_dropdown_data.php"; ?>
+
 <body>
 <?php include('layout/header.php'); ?>
 <?php include('layout/sidebar.php'); ?>
@@ -149,14 +152,8 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-floating mb-3">
-                        <select name="user_type" class="form-select" id="floatingSelect" aria-label="State">
-                          <!-- <option selected>New York</option> -->
-                          <!-- TODO -->
-                          <option value="1">PM</option>
-                          <option value="2" selected>Dev</option>
-                          <option value="3">TL</option>
-                          <option value="4">QA</option>
-                        </select>
+                        <?php echo $user_type_row; ?>
+                        
                         <label for="floatingSelect">User Type</label>
                       </div>
                     </div>

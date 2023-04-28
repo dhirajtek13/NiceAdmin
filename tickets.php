@@ -32,7 +32,7 @@
               <!-- <h5 class="card-title">Datatables</h5> -->
              
               <!-- Table with stripped rows -->
-              <table  id="dataList" class="display" style="width:100%">
+              <table  id="dataList" class="display " style="width:100%">
                 <thead>
                     <tr>
                         <th>S.N</th>

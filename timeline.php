@@ -58,7 +58,8 @@
                       <tr>
                           <th>S.N</th>
                           <!-- <th>Ticket</th> -->
-                          <th>User</th>
+                          <th>Updated by</th>
+                          <th>Assigned User</th>
                           <th>Status</th>
                           <th>Activity</th>
                           <th>Date</th>
@@ -69,7 +70,8 @@
                       <tr>
                           <th>S.N</th>
                           <!-- <th>Ticket</th> -->
-                          <th>User</th>
+                          <th>Updated by</th>
+                          <th>Assigned User</th>
                           <th>Status</th>
                           <th>Activity</th>
                           <th>Date</th>

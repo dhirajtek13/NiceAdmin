@@ -9,3 +9,20 @@
     margin:5px;
 }
 .required_mark {color: red;}
+
+table td a.edit {
+    color: #FFC107;
+}
+table td a.delete {
+    color: #F44336;
+}
+table td  {
+    text-align: center !important;
+}
+
+/* Ensure that the demo table scrolls */
+/* th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 800px;
+    margin: 0 auto;
+} */

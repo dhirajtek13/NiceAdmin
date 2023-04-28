@@ -17,14 +17,16 @@ $dbDetails = array(
 
 $this_ticket = $_GET['ticket'];
 $db_string = "SELECT 
-                log_timing.*, c_status_types.type_name as c_type_name, tickets.ticket_id as ticket, CONCAT(users.fname, ' ', users.lname) as assignee
+                log_timing.*, c_status_types.type_name as c_type_name, tickets.ticket_id as ticket, CONCAT(u1.fname, ' ', u1.lname) as updated_by,  CONCAT(u2.fname, ' ', u2.lname) as assignee 
                 FROM log_timing 
                 LEFT JOIN tickets
                 ON tickets.id = log_timing.ticket_id
                 LEFT JOIN c_status_types
                 ON log_timing.c_status = c_status_types.id
-                LEFT JOIN users
-                ON log_timing.user_id = users.id
+                LEFT JOIN users as u1
+                ON log_timing.user_id = u1.id
+                LEFT JOIN users as u2
+                ON log_timing.assignee_id = u2.id
                 WHERE tickets.ticket_id = '".$this_ticket."'";
 
 // print_r($db_string);
@@ -81,12 +83,13 @@ $columns = array(
         } 
     ), 
     // array( 'db' => 'ticket_id', 'dt' => 1 ), 
-    array( 'db' => 'assignee', 'dt' => 1 ), 
-    array( 'db' => 'c_type_name',  'dt' => 2 ), 
-    array( 'db' => 'activity_type',      'dt' => 3 ), 
+    array( 'db' => 'updated_by', 'dt' => 1 ), 
+    array( 'db' => 'assignee', 'dt' => 2 ), 
+    array( 'db' => 'c_type_name',  'dt' => 3 ), 
+    array( 'db' => 'activity_type',      'dt' => 4 ), 
     array( 
         'db'        => 'datetime', 
-        'dt'        => 4, 
+        'dt'        => 5, 
         'formatter' => function( $d, $row ) { 
             return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y H:i:s', strtotime($d)) : '';
             // return date( 'jS M Y', strtotime($d)); 

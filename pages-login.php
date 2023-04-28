@@ -26,6 +26,7 @@
                   session_start();
                   $_SESSION['loggedin'] = true;
                   $_SESSION['username'] = $username;
+                  $_SESSION['full_name'] = $row['fname'].' '.$row['lname'];
                   $_SESSION['user_type'] = $row['user_type'];
                   $_SESSION['user_id'] = $row['id'];
                   $_SESSION['designation'] = $row['designation'];
