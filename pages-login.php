@@ -4,7 +4,7 @@
 <?php
 
   if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){ //if already loggedin then can not access login again page, first log out
-    header("location: index.php");
+    header("location: tickets.php");
     exit;
   }
 
@@ -31,7 +31,7 @@
                   $_SESSION['user_id'] = $row['id'];
                   $_SESSION['designation'] = $row['designation'];
                   //TODO -fetch other important data of user into session and use it
-                  header("location: index.php");
+                  header("location: tickets.php");
               } 
               else{
                   $showError = "Invalid Credentials";

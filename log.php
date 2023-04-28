@@ -1,14 +1,16 @@
 
  <?php include('layout/head.php'); ?>
  <?php 
-        //Middleware: check user type and restrict access 
-        // if(isset($_SESSION) && $_SESSION['user_type'] != 1) {
-        //   header("location: pages-ticket.php");
-        //   exit;
-        // }
+      //Middleware: check user type and restrict access 
+      // if(isset($_SESSION) && $_SESSION['user_type'] != 1) {//there is separate log page created
+      //   header("location: devlog.php?ticket=".$_GET['ticket']);
+      //   exit;
+      // }
+
       if(!isset($_GET['ticket'])) { //redirect if no ticket id given to list its log
           header("Location: /");
       } else {
+
           //Recheck check if $_GET['ticket'] ticket belongs to current user otherwise redirect
           if($_SESSION['user_type'] != 1) { //if not PM then check only
             $get_ticket = $_GET['ticket'];
@@ -94,7 +96,13 @@
   <?php include "layout/modal/log_modal.php"; ?>
 
   <?php include('layout/footer.php'); ?>
-  <script src="assets/js/log-table.js"></script>
+  <?php 
+  if($_SESSION['user_type'] != 1) {
+    echo '<script src="assets/js/devlog-table.js"></script>';
+  } else {
+    echo '<script src="assets/js/log-table.js"></script>';
+  }
+  ?>
   <script>
    
   </script>
