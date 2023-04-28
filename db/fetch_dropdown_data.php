@@ -1,19 +1,19 @@
 <?php
 
-// if($_SERVER['PHP_SELF'] == '/add-user.php') {//just if add-user page
-//         //ticket stauts types dropdown
-//         $sql = "SELECT * FROM user_type";
-//         $c_status_types = $conn->query($sql);
-//         $user_type_row = '<select name="user_type" id="user_type" class="form-control">';
-//         if ($c_status_types->num_rows > 0) {
-//             while($row = $c_status_types->fetch_assoc()) {
-//                 $id = $row['id'];
-//                 $name = $row['type_name'];
-//                 $user_type_row .= '<option value="'.$id.'">'.$name.'</option>';
-//             }
-//         }
-//         $user_type_row .= '</option></select>';
-// } else {
+if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_management.php') {//just if add-user page
+        //ticket stauts types dropdown
+        $sql = "SELECT * FROM user_type";
+        $c_status_types = $conn->query($sql);
+        $user_type_row = '<select name="user_type" id="user_type" class="form-control">';
+        if ($c_status_types->num_rows > 0) {
+            while($row = $c_status_types->fetch_assoc()) {
+                $id = $row['id'];
+                $name = $row['type_name'];
+                $user_type_row .= '<option value="'.$id.'">'.$name.'</option>';
+            }
+        }
+        $user_type_row .= '</option></select>';
+} else {
 
     //ticket_types dropdown
     $sql = "SELECT * FROM ticket_types";
@@ -65,7 +65,7 @@
     }
     $assignees_row .= '</option></select>';
 
-// }
+}
 
 
 

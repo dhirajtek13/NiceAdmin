@@ -23,12 +23,25 @@ $(document).ready(function () {
       columnDefs: [
         {
           orderable: false,
-          targets: 7,
+          targets: 10,
         },
         {
           orderable: false,
           targets: 0,
         },
+        {
+            target: 7,
+            visible: false,
+        },
+        {
+            target: 8,
+            visible: false,
+        },
+        {
+            target: 9,
+            visible: false,
+        },
+
       ],
       fnRowCallback : function(nRow, aData, iDisplayIndex){
         // console.log(nRow, aData, iDisplayIndex);
@@ -82,38 +95,58 @@ $(document).ready(function () {
       $(".frm-status").html("");
   
       $("#userModalLabel").html("Edit Log ");
-  
-      // $("#ticket_id").val(user_data.ticket_id);
-  
-      $("#c_status option").filter(function() {return this.text == user_data.c_type_name ;}).attr('selected', true);
-      $("#dates").val(user_data.dates);
-      $("#hrs").val(user_data.hrs);
-      $("#what_is_done").val(user_data.what_is_done);
-      $("#what_is_pending").val(user_data.what_is_pending);
-      $("#what_support_required").val(user_data.what_support_required);
+
+      // console.log(user_data);
+      $("#username").val(user_data.username);
+      $("#email").val(user_data.email);
+      $("#employee_id").val(user_data.employee_id);
+      $("#designation").val(user_data.designation);
+      // $("#user_type").val(user_data.user_type);
+      // $("#password").val(user_data.password);
+      $("#fname").val(user_data.fname);
+      $("#lname").val(user_data.lname);
+      $("#user_type option").filter(function() {return this.text == user_data.user_type_name ;}).attr('selected', true);
   
       $('#editID').val(user_data.id);
       $("#userDataModal").modal("show");
   }
+
+  function changePassword(user_data) {//TODO
+    $(".frm2-status").html("");
+
+    // $("#changePasswordModalLabel").html("Edit Log ");
+
+
+    // $("#c_status option").filter(function() {return this.text == user_data.c_type_name ;}).attr('selected', true);
+    // $("#dates").val(user_data.dates);
+    // $("#hrs").val(user_data.hrs);
+    // $("#what_is_done").val(user_data.what_is_done);
+    // $("#what_is_pending").val(user_data.what_is_pending);
+    // $("#what_support_required").val(user_data.what_support_required);
+
+    $('#editID2').val(user_data.id);
+
+    $("#changePasswordModal").modal("show");
+}
   
   function submitUserData() {
     $(".frm-status").html("");
     let input_data_arr = [
-      document.getElementById("ticket_id").value,
-      document.getElementById("ticket").value,
+      document.getElementById("username").value,
+      document.getElementById("email").value,
   
-      document.getElementById("dates").value,
-      document.getElementById("hrs").value,
-      document.querySelector('select[name="c_status"]').value,
+      document.getElementById("employee_id").value,
+      document.getElementById("designation").value,
       
-      document.getElementById("what_is_done").value,
-      document.getElementById("what_is_pending").value,
-      document.getElementById("what_support_required").value,
+      document.getElementById("fname").value,
+      document.getElementById("lname").value,
+
+      document.querySelector('select[name="user_type"]').value,
   
       document.getElementById('editID').value,
     ];
   
-    fetch("controller/log_eventHandler.php", {
+    fetch("controller/user_eventHandler.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -147,6 +180,72 @@ $(document).ready(function () {
       .catch(console.error);
   }
   
+  function submitPasswordData() {
+    $(".frm2-status").html("");
+
+    var current_password = document.getElementById("current_password").value;
+    var password = document.getElementById("password").value;
+    var cpassword = document.getElementById("cpassword").value;
+
+    var errhtml = '';
+     //TODO -enriching password validation will apply here as well
+    if(current_password == ''){
+      errhtml += 'Old Password Filed is Empty !!';
+    } else if(password == ''){ 
+      errhtml += 'New Password Filed is Empty !!';
+    } else if(cpassword == ''){ 
+      errhtml += 'Confirm Password Filed is Empty !!';
+    } else if(cpassword != password){ 
+      errhtml += 'Password and Confirm Password Field do not match  !!';
+    } 
+
+    if(errhtml) {
+      $(".frm2-status").html(
+        '<div class="alert alert-danger" role="alert">'+errhtml+'</div>'
+      );
+      return false;
+    }
+
+    let input_data_arr = [
+      current_password,
+      password,
+      cpassword,
+      document.getElementById('editID2').value,
+    ];
+  
+    fetch("controller/user_eventHandler.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        request_type: "changePassword",
+        user_data: input_data_arr,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status == 1) {
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          }).then((result) => {
+            // Redraw the table
+            $("#dataList").DataTable().draw();
+  
+            $("#changePasswordModal").modal("hide");
+            $("#userDataFrm2")[0].reset();
+          });
+        } else {
+          $(".frm2-status").html(
+            '<div class="alert alert-danger" role="alert">' +
+              data.error +
+              "</div>"
+          );
+        }
+      })
+      .catch(console.error);
+  }
   
   function deleteData(user_id) {
     Swal.fire({

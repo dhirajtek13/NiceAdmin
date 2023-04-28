@@ -62,9 +62,9 @@
       <?php 
         if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) {
           echo '<li class="nav-item">
-            <a class="nav-link collapsed" href="missing.php">
+            <a class="nav-link collapsed" href="montly_log_status.php">
             <i class="bi bi-circle"></i>
-              <span>Weekly Log Report</span>
+              <span>Monthly Log Report</span>
             </a>
           </li>';
         } 

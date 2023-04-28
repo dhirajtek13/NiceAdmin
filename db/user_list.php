@@ -20,7 +20,7 @@ $dbDetails = array(
 $table = <<<EOT
  (
     SELECT 
-    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email 
+    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname 
     FROM users 
     LEFT JOIN user_type 
     ON users.user_type = user_type.id 
@@ -48,6 +48,17 @@ $columns = array(
     array( 'db' => 'employee_id',  'dt' => 4 ), 
     array( 'db' => 'designation',  'dt' => 5 ), 
     array( 'db' => 'email',  'dt' => 6 ), 
+    array( 'db' => 'user_type',  'dt' => 7 ), 
+    // array( 'db' => 'password',  'dt' => 8 ), 
+    // array( 
+    //     'db'        => 'password', 
+    //     'dt'        => 8,
+    //     'formatter' => function( $d, $row ) { 
+    //         return password_verify($row['password'], $row['password']);
+    //     }
+    // ),
+    array( 'db' => 'fname',  'dt' => 8 ), 
+    array( 'db' => 'lname',  'dt' => 9 ), 
    
 
     // array( 
@@ -60,7 +71,7 @@ $columns = array(
     // ), 
     array( 
         'db'        => 'id', 
-        'dt'        => 7,
+        'dt'        => 10,
         'formatter' => function( $d, $row ) { 
             
             return ' <div class="btn-group btn-group-toggle" data-toggle="buttons">

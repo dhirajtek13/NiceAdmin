@@ -15,6 +15,7 @@
   //   $loggedin = false;
   // }
 
+  //TODO - move this into user_eventHandler
   $showAlert = false;
   $showError = false;
   if($_SERVER["REQUEST_METHOD"] == "POST"){
