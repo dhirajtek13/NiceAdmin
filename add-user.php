@@ -100,9 +100,6 @@
                 </a> -->
               </div>
               <!-- End Logo -->
-
-              
-
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Create an User</h5>
@@ -111,19 +108,19 @@
                   <form class="row g-3" method="post" action="add-user.php">
                     <div class="col-md-12">
                       <div class="form-floating">
-                        <input name="username" type="text" class="form-control" id="floatingName" placeholder="Your Name">
-                        <label for="floatingName">Username</label>
+                        <input  name="username" type="text" class="form-control" id="username" placeholder="Your Name">
+                        <label for="username">Username</label>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-floating">
-                        <input name="fname" type="text" class="form-control" id="floatingfname" placeholder="First Name">
+                        <input  style="text-transform: capitalize;"  name="fname" type="text" class="form-control makeUppercase" id="fname" placeholder="First Name">
                         <label for="floatingfname">First Name</label>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-floating">
-                        <input name="lname" type="text" class="form-control" id="floatinglname" placeholder="Last Name">
+                        <input   style="text-transform: capitalize;" name="lname" type="text" class="form-control makeUppercase" id="lname" placeholder="Last Name">
                         <label for="floatinglname">Last Name</label>
                       </div>
                     </div>
@@ -141,14 +138,14 @@
                     </div>
                     <div class="col-12">
                       <div class="form-floating">
-                        <input name="employee_id" type="text" class="form-control" id="floatingName" placeholder="Your Name">
-                        <label for="floatingName">Employee Id</label>
+                        <input name="employee_id" type="text" class="form-control" id="employee_id" placeholder="Your Name">
+                        <label for="employee_id">Employee Id</label>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-floating">
-                        <input name="designation" type="text" class="form-control" id="floatingName" placeholder="Your Name">
-                        <label for="floatingName">Designation</label>
+                        <input name="designation" type="text" class="form-control" id="designation" placeholder="Your Name">
+                        <label for="designation">Designation</label>
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -167,9 +164,6 @@
 
                 </div>
               </div>
-
-              
-
             </div>
           </div>
     </div>
@@ -179,9 +173,8 @@
 
   </main>
 
-
 <?php include('layout/footer.php'); ?>
 <script src="assets/js/ticket-table.js"></script>
 </body>
 
-</html> -->
+</html>
