@@ -16,9 +16,9 @@ table td a.edit {
 table td a.delete {
     color: #F44336;
 }
-table td  {
+/* table td  {
     text-align: center !important;
-}
+} */
 
 /* Ensure that the demo table scrolls */
 /* th, td { white-space: nowrap; }
@@ -26,3 +26,20 @@ div.dataTables_wrapper {
     width: 800px;
     margin: 0 auto;
 } */
+.bi-x {
+    color:#F44336;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}

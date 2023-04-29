@@ -74,15 +74,15 @@ $columns = array(
         'orderable' => false,
         'formatter' => function( $d, $row ) { 
             return $row['id'];
-            // return date( 'jS M Y', strtotime($d)); 
+            // return date( 'Y-m-d', strtotime($d)); 
         } 
     ), 
     array( 
         'db'        => 'dates', 
         'dt'        => 1, 
         'formatter' => function( $d, $row ) { 
-            return ($d != '0000-00-00 00:00:00') ?  date( 'jS M Y', strtotime($d)) : '';
-            // return date( 'jS M Y', strtotime($d)); 
+            return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d', strtotime($d)) : '';
+            // return date( 'Y-m-d', strtotime($d)); 
         } 
     ), 
     array( 'db' => 'hrs', 'dt' => 2 ), 

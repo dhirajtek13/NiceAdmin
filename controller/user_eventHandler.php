@@ -158,7 +158,7 @@ function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type,
     $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id)
                 VALUES (?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("iiiss", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id); 
+                $stmt->bind_param("iiissi", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
 }

@@ -62,7 +62,7 @@
                           <th>Assigned User</th>
                           <th>Status</th>
                           <th>Activity</th>
-                          <th>Date</th>
+                          <th>Date Time</th>
                           <!-- <th></th> -->
                       </tr>
                   </thead>
@@ -74,7 +74,7 @@
                           <th>Assigned User</th>
                           <th>Status</th>
                           <th>Activity</th>
-                          <th>Date</th>
+                          <th>Date Time</th>
                           <!-- <th></th> -->
                       </tr>
                   </tfoot>
