@@ -54,7 +54,10 @@
                       $allData[$row['fullname']] [$row['dates']] =  $row['total_hrs'];
                   }
               } else {
-                echo 'no monthly log status found!';
+                echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      No record found.
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
               }
 
               
@@ -91,10 +94,7 @@
                         echo '<td> <i class="bi bi-x"></i> </td>';
                       }
                     }
-
-
                     echo '</tr>';
-
                   }
                   ?>
                 </tbody>
