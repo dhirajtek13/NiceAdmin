@@ -67,7 +67,7 @@
 <?php include('layout/sidebar.php'); ?>
 
 
- <main id="main" class="main mt-10">
+ <main id="main" class="main mt-2">
     <section class="section dashboard">
       <div class="row">
       <main>

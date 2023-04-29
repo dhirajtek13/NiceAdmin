@@ -60,7 +60,7 @@
               
               ?>
 
-              <table id="phptable" class="display" style="width:350%">
+              <table id="phptable" class="display" style="width:280%">
                 <thead>
                   <tr>
                     <th>S.N</th>
