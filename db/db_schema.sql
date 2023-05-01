@@ -160,6 +160,7 @@ CREATE TABLE `users` (
 
 --
 -- Dumping data for table `users`
+-- password is either 123 or 1234
 --
 
 INSERT INTO `users` (`id`, `username`, `fname`, `lname`, `user_type`, `employee_id`, `designation`, `email`, `password`, `created_at`, `updated_at`) VALUES
