@@ -71,7 +71,7 @@
     <section class="section dashboard">
       <div class="row">
       <main>
-    <div class="container">
+    <div class="container mt-5">
         <?php
           if($showAlert){
             echo ' <div class="alert alert-success alert-dismissible fade show" role="alert">
