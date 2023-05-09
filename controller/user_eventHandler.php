@@ -89,29 +89,31 @@ if($jsonObj->request_type == 'addEdit'){
 } elseif ($jsonObj->request_type == 'changePassword') {
     $user_data = $jsonObj->user_data;
 
-    $current_password = !empty($user_data[0])?$user_data[0]:''; 
-    $password = !empty($user_data[1])?$user_data[1]: '';
-    $cpassword = !empty($user_data[2])?$user_data[2]:'0'; 
+    // $current_password = !empty($user_data[0])?$user_data[0]:''; 
+    $password = !empty($user_data[1])?$user_data[0]: '';
+    $cpassword = !empty($user_data[2])?$user_data[1]:'0'; 
    
-    $id = !empty($user_data[3])?$user_data[3]:0; 
+    $id = !empty($user_data[2])?$user_data[2]:0; 
 
     $err = '';
-
+    
     if(!empty($user_data) && empty($err)){ 
+        // print_r($user_data); die();
         if(!empty($id)){
-
+           
             $sql = "Select * from users where id='$id' ";
             $result = mysqli_query($conn, $sql);
             $num = mysqli_num_rows($result);
             if ($num == 1){
                 while($row=mysqli_fetch_assoc($result)){
-                    if (password_verify($current_password, $row['password'])){ 
+                    if ($password){ 
+                    // if (password_verify($current_password, $row['password'])){ 
                         $hash = password_hash($password, PASSWORD_DEFAULT);
 
                         $sqlQ = "UPDATE users SET password=?, updated_at=NOW()  WHERE id=?"; 
                         $stmt = $conn->prepare($sqlQ); 
                         $stmt->bind_param("si", $hash,  $id); 
-                        $update = $stmt->execute(); 
+                        $update = $stmt->execute();
 
                         if($update){ 
                             //Also add in the log_timings

@@ -33,11 +33,11 @@
 
                             <div class="col-md-6">
                                    <label for="plan_start_date" class="form-label">Plan Start Date</label>
-                                    <input type="datetime-local" name="plan_start_date" id="plan_start_date" class="form-control">
+                                    <input type="datetime-local" name="plan_start_date" id="plan_start_date" class="form-control" disabled>
                             </div>
                             <div class="col-md-6">
                                     <label for="plan_end_date" class="form-label">Plan End Date</label>
-                                    <input type="datetime-local" name="plan_end_date" id="plan_end_date" class="form-control">
+                                    <input type="datetime-local" name="plan_end_date" id="plan_end_date" class="form-control" disabled>
                             </div>
                              <div class="col-md-6">
                                    <label for="actual_start_date" class="form-label">Actual Start Date</label>
@@ -49,11 +49,11 @@
                             </div>
                             <div class="col-md-6">
                                     <label for="planned_hrs" class="form-label">Planned Hours</label>
-                                    <input type="number" class="form-control" id="planned_hrs" placeholder="00.0">
+                                    <input type="number" class="form-control" id="planned_hrs" placeholder="00.0" disabled>
                             </div>
                             <div class="col-md-6">
                                     <label for="actual_hrs" class="form-label">Actual Hours</label>
-                                    <input type="number" class="form-control" id="actual_hrs" placeholder="00.0">
+                                    <input type="number" class="form-control" id="actual_hrs" placeholder="00.0" disabled>
                                     <!-- <em>(as per log: <?php ?>)</em> -->
                             </div>
                             

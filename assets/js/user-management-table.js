@@ -183,15 +183,16 @@ $(document).ready(function () {
   function submitPasswordData() {
     $(".frm2-status").html("");
 
-    var current_password = document.getElementById("current_password").value;
+    // var current_password = document.getElementById("current_password").value;
     var password = document.getElementById("password").value;
     var cpassword = document.getElementById("cpassword").value;
 
     var errhtml = '';
      //TODO -enriching password validation will apply here as well
-    if(current_password == ''){
-      errhtml += 'Old Password Filed is Empty !!';
-    } else if(password == ''){ 
+    // if(current_password == ''){
+    //   errhtml += 'Old Password Filed is Empty !!';
+    // } else
+     if(password == ''){ 
       errhtml += 'New Password Filed is Empty !!';
     } else if(cpassword == ''){ 
       errhtml += 'Confirm Password Filed is Empty !!';
@@ -207,7 +208,7 @@ $(document).ready(function () {
     }
 
     let input_data_arr = [
-      current_password,
+      // current_password,
       password,
       cpassword,
       document.getElementById('editID2').value,

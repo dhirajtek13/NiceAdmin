@@ -50,6 +50,21 @@
 
       <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
         <div class="container">
+        <?php
+          if(isset($showAlert)){
+            echo ' <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  Successfully created new user!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+          }
+          if($showError){
+                echo ' 
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                '. $showError.'
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div> ';
+          }
+        ?>
           <div class="row justify-content-center">
             <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 

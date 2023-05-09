@@ -36,6 +36,15 @@ if($jsonObj->request_type == 'addEdit'){
     if(empty($ticket_id)){ 
         $err .= 'Please enter your Ticket Id.<br/>'; 
     }
+    if(empty($plan_start_date)){ 
+        $err .= 'Please enter your Plan Start Date.<br/>'; 
+    }
+    if(empty($plan_end_date)){ 
+        $err .= 'Please enter your  Plan End Date.<br/>'; 
+    }
+    if(empty($planned_hrs)){ 
+        $err .= 'Please enter your Plan hours.<br/>'; 
+    }
 
      
     if(!empty($user_data) && empty($err)){ 
