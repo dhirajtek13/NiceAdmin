@@ -92,6 +92,28 @@
         } 
       ?>
 
+      <?php 
+        if(isset($_SESSION) && $_SESSION['user_type'] == 1) {
+          echo '<li class="nav-item">
+            <a class="nav-link collapsed" href="master_cstatus.php">
+              <i class="bi bi-card-list"></i>
+              <span>Ticket Status Master</span>
+            </a>
+          </li>';
+        } 
+      ?>
+
+    <?php 
+        if(isset($_SESSION) && $_SESSION['user_type'] == 1) {
+          echo '<li class="nav-item">
+            <a class="nav-link collapsed" href="master_tickettypes.php">
+              <i class="bi bi-card-list"></i>
+              <span>Ticket Type Master</span>
+            </a>
+          </li>';
+        } 
+      ?>
+
     </ul>
 
   </aside><!-- End Sidebar-->
