@@ -17,7 +17,7 @@ $dbDetails = array(
 
 $this_ticket = $_GET['ticket'];
 $db_string = "SELECT 
-                log_timing.*, c_status_types.type_name as c_type_name, tickets.ticket_id as ticket, CONCAT(u1.fname, ' ', u1.lname) as updated_by,  CONCAT(u2.fname, ' ', u2.lname) as assignee 
+                log_timing.*, c_status_types.type_name as c_type_name, tickets.ticket_id as ticket, CONCAT(u1.fname, ' ', u1.lname) as updated_by,  CONCAT(u2.fname, ' ', u2.lname) as assignee
                 FROM log_timing 
                 LEFT JOIN tickets
                 ON tickets.id = log_timing.ticket_id
@@ -87,9 +87,10 @@ $columns = array(
     array( 'db' => 'assignee', 'dt' => 2 ), 
     array( 'db' => 'c_type_name',  'dt' => 3 ), 
     array( 'db' => 'activity_type',      'dt' => 4 ), 
+    array( 'db' => 'remark',      'dt' => 5 ), 
     array( 
         'db'        => 'datetime', 
-        'dt'        => 5, 
+        'dt'        => 6, 
         'formatter' => function( $d, $row ) { 
             return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d H:i:s', strtotime($d)) : '';
             // return date( 'Y-m-d', strtotime($d)); 

@@ -15,6 +15,7 @@ $jsonObj = json_decode($jsonStr);
  
 if($jsonObj->request_type == 'addEdit'){ 
     $user_data = $jsonObj->user_data;
+    // print_r($user_data); die();
 
     $ticket_id = !empty($user_data[0])?$user_data[0]:''; 
     $dates = !empty($user_data[2])?$user_data[2]:''; 
@@ -24,7 +25,11 @@ if($jsonObj->request_type == 'addEdit'){
     $what_is_pending = !empty($user_data[6])?$user_data[6]:'NA';
     $what_support_required = !empty($user_data[7])?$user_data[7]: 'NA';
 
-    $id = !empty($user_data[8])?$user_data[8]:0; 
+    $id = !empty($user_data[8])?$user_data[8]:0;
+
+    $remark = !empty($user_data[9])?$user_data[9]: 'NA';
+    $previousStatus = !empty($user_data[10])?$user_data[10]: 'NA';
+    $updatedStatus = !empty($user_data[11])?$user_data[11]: 'NA';
 
     //TODO - for multi purpose
     // $details = [
@@ -47,6 +52,13 @@ if($jsonObj->request_type == 'addEdit'){
         $err .= 'Please enter hours for worklog.<br/>'; 
     }
 
+    if($previousStatus != $updatedStatus) {
+        if(empty($remark) || $remark == 'NA'){
+            $err .= 'Please enter remark for status change.<br/>'; 
+        }
+    }
+
+
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
             // Update user data into the database 
@@ -58,7 +70,7 @@ if($jsonObj->request_type == 'addEdit'){
             if($update){ 
                 //Also add in the log_timings
                 $details = json_encode($user_data);
-                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $current_user_id);
+                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $current_user_id, $remark);
                 $output = [ 
                     'status' => 1, 
                     'msg' => 'Log updated successfully!' 
@@ -120,12 +132,12 @@ if($jsonObj->request_type == 'addEdit'){
     } 
 }
 
-function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $details='', $assignee_id) {
+function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $details='', $assignee_id, $remark='') {
 
-    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id)
-                VALUES (?,?,?,?,?,?)"; 
+    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id,remark)
+                VALUES (?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("iiissi", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id); 
+                $stmt->bind_param("iiissis", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id,$remark); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
 }

@@ -53,13 +53,24 @@
         setTimeout(() => {
           $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
         }, 100);
+
   });
   
+  $('#c_status').on('change', function() {
+    var updatedValue = $('#c_status').find("option:selected").text();
+    $('#updatedStatus').val(updatedValue);
+    if(updatedValue != $('#previousStatus').val()){
+      $("#remark").removeClass('d-none');
+    } else {
+      $("#remark").addClass('d-none');
+    }
+  });
   
   //Modal CRUD operations 
   function addData() {
     $(".frm-status").html("");
     $("#userModalLabel").html("Add New Log");
+    $("#remark").addClass('d-none');
   
     // $("#ticket_id").val("");
     const dt = new Date();
@@ -77,8 +88,9 @@
   }
   
   function editData(user_data) {
+    // console.log(user_data);
       $(".frm-status").html("");
-  
+      $("#remark").addClass('d-none');
       $("#userModalLabel").html("Edit Log ");
   
       // $("#ticket_id").val(user_data.ticket_id);
@@ -91,6 +103,8 @@
       $("#what_support_required").val(user_data.what_support_required);
   
       $('#editID').val(user_data.id);
+      $('#previousStatus').val(user_data.c_type_name);
+      $('#updatedStatus').val(user_data.c_type_name);
       $("#userDataModal").modal("show");
   }
   
@@ -107,8 +121,12 @@
       document.getElementById("what_is_done").value,
       document.getElementById("what_is_pending").value,
       document.getElementById("what_support_required").value,
-  
+      
       document.getElementById('editID').value,
+
+      document.getElementById("remark").value,
+      document.getElementById("previousStatus").value,
+      document.getElementById("updatedStatus").value,
     ];
   
     fetch("controller/log_eventHandler.php", {

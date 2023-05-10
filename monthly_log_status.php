@@ -40,7 +40,7 @@
               $sql = "SELECT  user_id, CONCAT(users.fname, ' ', users.lname) as fullname, ticket_id, SUM(hrs) as total_hrs, DATE_FORMAT(`dates`, '%Y-%m-%d') as dates 
                 FROM log_history 
                 JOIN users on users.id = log_history.user_id
-                GROUP BY DATE_FORMAT(`dates`, '%Y-%m-%d') 
+                GROUP BY DATE_FORMAT(`dates`, '%Y-%m-%d'), user_id 
                 HAVING dates >= '". $start_date."' && dates <= '". $end_date."' 
                 ORDER BY user_id, dates";
 

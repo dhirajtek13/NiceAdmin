@@ -62,6 +62,7 @@
                           <th>Assigned User</th>
                           <th>Status</th>
                           <th>Activity</th>
+                          <th>Remark</th>
                           <th>Date Time</th>
                           <!-- <th></th> -->
                       </tr>
@@ -74,6 +75,7 @@
                           <th>Assigned User</th>
                           <th>Status</th>
                           <th>Activity</th>
+                          <th>Remark</th>
                           <th>Date Time</th>
                           <!-- <th></th> -->
                       </tr>

@@ -36,6 +36,9 @@
 
                             <div class="row mt-3">
                                 <div class="form-group mt-2">
+                                    <textarea placeholder="Remark *" name="remark"  id="remark"  class="form-control d-none"  rows="3"></textarea>
+                                </div>
+                                <div class="form-group mt-2">
                                     <!-- <label for="what_is_done">What is Done</label> -->
                                     <textarea placeholder="What is Done...." name="what_is_done"  id="what_is_done"  class="form-control"  rows="3"></textarea>
                                 </div>
@@ -52,6 +55,8 @@
                     
                     <div class="modal-footer">
                         <input type="hidden" id="editID" value="0">
+                        <input type="hidden" id="previousStatus" value="0">
+                        <input type="hidden" id="updatedStatus" value="0">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" onclick="submitUserData()">Submit</button>
                     </div>
