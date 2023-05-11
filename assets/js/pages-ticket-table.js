@@ -4,14 +4,14 @@
   $(document).ready(function () {
 
     $('#dataList tfoot th').each(function () {
-      var title = $(this).text();
-      if(title) {
-        $(this).html('<input type="text" placeholder="' + title + '"   size="6"  class="form-control" />');
-      }
-      if(title == 'S.N') {
-        $(this).html("");
-      }
-  });
+        var title = $(this).text();
+        if(title) {
+          $(this).html('<input type="text" placeholder="' + title + '"   size="6"  class="form-control" />');
+        }
+        if(title == 'S.N') {
+          $(this).html("");
+        }
+    });
 
     var table = $("#dataList").DataTable({
       processing: true,
@@ -60,7 +60,16 @@
 
   });
   
-  
+  $('#c_status').on('change', function() {
+    var updatedValue = $('#c_status').find("option:selected").text();
+    $('#updatedStatus').val(updatedValue);
+    if(updatedValue != $('#previousStatus').val()){
+      $("#remark").removeClass('d-none');
+    } else {
+      $("#remark").addClass('d-none');
+    }
+  });
+
   //Modal CRUD operations 
   function addData() {
     $(".frm-status").html("");
@@ -108,6 +117,8 @@
       $("#actual_hrs").val(user_data.actual_hrs);
   
       $('#editID').val(user_data.id);
+      $('#previousStatus').val(user_data.c_type_name);
+      $('#updatedStatus').val(user_data.c_type_name);
       $("#userDataModal").modal("show");
   }
   
@@ -129,6 +140,9 @@
       document.getElementById("actual_start_date").value,
       document.getElementById("actual_end_date").value,
       document.getElementById("actual_hrs").value,
+      
+      document.getElementById("previousStatus").value,
+      document.getElementById("updatedStatus").value,
     ];
   
     fetch("controller/ticket_eventHandler.php", {

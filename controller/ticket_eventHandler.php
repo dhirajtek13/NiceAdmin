@@ -31,6 +31,8 @@ if($jsonObj->request_type == 'addEdit'){
     $actual_end_date = !empty($user_data[10])?$user_data[10]:0;
     $actual_hrs = !empty($user_data[11])?$user_data[11]:0;
 
+    $previousStatus = !empty($user_data[12])?$user_data[12]: 'NA';
+    $updatedStatus = !empty($user_data[13])?$user_data[13]: 'NA';
  
     $err = ''; 
     if(empty($ticket_id)){ 
@@ -46,6 +48,12 @@ if($jsonObj->request_type == 'addEdit'){
         $err .= 'Please enter your Plan hours.<br/>'; 
     }
 
+    $shouldUpdate_wip_start_datetime = '';
+    if($previousStatus != $updatedStatus) {
+        if($updatedStatus === 'WIP') {
+            $shouldUpdate_wip_start_datetime = date('Y-m-d');
+        }
+    }
      
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
@@ -58,6 +66,10 @@ if($jsonObj->request_type == 'addEdit'){
             if($update){ 
                 //Also add in the log_timings
                 addTiming($conn, $id, $current_user_id,  $c_status, 'UPDATE_TICKET', $assignee_id);
+
+                if($shouldUpdate_wip_start_datetime) {
+                    updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $id);
+                }
 
                 $output = [ 
                     'status' => 1, 
@@ -90,6 +102,12 @@ if($jsonObj->request_type == 'addEdit'){
 
                 if ($insert) { 
                     addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_TICKET', $assignee_id);
+
+                    //do not need to update wip because while creating PM will set status only ready for development not wip
+                    // if($shouldUpdate_wip_start_datetime) {
+                    //     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $id);
+                    // }
+
                     $output = [ 
                         'status' => 1, 
                         'msg' => 'Ticket added successfully!' 
@@ -128,4 +146,11 @@ function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type,
                 $stmt->bind_param("iiisi", $ticket_id, $user_id,  $ticket_status, $activity_type, $assignee_id); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
+}
+
+function updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id) {
+    $sqlQ = "UPDATE tickets SET wip_start_datetime=?  WHERE id=?"; 
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("si", $shouldUpdate_wip_start_datetime, $ticket_id); 
+    $update = $stmt->execute(); 
 }

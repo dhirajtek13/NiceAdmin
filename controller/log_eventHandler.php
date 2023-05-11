@@ -12,6 +12,8 @@ $current_user_id =  $_SESSION['user_id'];
 // Retrieve JSON from POST body 
 $jsonStr = file_get_contents('php://input'); 
 $jsonObj = json_decode($jsonStr); 
+
+
  
 if($jsonObj->request_type == 'addEdit'){ 
     $user_data = $jsonObj->user_data;
@@ -52,25 +54,49 @@ if($jsonObj->request_type == 'addEdit'){
         $err .= 'Please enter hours for worklog.<br/>'; 
     }
 
+    $shouldUpdate_wip_start_datetime = '';
     if($previousStatus != $updatedStatus) {
         if(empty($remark) || $remark == 'NA'){
             $err .= 'Please enter remark for status change.<br/>'; 
         }
+        if($updatedStatus === 'WIP') {
+            $shouldUpdate_wip_start_datetime = date('Y-m-d');
+        }
     }
 
+    $sql11 = "Select assignee_id from tickets where id='$ticket_id' ";
+            $result11 = mysqli_query($conn, $sql11);
+            $row11 = mysqli_fetch_assoc($result11);
+            $ticket_assigned_user = $row11['assignee_id'];
 
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
+            
+            
+            
             // Update user data into the database 
+            //TODO - user_id is added as current_user_id (logged in user) but not the ticket assigned user's id. so if PM add or update the ticket then his user_id will get added.
+            // to resolve this we either need to get current assigned id of the ticket and add his user_id. But this also will restrict multiple user logging into same ticket functionality.
+            // But again we have not implemented multiple user logged into same ticket. as of now only PM can access the ticket log and add/update it.
+
+            // i think may be PM wants to just update comments so user_id we need to get as ticket assigned user's id
+            
+
             $sqlQ = "UPDATE log_history SET user_id=?, ticket_id=?, dates=?, hrs=?, c_status=?, what_is_done=?, what_is_pending=?, what_support_required=?, updated_at=NOW()  WHERE id=?"; 
             $stmt = $conn->prepare($sqlQ); 
-            $stmt->bind_param("iisdisssi", $current_user_id, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required,  $id); 
+            // $stmt->bind_param("iisdisssi", $current_user_id, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required,  $id); 
+            $stmt->bind_param("iisdisssi", $ticket_assigned_user, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required,  $id); 
             $update = $stmt->execute(); 
  
             if($update){ 
                 //Also add in the log_timings
                 $details = json_encode($user_data);
-                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $current_user_id, $remark);
+                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $ticket_assigned_user, $remark);
+                
+                if($shouldUpdate_wip_start_datetime) {
+                    updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
+                }
+
                 $output = [ 
                     'status' => 1, 
                     'msg' => 'Log updated successfully!' 
@@ -96,13 +122,19 @@ if($jsonObj->request_type == 'addEdit'){
                 $sqlQ = "INSERT INTO log_history (user_id,ticket_id,dates,hrs,c_status,what_is_done,what_is_pending,what_support_required)
                 VALUES (?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("iisdisss", $current_user_id, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required); 
+                // $stmt->bind_param("iisdisss", $current_user_id, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required); 
+                $stmt->bind_param("iisdisss", $ticket_assigned_user, $ticket_id, $dates, $hrs, $c_status, $what_is_done, $what_is_pending, $what_support_required); 
                 $insert = $stmt->execute(); 
 
                 if ($insert) { 
                     //Also add in the log_timings
                     $details = json_encode($user_data);
-                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $details, $current_user_id);
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $details, $ticket_assigned_user);
+
+                    if($shouldUpdate_wip_start_datetime) {
+                        updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
+                    }
+                    
                     $output = [ 
                         'status' => 1, 
                         'msg' => 'Log added successfully!' 
@@ -140,4 +172,11 @@ function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type,
                 $stmt->bind_param("iiissis", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id,$remark); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
+}
+
+function updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id) {
+    $sqlQ = "UPDATE tickets SET wip_start_datetime=?  WHERE id=?"; 
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("si", $shouldUpdate_wip_start_datetime, $ticket_id); 
+    $update = $stmt->execute(); 
 }

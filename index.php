@@ -39,12 +39,23 @@
 
               $allDaysColArr = x_week_range($dateSelected);//from customFunctions.php
 
-              $sql = "SELECT  user_id, CONCAT(users.fname, ' ', users.lname) as fullname, ticket_id, SUM(hrs) as total_hrs, DATE_FORMAT(`dates`, '%Y-%m-%d') as dates 
-                FROM log_history 
-                JOIN users on users.id = log_history.user_id
-                GROUP BY DATE_FORMAT(`dates`, '%Y-%m-%d'), user_id 
-                HAVING dates >= '" . $allDaysColArr[0] . "' && dates <= '" . $allDaysColArr[6] . "' 
-                ORDER BY user_id, dates";
+              $sql = "                
+                SELECT 
+                  user_id, fullname, id as ticket_id, SUM(atr.hrs) as total_hrs,  atr.datesl as dates, atr.wip_start_datetime as wip_start_datetime, DAYNAME(atr.datesl) as dayname, GROUP_CONCAT(atr.id) as ticket_collection, GROUP_CONCAT(atr.hrs) as hrs_collection
+                FROM week_days wd
+                  LEFT JOIN (
+                      SELECT 
+                        t.id, CONCAT(users.fname, ' ', users.lname) as fullname,  t.c_status, DATE_FORMAT(t.wip_start_datetime, '%Y-%m-%d') as wip_start_datetime , DATE_FORMAT(l.dates, '%Y-%m-%d') as datesl, t.assignee_id, l.user_id, l.hrs 
+                      FROM `tickets` as t JOIN log_history as l ON l.ticket_id = t.id 
+                      JOIN users on users.id = l.user_id
+                    ) atr
+                    ON wd.week_day_num = DAYOFWEEK(atr.datesl)
+                    GROUP BY DAYOFWEEK(atr.datesl), user_id
+                    HAVING atr.datesl >= '" . $allDaysColArr[0] . "' && atr.datesl <= '" . $allDaysColArr[6] . "'
+                    ORDER BY user_id, dates
+                    "
+                
+                ;
 
               $logStatusQuery = $conn->query($sql);
 
@@ -53,7 +64,11 @@
               if ($logStatusQuery->num_rows > 0) {
                 while ($row = $logStatusQuery->fetch_assoc()) {
                   // $allData[] =  $row ;
-                  $allData[$row['fullname']][$row['dates']] =  $row['total_hrs'];
+                  // echo "<pre>"; print_r($row); die();
+                  // $allData[$row['fullname']][$row['dates']] =  $row['total_hrs'];
+                  $row['ticket_collection_arr'] = explode(",", $row['ticket_collection']);
+                  $row['hrs_collection_arr'] = explode(",", $row['hrs_collection']);
+                  $allData[$row['fullname']][$row['dates']] =  $row;
                 }
               } else {
                 echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -62,6 +77,7 @@
                     </div>';
               }
 
+              // echo "<pre>"; print_r($allData); die();
               ?>
 
               <table id="phptable" class="display" style="width:100%">
@@ -90,9 +106,13 @@
 
                     foreach ($allDaysColArr as $k => $v) {
                       if (isset($value[$v])) {
-                        echo "<td>$value[$v]</td>";
+                        if( (count($value[$v]['ticket_collection_arr']) == count($value[$v]['hrs_collection_arr'])) &&  $value[$v]['total_hrs'] >= 7.5) {
+                          echo '<td> <i class="bx bxs-check-square"></i> ('.$value[$v]['total_hrs'].') </td>';
+                        } else {
+                          echo '<td> <i class="bx bxs-x-circle"></i> ('.$value[$v]['total_hrs'].')</td>';
+                        }
                       } else {
-                        echo '<td> <i class="bi bi-x"></i> </td>';
+                        echo '<td> <i class="bx bxs-x-circle"></i></td>';
                       }
                     }
                     echo '</tr>';

@@ -30,6 +30,14 @@ div.dataTables_wrapper {
     color:#F44336;
 }
 
+.bxs-check-square {
+    color:#2ad300;
+}
+
+.bxs-x-circle {
+    color:#f62c1e;
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }
