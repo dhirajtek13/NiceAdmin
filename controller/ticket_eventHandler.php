@@ -48,10 +48,14 @@ if($jsonObj->request_type == 'addEdit'){
         $err .= 'Please enter your Plan hours.<br/>'; 
     }
 
-    $shouldUpdate_wip_start_datetime = '';
+    $shouldUpdate_wip_start_datetime = NULL;
+    $shouldUpdate_wip_close_datetime = NULL;
     if($previousStatus != $updatedStatus) {
         if($updatedStatus === 'WIP') {
             $shouldUpdate_wip_start_datetime = date('Y-m-d');
+        }
+        if($previousStatus === 'WIP') {//if wip changed to hold, code review or any other status
+            $shouldUpdate_wip_close_datetime = date('Y-m-d');
         }
     }
      
@@ -69,6 +73,9 @@ if($jsonObj->request_type == 'addEdit'){
 
                 if($shouldUpdate_wip_start_datetime) {
                     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $id);
+                }
+                if($shouldUpdate_wip_close_datetime) {
+                    updateWIP_close($conn, $shouldUpdate_wip_close_datetime, $id);
                 }
 
                 $output = [ 
@@ -103,10 +110,11 @@ if($jsonObj->request_type == 'addEdit'){
                 if ($insert) { 
                     addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_TICKET', $assignee_id);
 
-                    //do not need to update wip because while creating PM will set status only ready for development not wip
-                    // if($shouldUpdate_wip_start_datetime) {
-                    //     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $id);
-                    // }
+                    //do not need to update wip start because while creating PM will set status only ready for development not wip
+                    //still adding just in case
+                    if(isset($shouldUpdate_wip_start_datetime)) {
+                        updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $id);
+                    }
 
                     $output = [ 
                         'status' => 1, 
@@ -149,8 +157,16 @@ function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type,
 }
 
 function updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id) {
-    $sqlQ = "UPDATE tickets SET wip_start_datetime=?  WHERE id=?"; 
+    //if we are adding new WIP also then ensure wip_close_datetime is null. In case of reopen also wip_close_datetime should reset to null, this way!
+    $sqlQ = "UPDATE tickets SET wip_start_datetime=?, wip_close_datetime=NULL  WHERE id=?"; 
     $stmt = $conn->prepare($sqlQ);
     $stmt->bind_param("si", $shouldUpdate_wip_start_datetime, $ticket_id); 
+    $update = $stmt->execute(); 
+}
+
+function updateWIP_close($conn, $shouldUpdate_wip_close_datetime, $ticket_id) {
+    $sqlQ = "UPDATE tickets SET wip_close_datetime=?  WHERE id=?"; 
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("si", $shouldUpdate_wip_close_datetime, $ticket_id); 
     $update = $stmt->execute(); 
 }

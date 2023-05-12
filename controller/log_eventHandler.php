@@ -54,13 +54,17 @@ if($jsonObj->request_type == 'addEdit'){
         $err .= 'Please enter hours for worklog.<br/>'; 
     }
 
-    $shouldUpdate_wip_start_datetime = '';
+    $shouldUpdate_wip_start_datetime = NULL;
+    $shouldUpdate_wip_close_datetime = NULL;
     if($previousStatus != $updatedStatus) {
         if(empty($remark) || $remark == 'NA'){
             $err .= 'Please enter remark for status change.<br/>'; 
         }
         if($updatedStatus === 'WIP') {
             $shouldUpdate_wip_start_datetime = date('Y-m-d');
+        }
+        if($previousStatus === 'WIP') {
+            $shouldUpdate_wip_close_datetime = date('Y-m-d');
         }
     }
 
@@ -71,9 +75,6 @@ if($jsonObj->request_type == 'addEdit'){
 
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
-            
-            
-            
             // Update user data into the database 
             //TODO - user_id is added as current_user_id (logged in user) but not the ticket assigned user's id. so if PM add or update the ticket then his user_id will get added.
             // to resolve this we either need to get current assigned id of the ticket and add his user_id. But this also will restrict multiple user logging into same ticket functionality.
@@ -95,6 +96,9 @@ if($jsonObj->request_type == 'addEdit'){
                 
                 if($shouldUpdate_wip_start_datetime) {
                     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
+                }
+                if($shouldUpdate_wip_close_datetime) {
+                    updateWIP_close($conn, $shouldUpdate_wip_close_datetime, $ticket_id);
                 }
                 if($previousStatus != $updatedStatus) {
                     updateTicketStatus($conn, $c_status, $ticket_id);
@@ -136,6 +140,9 @@ if($jsonObj->request_type == 'addEdit'){
 
                     if($shouldUpdate_wip_start_datetime) {
                         updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
+                    }
+                    if($shouldUpdate_wip_close_datetime) {
+                        updateWIP_close($conn, $shouldUpdate_wip_close_datetime, $ticket_id);
                     }
                     if($previousStatus != $updatedStatus) {
                         updateTicketStatus($conn, $c_status, $ticket_id);
@@ -181,9 +188,15 @@ function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type,
 }
 
 function updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id) {
-    $sqlQ = "UPDATE tickets SET wip_start_datetime=?  WHERE id=?"; 
+    $sqlQ = "UPDATE tickets SET wip_start_datetime=?, wip_close_datetime=NULL WHERE id=?"; 
     $stmt = $conn->prepare($sqlQ);
     $stmt->bind_param("si", $shouldUpdate_wip_start_datetime, $ticket_id); 
+    $update = $stmt->execute(); 
+}
+function updateWIP_close($conn, $shouldUpdate_wip_close_datetime, $ticket_id) {
+    $sqlQ = "UPDATE tickets SET wip_close_datetime=?  WHERE id=?"; 
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("si", $shouldUpdate_wip_close_datetime, $ticket_id); 
     $update = $stmt->execute(); 
 }
 function updateTicketStatus($conn, $c_status, $ticket_id) {

@@ -166,17 +166,17 @@
                               }
                             }
                             
-                            if(count($ticket_collection_all_arr) == count($hrs_collection_arr)){
+                            if(count($ticket_collection_all_arr) <= count($hrs_collection_arr)){//hrs entry should same as tickets or greater
                               echo '<td> <i class="bx bxs-check-square"></i> ('.$value[$this_weekday]['total_hrs'].') </td>';
                             } else {
                               echo '<td> <i class="bx bxs-x-circle"></i> ('.$total_hrs.')</td>';
                             }
                         } else {
-                          //if we want to also check if there should be log then we can check
-                          //means check if this user have any open ticket for this day
                           echo '<td> <i class="bx bxs-x-circle"></i> ('.$total_hrs.')</td>';
                         }
                       } else {
+                        //if we want to also check if there should be log then we can check
+                        //means check if this user have any open ticket for this day
                         // echo '<td> <i class="bx bxs-x-circle"></i>( no log )</td>';
                         echo '<td> <i class="bx bxs-x-circle"></i></td>';
                       }
