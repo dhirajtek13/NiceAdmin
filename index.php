@@ -19,6 +19,15 @@
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
+<form>
+      <?php
+       $dateSelected = date("Y-m-d"); //today 
+       if(isset($_GET['dateselected'])){
+         $dateSelected = $_GET['dateselected'];
+       }
+      ?>
+      <input type="date" value="<?php echo $dateSelected; ?>"name="dateSelected" id="dateSelected" class="form-control w-25" oninput="reloadData()">
+</form>
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
@@ -26,16 +35,15 @@
 
         <!-- Left side columns -->
         <div class="col-lg-12">
+          
           <div class="card">
 
             <div class="card-body mt-4">
+              
             <?php
 
               //get current year, month and maxdays of it
-              $dateSelected = date("Y-m-d"); //today 
-              if(isset($_GET['dateselected'])){
-                $dateSelected = $_GET['dateselected'];
-              }
+             
 
               $allDaysColArr = x_week_range($dateSelected);//from customFunctions.php
 
