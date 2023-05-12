@@ -114,6 +114,17 @@
         } 
       ?>
 
+    <?php 
+        if(isset($_SESSION) && $_SESSION['user_type'] == 1) {
+          echo '<li class="nav-item">
+            <a class="nav-link collapsed" href="master_usertypes.php">
+              <i class="bi bi-card-list"></i>
+              <span>User Type Master</span>
+            </a>
+          </li>';
+        } 
+      ?>
+
     </ul>
 
   </aside><!-- End Sidebar-->
