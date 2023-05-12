@@ -117,6 +117,7 @@ CREATE TABLE `tickets` (
   `type_id` int(11) NOT NULL,
   `c_status` varchar(100) NOT NULL,
   `wip_start_datetime` datetime DEFAULT NULL,
+  `wip_close_datetime` datetime DEFAULT NULL,
   `assignee_id` int(11) NOT NULL DEFAULT 0,
   `assigned_date` datetime DEFAULT NULL,
   `plan_start_date` datetime DEFAULT NULL,
@@ -177,13 +178,10 @@ CREATE TABLE `users` (
 
 --
 -- Dumping data for table `users`
---
+-- password: 123
 
 INSERT INTO `users` (`id`, `username`, `fname`, `lname`, `user_type`, `employee_id`, `designation`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'dhirajtekade', 'Dhiraj', 'Tekade', 3, 4762, 'full s', 'dhirajtek13@gmail.com', '$2y$10$R8NtjFXOLjDglT7wOVL14utYQJQFJPQxFws4t0WBCRX24aSal2dtG', '2023-04-25 17:32:13', '2023-04-28 17:17:43'),
-(2, 'vumesh', 'Umesh', 'Verma', 1, 111, 'PM', 'vumesh@espire.com', '$2y$10$/pVJVAzUYkMsjEC0frHReOOeAqyzsSXqVZRsFonzPVg8Iz7Z0Ovky', '2023-04-25 20:52:17', '2023-04-25 20:52:17'),
-(3, 'kamit', 'Amit', 'Karki', 2, 222, 'LE', 'kamit@espire.com', '$2y$10$xrL2N5Xl1.xQn8o9iRNhxu3YxSy2PK2LZVJgxaxB1micC4NUMenVS', '2023-04-25 20:54:53', '2023-05-09 18:24:44'),
-(4, 'upendra', 'Upendra', 'Prasad', 3, 4555, 'lead eng', 'u@email.com', '$2y$10$a0nE4VkNRE5qZS/sLXTjsOzs2mNrKb/d/x4ua1qK.sNzfg.1K61IS', '2023-04-27 13:36:54', '2023-04-27 13:36:54');
+(1, 'vumesh', 'Umesh', 'Verma', 1, 111, 'PM', 'vumesh@espire.com', '$2y$10$/pVJVAzUYkMsjEC0frHReOOeAqyzsSXqVZRsFonzPVg8Iz7Z0Ovky', '2023-04-25 20:52:17', '2023-04-25 20:52:17');
 
 -- --------------------------------------------------------
 
