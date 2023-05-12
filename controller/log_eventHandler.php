@@ -96,6 +96,9 @@ if($jsonObj->request_type == 'addEdit'){
                 if($shouldUpdate_wip_start_datetime) {
                     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
                 }
+                if($previousStatus != $updatedStatus) {
+                    updateTicketStatus($conn, $c_status, $ticket_id);
+                }
 
                 $output = [ 
                     'status' => 1, 
@@ -133,6 +136,9 @@ if($jsonObj->request_type == 'addEdit'){
 
                     if($shouldUpdate_wip_start_datetime) {
                         updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
+                    }
+                    if($previousStatus != $updatedStatus) {
+                        updateTicketStatus($conn, $c_status, $ticket_id);
                     }
                     
                     $output = [ 
@@ -178,5 +184,11 @@ function updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id) {
     $sqlQ = "UPDATE tickets SET wip_start_datetime=?  WHERE id=?"; 
     $stmt = $conn->prepare($sqlQ);
     $stmt->bind_param("si", $shouldUpdate_wip_start_datetime, $ticket_id); 
+    $update = $stmt->execute(); 
+}
+function updateTicketStatus($conn, $c_status, $ticket_id) {
+    $sqlQ = "UPDATE tickets SET c_status=?  WHERE id=?"; 
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("ii", $c_status, $ticket_id); 
     $update = $stmt->execute(); 
 }

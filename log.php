@@ -40,7 +40,7 @@
       <div><h1>Log List for <b><?php echo $_GET['ticket']; ?></b></h1></div>
       
       <div class="addDataBtn">
-        <a href="javascript:void(0);" class="btn btn-success " onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a>
+        <a href="javascript:void(0);" class="btn btn-success onlyDevAction" onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a>
         <?php if($_GET['ticket']) echo '<a href="/timeline.php?ticket='.$_GET['ticket'].'" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View Timeline</a>'; ?>
       </div>
     </div><!-- End Page Title -->

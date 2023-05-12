@@ -95,10 +95,10 @@ $columns = array(
         'dt'        => 7,
         'formatter' => function( $d, $row ) { 
             return ' 
-                <a href="javascript:void(0);" class="edit" data-toggle="modal"  onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">
+                <a href="javascript:void(0);" class="edit onlyDevAction" data-toggle="modal"  onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">
                     <i class="bi bi-pencil-fill"></i> 
                 </a>&nbsp;
-                <a href="javascript:void(0);"  class="delete" data-toggle="modal" onclick="deleteData('.$d.')">
+                <a href="javascript:void(0);"  class="delete onlyDevAction" data-toggle="modal" onclick="deleteData('.$d.')">
                     <i class="bi bi-trash-fill"></i> 
                 </a>
                 
