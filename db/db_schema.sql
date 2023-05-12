@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2023 at 08:35 AM
+-- Generation Time: May 12, 2023 at 08:59 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -77,6 +77,12 @@ CREATE TABLE `log_history` (
   `updated_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `log_history`
+--
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -89,10 +95,15 @@ CREATE TABLE `log_timing` (
   `user_id` int(11) DEFAULT NULL,
   `assignee_id` int(10) DEFAULT NULL,
   `c_status` int(11) NOT NULL,
+  `remark` varchar(255) DEFAULT NULL,
   `activity_type` varchar(200) DEFAULT NULL,
   `details` text DEFAULT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `log_timing`
+--
 
 -- --------------------------------------------------------
 
@@ -105,6 +116,7 @@ CREATE TABLE `tickets` (
   `ticket_id` varchar(100) NOT NULL,
   `type_id` int(11) NOT NULL,
   `c_status` varchar(100) NOT NULL,
+  `wip_start_datetime` datetime DEFAULT NULL,
   `assignee_id` int(11) NOT NULL DEFAULT 0,
   `assigned_date` datetime DEFAULT NULL,
   `plan_start_date` datetime DEFAULT NULL,
@@ -116,6 +128,11 @@ CREATE TABLE `tickets` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tickets`
+--
+
 
 -- --------------------------------------------------------
 
@@ -160,13 +177,12 @@ CREATE TABLE `users` (
 
 --
 -- Dumping data for table `users`
--- password is either 123 or 1234
 --
 
 INSERT INTO `users` (`id`, `username`, `fname`, `lname`, `user_type`, `employee_id`, `designation`, `email`, `password`, `created_at`, `updated_at`) VALUES
 (1, 'dhirajtekade', 'Dhiraj', 'Tekade', 3, 4762, 'full s', 'dhirajtek13@gmail.com', '$2y$10$R8NtjFXOLjDglT7wOVL14utYQJQFJPQxFws4t0WBCRX24aSal2dtG', '2023-04-25 17:32:13', '2023-04-28 17:17:43'),
 (2, 'vumesh', 'Umesh', 'Verma', 1, 111, 'PM', 'vumesh@espire.com', '$2y$10$/pVJVAzUYkMsjEC0frHReOOeAqyzsSXqVZRsFonzPVg8Iz7Z0Ovky', '2023-04-25 20:52:17', '2023-04-25 20:52:17'),
-(3, 'kamit', 'Amit', 'Karki', 2, 222, 'LE', 'kamit@espire.com', '$2y$10$/pVJVAzUYkMsjEC0frHReOOeAqyzsSXqVZRsFonzPVg8Iz7Z0Ovky', '2023-04-25 20:54:53', '2023-04-25 20:54:53'),
+(3, 'kamit', 'Amit', 'Karki', 2, 222, 'LE', 'kamit@espire.com', '$2y$10$xrL2N5Xl1.xQn8o9iRNhxu3YxSy2PK2LZVJgxaxB1micC4NUMenVS', '2023-04-25 20:54:53', '2023-05-09 18:24:44'),
 (4, 'upendra', 'Upendra', 'Prasad', 3, 4555, 'lead eng', 'u@email.com', '$2y$10$a0nE4VkNRE5qZS/sLXTjsOzs2mNrKb/d/x4ua1qK.sNzfg.1K61IS', '2023-04-27 13:36:54', '2023-04-27 13:36:54');
 
 -- --------------------------------------------------------
@@ -189,6 +205,29 @@ INSERT INTO `user_type` (`id`, `type_name`) VALUES
 (2, 'TL'),
 (3, 'Dev'),
 (4, 'QA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `week_days`
+--
+
+CREATE TABLE `week_days` (
+  `week_day_num` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `week_days`
+--
+
+INSERT INTO `week_days` (`week_day_num`) VALUES
+(1),
+(2),
+(3),
+(4),
+(5),
+(6),
+(7);
 
 --
 -- Indexes for dumped tables
@@ -245,37 +284,37 @@ ALTER TABLE `user_type`
 -- AUTO_INCREMENT for table `c_status_types`
 --
 ALTER TABLE `c_status_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `log_history`
 --
 ALTER TABLE `log_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `log_timing`
 --
 ALTER TABLE `log_timing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ticket_types`
 --
 ALTER TABLE `ticket_types`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_type`
