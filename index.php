@@ -19,15 +19,18 @@
           <li class="breadcrumb-item active">Dashboard</li>
         </ol>
       </nav>
-<form>
+
       <?php
        $dateSelected = date("Y-m-d"); //today 
        if(isset($_GET['dateselected'])){
          $dateSelected = $_GET['dateselected'];
        }
       ?>
-      <input type="date" value="<?php echo $dateSelected; ?>"name="dateSelected" id="dateSelected" class="form-control w-25" oninput="reloadData()">
-</form>
+      <div>
+        Min. hrs considered: <?= MIN_HRS ?>
+        <input type="date" value="<?php echo $dateSelected; ?>"name="dateSelected" id="dateSelected" class="form-control w-25" oninput="reloadData()">
+      </div>
+
     </div><!-- End Page Title -->
 
     <section class="section dashboard">
@@ -143,7 +146,7 @@
                         $total_hrs = $value[$this_weekday]['total_hrs'];
 
                         //get all tickets count which are WIP before this date
-                        if($total_hrs >= 7.5) {
+                        if($total_hrs >= MIN_HRS) {
                             //get log entry collection count 
                             $ticket_collection_arr = $value[$this_weekday]['ticket_collection_arr'];
                             $ticket_collection_all_arr = $value[$this_weekday]['ticket_collection_all_arr'];
