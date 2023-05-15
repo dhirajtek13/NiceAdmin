@@ -93,22 +93,22 @@ $columns = array(
         'db'        => 'assigned_date', 
         'dt'        => 4, 
         'formatter' => function( $d, $row ) { 
-            return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d', strtotime($d)) : '';
-            // return date( 'Y-m-d', strtotime($d)); 
+            return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y', strtotime($d)) : '';
+            // return date( 'd-m-Y', strtotime($d)); 
         } 
     ), 
     array( 
         'db'        => 'plan_start_date', 
         'dt'        => 5, 
         'formatter' => function( $d, $row ) { 
-            return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d', strtotime($d)) : '';
+            return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y', strtotime($d)) : '';
         } 
     ),
     array( 
         'db'        => 'plan_end_date', 
         'dt'        => 6, 
         'formatter' => function( $d, $row ) { 
-           return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d', strtotime($d)) : ''; 
+           return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y', strtotime($d)) : ''; 
         } 
     ),
     array( 
@@ -122,14 +122,14 @@ $columns = array(
         'db'        => 'actual_start_date', 
         'dt'        => 8, 
         'formatter' => function( $d, $row ) { 
-           return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d', strtotime($d)) : ''; 
+           return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y', strtotime($d)) : ''; 
         } 
     ),
     array( 
         'db'        => 'actual_end_date', 
         'dt'        => 9, 
         'formatter' => function( $d, $row ) { 
-           return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d', strtotime($d)) : ''; 
+           return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y', strtotime($d)) : ''; 
         } 
     ),
 

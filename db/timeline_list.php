@@ -79,7 +79,7 @@ $columns = array(
         'orderable' => false,
         'formatter' => function( $d, $row ) { 
             return $row['id'];
-            // return date( 'Y-m-d', strtotime($d)); 
+            // return date( 'd-m-Y', strtotime($d)); 
         } 
     ), 
     // array( 'db' => 'ticket_id', 'dt' => 1 ), 
@@ -92,8 +92,8 @@ $columns = array(
         'db'        => 'datetime', 
         'dt'        => 6, 
         'formatter' => function( $d, $row ) { 
-            return ($d != '0000-00-00 00:00:00') ?  date( 'Y-m-d H:i:s', strtotime($d)) : '';
-            // return date( 'Y-m-d', strtotime($d)); 
+            return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y H:i:s', strtotime($d)) : '';
+            // return date( 'd-m-Y', strtotime($d)); 
         } 
     ), //TODO
     // array( 
