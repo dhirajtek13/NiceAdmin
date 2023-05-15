@@ -52,6 +52,7 @@
         // table.row($('.sorting_disabled')).remove().draw(false);
         setTimeout(() => {
           $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
+          $(".onlyPMAction").hide(); //hide edit/delete log for Dev
         }, 100);
 
   });

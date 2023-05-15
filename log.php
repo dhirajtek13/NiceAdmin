@@ -41,7 +41,7 @@
       
       <div class="addDataBtn">
         <a href="javascript:void(0);" class="btn btn-success onlyDevAction" onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a>
-        <?php if($_GET['ticket']) echo '<a href="/timeline.php?ticket='.$_GET['ticket'].'" class="btn btn-secondary"><i class="bi bi-eye-fill"></i> View Timeline</a>'; ?>
+        <?php if($_GET['ticket'] && $_SESSION['user_type'] == 1) echo '<a href="/timeline.php?ticket='.$_GET['ticket'].'" class="btn btn-secondary onlyPMAction"><i class="bi bi-eye-fill"></i> View Timeline</a>'; ?>
       </div>
     </div><!-- End Page Title -->
     
