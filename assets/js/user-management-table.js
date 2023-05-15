@@ -98,7 +98,7 @@ $(document).ready(function () {
   function editData(user_data) {//TODO
       $(".frm-status").html("");
   
-      $("#userModalLabel").html("Edit Log ");
+      $("#userModalLabel").html("Edit User Data ");
 
       // console.log(user_data);
       $("#username").val(user_data.username);
