@@ -20,7 +20,7 @@ $dbDetails = array(
 $table = <<<EOT
  (
     SELECT 
-    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname 
+    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname, users.user_status
     FROM users 
     LEFT JOIN user_type 
     ON users.user_type = user_type.id 
@@ -69,12 +69,19 @@ $columns = array(
     //         return ($variance != '0') ?  $variance : ''; 
     //     } 
     // ), 
+    array( 'db' => 'user_status',  'dt' => 11 ), 
     array( 
         'db'        => 'id', 
         'dt'        => 10,
         'formatter' => function( $d, $row ) { 
             
+            // print_r($row['user_status']); die();
+            $userStatus = $row['user_status']; 
+            $userId = $row['id']; 
+            $userStatusToggle = ($userStatus == 1) ? 'Deactivate' : 'Activate';
+            
             return ' <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <a href="javascript:void(0);" class="btn btn-secondary" onclick="changeUserStatus('.$userStatus.','.$userId.')">'.$userStatusToggle.'</a>&nbsp;
                 <a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
                 <a href="javascript:void(0);" class="btn btn-danger" onclick="changePassword('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Reset Password</a>&nbsp;
                 </div>

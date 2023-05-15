@@ -16,7 +16,7 @@
       $password = $_POST["password"]; 
       
       
-      $sql = "Select * from users where username='$username' ";
+      $sql = "Select * from users where username='$username' and user_status=1";
       $result = mysqli_query($conn, $sql);
       $num = mysqli_num_rows($result);
       if ($num == 1){
@@ -38,7 +38,7 @@
               }
           }
       } else {
-        $showError = "Invalid Credentials";
+        $showError = "Invalid Credentials or deactivated!";
       }
     }
 ?>

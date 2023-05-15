@@ -139,6 +139,41 @@ if($jsonObj->request_type == 'addEdit'){
         echo json_encode(['error' => trim($err, '<br/>')]); 
     }
 
+} elseif ($jsonObj->request_type == 'changeUserStatus') {
+    $user_data = $jsonObj->user_data;
+   
+    $user_status = !empty($user_data[0])?$user_data[0]:0; 
+    $id = !empty($user_data[1])?$user_data[1]:0; 
+
+    $err = '';
+    
+    if(!empty($user_data) && empty($err)){
+        if(!empty($id)){
+            $newUserStatus = ($user_status == 1) ? 0 : 1;
+            $sqlQ = "UPDATE users SET user_status=?, updated_at=NOW()  WHERE id=?"; 
+            $stmt = $conn->prepare($sqlQ); 
+            $stmt->bind_param("ii", $newUserStatus,  $id);
+            $update = $stmt->execute();
+
+            if($update){ 
+                //Also add in the log_timings
+                // $details = json_encode($user_data);
+                // addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $current_user_id);
+                $output = [ 
+                    'status' => 1, 
+                    'msg' => 'User status updated successfully!' 
+                ]; 
+                echo json_encode($output); 
+            }else{ 
+                echo json_encode(['error' => 'Failed to update user status']); 
+            }
+        } else {
+            echo json_encode(['error' => 'User not found!']); 
+        }
+    }else{ 
+        echo json_encode(['error' => trim($err, '<br/>')]); 
+    }
+
 } elseif($jsonObj->request_type == 'deleteUser'){ 
     $id = $jsonObj->user_id; 
  

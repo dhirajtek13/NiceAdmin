@@ -41,6 +41,10 @@ $(document).ready(function () {
             target: 9,
             visible: false,
         },
+        {
+          target: 11,
+          visible: false,
+      },
 
       ],
       fnRowCallback : function(nRow, aData, iDisplayIndex){
@@ -127,7 +131,52 @@ $(document).ready(function () {
     $('#editID2').val(user_data.id);
 
     $("#changePasswordModal").modal("show");
-}
+  }
+
+  function changeUserStatus(current_status, user_id) {
+
+    let input_data_arr = [
+      current_status,
+      user_id
+    ];
+
+    console.log(input_data_arr);
+
+    fetch("controller/user_eventHandler.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        request_type: "changeUserStatus",
+        user_data: input_data_arr,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status == 1) {
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          }).then((result) => {
+            // Redraw the table
+            $("#dataList").DataTable().draw();
+  
+            // $("#changePasswordModal").modal("hide");
+            // $("#userDataFrm2")[0].reset();
+          });
+        } else {
+          alert( data.error);
+          //TODO - 
+          // $(".frm2-status").html(
+          //   '<div class="alert alert-danger" role="alert">' +
+          //     data.error +
+          //     "</div>"
+          // );
+        }
+      })
+      .catch(console.error);
+  }
   
   function submitUserData() {
     $(".frm-status").html("");
