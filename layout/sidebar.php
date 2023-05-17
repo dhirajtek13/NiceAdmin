@@ -49,7 +49,7 @@
 
         <!-- Master -->
         <li class="nav-item">
-          <a class="nav-link " data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+          <a class="nav-link collapsed" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-menu-button-wide"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="master-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
@@ -76,7 +76,7 @@
 
         <!-- User management -->
         <li class="nav-item">
-          <a class="nav-link " data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
+          <a class="nav-link collapsed " data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-person"></i><span>User Management</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="user-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">

@@ -68,6 +68,10 @@ $(document).ready(function () {
   setTimeout(() => {
       $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
   }, 100);
+
+    //sidebar operations
+    $("#master-nav").addClass("show");
+    $("#master-nav").parent().find('a').removeClass("collapsed");
 });
 
 

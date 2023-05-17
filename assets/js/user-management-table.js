@@ -74,6 +74,7 @@ $(document).ready(function () {
     }, 100);
 
     $("#user-nav").addClass("show");
+    $("#user-nav").parent().find('a').removeClass("collapsed")
   });
   
 

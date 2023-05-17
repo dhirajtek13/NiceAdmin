@@ -61,6 +61,10 @@
     setTimeout(() => {
         $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
     }, 100);
+
+        //sidebar operations
+        $("#user-nav").addClass("show");
+        $("#user-nav").parent().find('a').removeClass("collapsed");
   });
   
   $('#c_status').on('change', function() {

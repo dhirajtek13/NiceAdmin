@@ -38,6 +38,10 @@ div.dataTables_wrapper {
     color:#f62c1e;
 }
 
+table tr td:last-child {
+    text-align: end !important;
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }
