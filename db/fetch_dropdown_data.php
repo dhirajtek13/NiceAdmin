@@ -13,6 +13,34 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
             }
         }
         $user_type_row .= '</option></select>';
+
+        /**
+         * fetch projects list
+         */
+         $sql = "SELECT * FROM projects";
+         $c_status_types = $conn->query($sql);
+         $projects_row = '<select name="projects" id="projects" class="form-control"  multiple aria-label="multiple select">';
+         $projects_row .= '<option value="0" disabled>Select Project</option>';
+         if ($c_status_types->num_rows > 0) {
+             while($row = $c_status_types->fetch_assoc()) { 
+                 $id = $row['id'];
+                 $name = $row['project_name'];
+                 $projects_row .= '<option value="'.$id.'">'.$name.'</option>';
+             }
+         }
+        $projects_row .= '</option></select>';
+    //     $sql = "SELECT * FROM projects";
+    //     $c_status_types = $conn->query($sql);
+    //     $projects_row = '<select name="projects" id="projects" class="form-control" >';
+    //    //  $projects_row .= '<option value="0">Select Project</option>';
+    //     if ($c_status_types->num_rows > 0) {
+    //         while($row = $c_status_types->fetch_assoc()) {
+    //             $id = $row['id'];
+    //             $name = $row['project_name'];
+    //             $projects_row .= '<option value="'.$id.'">'.$name.'</option>';
+    //         }
+    //     }
+    //     $projects_row .= '</option></select>';
 } else {
 
     //ticket_types dropdown

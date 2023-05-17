@@ -35,17 +35,19 @@
               <table  id="dataList" class="display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>S.N</th>
+                        <th scope="col">S.N</th>
                         <th scope="col">Username</th>
                         <th scope="col">Name</th>
                         <th scope="col">User Type</th>
                         <th scope="col">Employee Id</th>
                         <th scope="col">Designation</th>
                         <th scope="col">Email</th>
-                        <th scope="col">User Type</th>
                         <!-- <th scope="col">Password</th> -->
                         <th scope="col">Fname</th>
                         <th scope="col">Lname</th>
+                        <th scope="col">Project ID</th>
+                        <th scope="col">Project Name</th>
+                        <th scope="col">Project Name</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -58,10 +60,12 @@
                         <th>Employee Id</th>
                         <th>Designation</th>
                         <th>Email</th>
-                        <th>User Type</th>
                         <!-- <th>Password</th> -->
                         <th>Fname</th>
                         <th>Lname</th>
+                        <th>Project ID</th>
+                        <th>Project Name</th>
+                        <th>Project Name</th>
                         <th></th>
                     </tr>
                 </tfoot>

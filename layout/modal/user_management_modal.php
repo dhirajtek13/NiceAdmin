@@ -17,7 +17,14 @@
                                     <label for="floatingName">Username</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <input name="employee_id" type="text" class="form-control" id="employee_id" placeholder="Employee Id">
+                                    <label for="floatingName">Employee Id</label>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
                                 <div class="form-floating">
                                     <input name="email" type="email" class="form-control" id="email" placeholder="Your Email">
                                     <label for="floatingEmail">Your Email</label>
@@ -42,12 +49,7 @@
                                     <label for="floatingPassword">Password</label>
                                 </div>
                             </div> -->
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input name="employee_id" type="text" class="form-control" id="employee_id" placeholder="Your Name">
-                                    <label for="floatingName">Employee Id</label>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="designation" type="text" class="form-control" id="designation" placeholder="Your Name">
@@ -57,18 +59,21 @@
                             <div class="col-md-6">
                                 <div class="form-floating mb-3">
                                     <?php echo $user_type_row; ?>
-
                                     <label for="floatingSelect">User Type</label>
                                 </div>
                             </div>
-
-
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <?php echo $projects_row; ?>
+                                    <!-- <label for="floatingSelect">Projects</label> -->
+                                </div>
+                            </div>
 
                         </div>
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer mb-2">
                     <input type="hidden" id="editID" value="0">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="submitUserData()">Submit</button>
