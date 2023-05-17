@@ -37,10 +37,10 @@ $(document).ready(function () {
             target: 8,
             visible: false,
         },
-        {
-            target: 9,
-            visible: false,
-        },
+        // {
+        //     target: 9,
+        //     visible: false,
+        // },
         {
           target: 11,
           visible: false,
@@ -73,8 +73,9 @@ $(document).ready(function () {
         $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
     }, 100);
 
+    //sidebar operations
     $("#user-nav").addClass("show");
-    $("#user-nav").parent().find('a').removeClass("collapsed")
+    $("#user-nav").parent().find('a').removeClass("collapsed");
   });
   
 

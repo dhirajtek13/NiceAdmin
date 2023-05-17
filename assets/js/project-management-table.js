@@ -23,7 +23,7 @@ $(document).ready(function () {
       columnDefs: [
         {
           orderable: false,
-          targets: 10,
+          targets: 11,
         },
         {
           orderable: false,
@@ -77,6 +77,7 @@ $(document).ready(function () {
     $("#userModalLabel").html("Add New Project");
   
     $("#project_name").val("");
+    $("#project_code").val("");
     $("#region").val("");
     $("#description").val("");
     $("#start_date").val("");
@@ -94,6 +95,7 @@ $(document).ready(function () {
       $("#userModalLabel").html("Edit Project ");
 
       $("#project_name").val(user_data.project_name);
+      $("#project_code").val(user_data.project_code);
       $("#region").val(user_data.region);
       $("#description").val(user_data.description);
       $("#start_date").val(user_data.start_date);
@@ -112,6 +114,7 @@ $(document).ready(function () {
     $(".frm-status").html("");
     let input_data_arr = [
       document.getElementById("project_name").value,
+      document.getElementById("project_code").value,
       document.getElementById("region").value,
       document.getElementById("description").value,
       document.getElementById("start_date").value,

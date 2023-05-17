@@ -18,25 +18,26 @@ if($jsonObj->request_type == 'addEdit'){
 
     // print_r($user_data); die();
     $project_name = !empty($user_data[0])?$user_data[0]:''; 
-    $region = !empty($user_data[1])?$user_data[1]:''; 
-    $description = !empty($user_data[2])?$user_data[2]:''; 
-    $start_date = !empty($user_data[3])?$user_data[3]:''; 
-    $end_date = !empty($user_data[4])?$user_data[4]:''; 
-    $renewal_date = !empty($user_data[5])?$user_data[5]:0;
-    $customer_name = !empty($user_data[6])?$user_data[6]:0;
-    $planned_billing = !empty($user_data[7])?$user_data[7]:0;
-    $actual_billing = !empty($user_data[8])?$user_data[8]:0;
+    $project_code = !empty($user_data[1])?$user_data[1]:''; 
+    $region = !empty($user_data[2])?$user_data[2]:''; 
+    $description = !empty($user_data[3])?$user_data[3]:''; 
+    $start_date = !empty($user_data[4])?$user_data[4]:''; 
+    $end_date = !empty($user_data[5])?$user_data[5]:''; 
+    $renewal_date = !empty($user_data[6])?$user_data[6]:0;
+    $customer_name = !empty($user_data[7])?$user_data[7]:0;
+    $planned_billing = !empty($user_data[8])?$user_data[8]:0;
+    $actual_billing = !empty($user_data[9])?$user_data[9]:0;
 
-    $id = !empty($user_data[9])?$user_data[9]:0; 
+    $id = !empty($user_data[10])?$user_data[10]:0; 
  
     $err = ''; 
 
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
             // Update user data into the database 
-            $sqlQ = "UPDATE projects SET project_name=?, region=?, description=?, start_date=?, end_date=?, renewal_date=?, customer_name=?, planned_billing=?, actual_billing=?   WHERE id=?"; 
+            $sqlQ = "UPDATE projects SET project_name=?, region=?, description=?, start_date=?, end_date=?, renewal_date=?, customer_name=?, planned_billing=?, actual_billing=?, project_code=?   WHERE id=?"; 
             $stmt = $conn->prepare($sqlQ); 
-            $stmt->bind_param("sssssssssi", $project_name, $region, $description, $start_date, $end_date, $renewal_date, $customer_name, $planned_billing, $actual_billing, $id); 
+            $stmt->bind_param("ssssssssssi", $project_name, $region, $description, $start_date, $end_date, $renewal_date, $customer_name, $planned_billing, $actual_billing, $project_code, $id); 
             $update = $stmt->execute(); 
  
             if($update){ 
@@ -54,10 +55,10 @@ if($jsonObj->request_type == 'addEdit'){
         }else{ 
                 // Insert event data into the database 
                 //TODO- this is unless as of now untill add-user insert is not moved here
-                $sqlQ = "INSERT INTO projects (project_name,region,description, start_date, end_date, renewal_date, customer_name, planned_billing, actual_billing)
-                VALUES (?,?,?,?,?,?,?,?,?)"; 
+                $sqlQ = "INSERT INTO projects (project_name,region,description, start_date, end_date, renewal_date, customer_name, planned_billing, actual_billing, project_code)
+                VALUES (?,?,?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("sssssssss", $project_name, $region,$description, $start_date, $end_date, $renewal_date, $customer_name, $planned_billing, $actual_billing);
+                $stmt->bind_param("ssssssssss", $project_name, $region,$description, $start_date, $end_date, $renewal_date, $customer_name, $planned_billing, $actual_billing, $project_code);
                 $insert = $stmt->execute(); 
 
                 if ($insert) {

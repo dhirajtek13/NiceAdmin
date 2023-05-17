@@ -35,6 +35,7 @@
                     <tr>
                         <th>S.N</th>
                         <th scope="col">Project Name</th>
+                        <th scope="col">Project ID</th>
                         <th scope="col">Region</th>
                         <th scope="col">Description</th>
                         <th scope="col">Start Date</th>
@@ -50,6 +51,7 @@
                     <tr>
                         <th>S.N</th>
                         <th>Project Name</th>
+                        <th>Project ID</th>
                         <th>Region</th>
                         <th>Description</th>
                         <th>Start Date</th>

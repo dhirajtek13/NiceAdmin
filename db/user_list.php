@@ -20,7 +20,7 @@ $dbDetails = array(
 $table = <<<EOT
  (
     SELECT 
-    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname, users.user_status, GROUP_CONCAT(projects.id) AS project_id, GROUP_CONCAT(projects.project_name) AS project_name
+    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname, users.user_status, GROUP_CONCAT(projects.project_code) AS project_id, GROUP_CONCAT(projects.project_name) AS project_name
     FROM users 
     LEFT JOIN user_type 
     ON users.user_type = user_type.id 

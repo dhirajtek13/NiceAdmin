@@ -16,15 +16,23 @@
                                     <label for="floatingName">Project Name</label>
                                 </div>
                             </div>
+                            
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input name="region" type="text" class="form-control" id="region" placeholder="Region">
-                                    <label for="floatingName">Region</label>
+                                    <input name="project_code" type="text" class="form-control" id="project_code" placeholder="project_code">
+                                    <label for="floatingName">Project ID</label>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <textarea placeholder="Description" name="description"  id="description"  class="form-control"  rows="3"></textarea>
+                                    <textarea placeholder="Description" name="description"  id="description"  class="form-control"  rows="20"></textarea>
+                                    <label for="floatingName">Description</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input name="customer_name" type="text" class="form-control" id="customer_name" placeholder="customer name">
+                                    <label for="floatingName">Customer Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -47,10 +55,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input name="customer_name" type="text" class="form-control" id="customer_name" placeholder="customer name">
-                                    <label for="floatingName">Customer Name</label>
+                                    <input name="region" type="text" class="form-control" id="region" placeholder="Region">
+                                    <label for="floatingName">Region</label>
                                 </div>
                             </div>
+                            
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     <input name="planned_billing" type="text" class="form-control" id="planned_billing" placeholder="planned date">
