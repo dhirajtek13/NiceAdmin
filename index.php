@@ -4,6 +4,7 @@
   <?php include('layout/header.php'); ?>
 
   <?php include('controller/customFunctions.php'); ?>
+  <?php include('db/fetchConfiguration.php'); ?>
 
 
   <?php include('layout/sidebar.php'); ?>
@@ -27,7 +28,7 @@
        }
       ?>
       <div>
-        Min. hrs considered: <?= MIN_HRS ?>
+        Min. hrs considered: <?= $CONFIG_ALL['actual_hrs']['value1'] ?>
         <input type="date" value="<?php echo $dateSelected; ?>"name="dateSelected" id="dateSelected" class="form-control w-25" oninput="reloadData()">
       </div>
 
@@ -146,7 +147,7 @@
                         $total_hrs = $value[$this_weekday]['total_hrs'];
 
                         //get all tickets count which are WIP before this date
-                        if($total_hrs >= MIN_HRS) {
+                        if($total_hrs >= $CONFIG_ALL['actual_hrs']['value1']) {
                             //get log entry collection count 
                             $ticket_collection_arr = $value[$this_weekday]['ticket_collection_arr'];
                             $ticket_collection_all_arr = $value[$this_weekday]['ticket_collection_all_arr'];
