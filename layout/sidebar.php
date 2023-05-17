@@ -13,12 +13,12 @@
 
       <li class="nav-heading">Pages</li>
 
-      <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) { ?>
-        
+      <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) { ?>
+
         <!-- Ticket management -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="tickets.php">
-          <i class="bi bi-layout-text-window-reverse"></i>
+            <i class="bi bi-layout-text-window-reverse"></i>
             <span>Ticket Management</span>
           </a>
         </li>
@@ -26,23 +26,15 @@
         <!-- Project management -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="project_managment.php">
-          <i class="bi bi-layout-text-window-reverse"></i>
+            <i class="bi bi-layout-text-window-reverse"></i>
             <span>Project Management</span>
-          </a>
-        </li>
-
-        <!-- KPI management -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="kpi_managment.php">
-          <i class="bi bi-layout-text-window-reverse"></i>
-            <span>KPI Master</span>
           </a>
         </li>
 
         <!-- Configuration Tab -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="configuration.php">
-          <i class="bi bi-layout-text-window-reverse"></i>
+            <i class="bi bi-layout-text-window-reverse"></i>
             <span>Configuration Tab</span>
           </a>
         </li>
@@ -53,6 +45,15 @@
             <i class="bi bi-menu-button-wide"></i><span>Master</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="master-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+
+            <!-- KPI management -->
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="kpi_managment.php">
+                <i class="bi bi-layout-text-window-reverse"></i>
+                <span>KPI Master</span>
+              </a>
+            </li>
+            
             <li class="nav-item">
               <a class="nav-link collapsed" href="master_cstatus.php">
                 <i class="bi bi-card-list"></i>
@@ -88,7 +89,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link collapsed" href="user_management.php">
-              <i class="bi bi-circle"></i>
+                <i class="bi bi-circle"></i>
                 <span>View Users</span>
               </a>
             </li>
@@ -97,7 +98,7 @@
 
       <?php } ?>
 
-      <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type'] != 1) { ?>
+      <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] != 1) { ?>
         <li class="nav-item">
           <a class="nav-link collapsed" href="pages-ticket.php">
             <i class="bi bi-card-list"></i>
@@ -105,7 +106,7 @@
           </a>
         </li>
       <?php } ?>
-   
+
 
     </ul>
 
