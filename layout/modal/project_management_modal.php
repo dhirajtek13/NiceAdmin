@@ -12,15 +12,15 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input name="project_name" type="text" class="form-control" id="project_name" placeholder="Project name *">
-                                    <label for="floatingName">Project Name</label>
+                                    <input name="project_name" type="text" class="form-control" id="project_name" placeholder="Project name" required>
+                                    <label for="floatingName">Project Name <span class="required_mark">*</span></label>
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input name="project_code" type="text" class="form-control" id="project_code" placeholder="project_code">
-                                    <label for="floatingName">Project ID</label>
+                                    <input name="project_code" type="text" class="form-control" id="project_code" placeholder="project_code" required>
+                                    <label for="floatingName">Project ID <span class="required_mark">*</span></label>
                                 </div>
                             </div>
                             <div class="col-md-12">

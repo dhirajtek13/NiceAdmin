@@ -37,11 +37,16 @@ div.dataTables_wrapper {
 .bxs-x-circle {
     color:#f62c1e;
 }
-
-table tr td:last-child {
-    text-align: end !important;
+.cardh1 {
+    margin: 10px 0px 0px 10px !important;
 }
+/* table tr td:last-child {
+    text-align: end !important;
+} */
 
+/* #phptable2, td, th {
+    border: 1px solid;
+} */
 ::-webkit-scrollbar {
     width: 12px;
 }
