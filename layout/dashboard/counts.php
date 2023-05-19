@@ -6,13 +6,13 @@ $counts_allDaysColArr = x_week_range($counts_dateSelected);
 <div class="row m-0">
     <div class="col-6 ">
         <div class="form-floating">
-            <input type="date" value="<?php echo $counts_allDaysColArr[0]; ?>" name="counts_start_date" id="counts_start_date" class="form-control">
+            <input type="date" value="<?php echo $counts_allDaysColArr[0]; ?>" name="counts_start_date" id="counts_start_date" class="form-control" oninput="fetchCountData()">
             <label for="floatingName">start date</label>
         </div>
     </div>
     <div class="col-6">
         <div class="form-floating">
-            <input type="date" value="<?php echo $counts_allDaysColArr[6]; ?>" name="counts_end_date" id="counts_end_date" class="form-control">
+            <input type="date" value="<?php echo $counts_allDaysColArr[6]; ?>" name="counts_end_date" id="counts_end_date" class="form-control" oninput="fetchCountData()">
             <label for="floatingName">end date</label>
         </div>
     </div>

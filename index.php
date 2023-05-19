@@ -71,6 +71,7 @@
           </div>
         </div>
 
+        <!-- Ticket Status -->
         <div class="col-6">
           <div class="card info-card">
             <h2 class="cardh1">Ticket Status</h2>

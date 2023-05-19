@@ -19,19 +19,32 @@ if ($jsonObj->request_type == 'fetch') {
     $allDaysColArr = x_week_range($startdate);
 
     if ($projectSelected) {
-        $sql2 = " SELECT  ts.type_name, COUNT(t.c_status) AS statusCount 
-                   FROM tickets AS t
-                   JOIN c_status_types AS ts ON ts.id=t.c_status
-                   WHERE t.project_id = $projectSelected
-                   AND t.created_at > $allDaysColArr[0] 
-                   GROUP BY t.c_status";
+        $sql2 = "SELECT COUNT(c_status_types.id) AS status_count, c_status_types.type_name 
+                    FROM c_status_types 
+                    JOIN (
+                            SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS name 
+                            FROM c_status_types 
+                            INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
+                            WHERE configurations.name = 'ticket_status_c_status_types' 
+                        ) AS subs 
+                    ON id= name 
+                    LEFT JOIN tickets AS t ON t.c_status=c_status_types.id 
+                    #WHERE  t.created_at > $allDaysColArr[0] AND t.project_id = $projectSelected
+                    GROUP BY c_status_types.id";
     } else {
         //fetch all projects
-        $sql2 = " SELECT  ts.type_name, COUNT(t.c_status) AS statusCount 
-        FROM tickets AS t
-        JOIN c_status_types AS ts ON ts.id=t.c_status
-        WHERE t.created_at > $allDaysColArr[0] 
-        GROUP BY t.c_status";
+        $sql2 = "SELECT COUNT(c_status_types.id) AS status_count, c_status_types.type_name 
+                    FROM c_status_types 
+                    JOIN (
+                            SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS name 
+                            FROM c_status_types 
+                            INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
+                            WHERE configurations.name = 'ticket_status_c_status_types' 
+                        ) AS subs 
+                    ON id= name 
+                    LEFT JOIN tickets AS t ON t.c_status=c_status_types.id 
+                    #WHERE  t.created_at > $allDaysColArr[0] 
+                    GROUP BY c_status_types.id";
     }
 
     $logStatusQuery2 = $conn->query($sql2);
@@ -41,6 +54,8 @@ if ($jsonObj->request_type == 'fetch') {
             $user_ticketsArr[$row2['type_name']] =  $row2;
         }
     }
+
+    echo "<pre>"; print_r($user_ticketsArr); die();
 
 ?>
     <!-- <span class="ticket_status_fetch_html" id="ticket_status_fetch_html"> -->
