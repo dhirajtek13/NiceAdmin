@@ -1,8 +1,4 @@
 <?php
-// $dateSelected = date("Y-m-d"); //today 
-// if (isset($_GET['dateselected'])) {
-//     $dateSelected = $_GET['dateselected'];
-// }
 $dateSelected = date("Y-m-d"); 
 ?>
 
