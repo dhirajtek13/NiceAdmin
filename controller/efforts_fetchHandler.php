@@ -24,7 +24,8 @@ if ($jsonObj->request_type == 'fetch') {
                     FROM tickets AS t
                     LEFT JOIN log_history AS lh ON lh.ticket_id = t.id
                     LEFT JOIN ticket_types AS tt ON tt.id=t.type_id
-                    WHERE t.project_id = $projectSelected AND t.created_at > $allDaysColArr[0] 
+                    WHERE t.project_id = $projectSelected 
+                     DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00') 
                     GROUP BY t.type_id";
     } else {
         //fetch all projects
@@ -32,7 +33,7 @@ if ($jsonObj->request_type == 'fetch') {
                     FROM tickets AS t
                     LEFT JOIN log_history AS lh ON lh.ticket_id = t.id
                     LEFT JOIN ticket_types AS tt ON tt.id=t.type_id
-                    WHERE t.created_at > $allDaysColArr[0] 
+                    WHERE  DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
                     GROUP BY t.type_id";
     }
 
@@ -56,7 +57,7 @@ if ($jsonObj->request_type == 'fetch') {
         foreach ($user_ticketsArr as $key => $value) {
             echo "<tr>";
             echo "<td>" . $key . "</td>";
-            echo "<td>" . $value['total_hrs'] . "</td>";
+            echo "<td>"; echo ($value['total_hrs'] != '') ? $value['total_hrs'] : '0'; echo  "</td>";
             echo "</tr>";
         }
         ?>

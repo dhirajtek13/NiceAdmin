@@ -35,7 +35,7 @@ if ($jsonObj->request_type == 'fetch') {
                                             )  AS subs  ON cs.id= name 
                                     LEFT JOIN tickets as t ON t.c_status = name
                                     WHERE t.project_id = $projectSelected
-                                    AND DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]'
+                                    AND DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
                                     GROUP BY cs.id";
     } else {
         //fetch all projects
@@ -59,10 +59,10 @@ if ($jsonObj->request_type == 'fetch') {
                                                 WHERE configurations.name = 'ticket_status_c_status_types' 
                                             )  AS subs  ON cs.id= name 
                                     LEFT JOIN tickets as t ON t.c_status = name
-                                    WHERE DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]'
+                                    WHERE DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
                                     GROUP BY cs.id"; 
     }
-    
+
 
     $logStatusQuery2 = $conn->query($sql2);
     $user_ticketsArr = [];

@@ -120,6 +120,8 @@ if ($jsonObj->request_type == 'fetch') {
             $allData[$row['fullname']][$row['dates']] =  $row;
         }
 
+        $weekdays = ['Sun', 'Mon', 'Tue', 'Wed','Thu','Fri', 'Sat'];
+
 ?>
         <!-- <span class="weekly_fetch_html" id="weekly_fetch_html"> -->
             <table id="phptable" class="phptableclass display" style="width:100%">
@@ -128,8 +130,8 @@ if ($jsonObj->request_type == 'fetch') {
                     <th>S.N</th>
                     <th>Employee Name</th>
                     <?php
-                    foreach ($allDaysColArr as $value) {
-                        echo "<th class='no-sort'>$value</th>";
+                    foreach ($allDaysColArr as $index => $value) {
+                        echo "<th class='no-sort'>$value (".$weekdays[$index].")</th>";
                     }
                     ?>
                 </tr>
