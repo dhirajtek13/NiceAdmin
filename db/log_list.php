@@ -17,7 +17,7 @@ $dbDetails = array(
 
 $this_ticket = $_GET['ticket'];
 $db_string = "SELECT 
-                log_history.*, c_status_types.type_name as c_type_name
+                log_history.*, c_status_types.type_name as c_type_name, tickets.c_status AS ticketFinalStatus
                 FROM log_history 
                 LEFT JOIN tickets
                 ON tickets.id = log_history.ticket_id
@@ -94,17 +94,19 @@ $columns = array(
         'db'        => 'id', 
         'dt'        => 7,
         'formatter' => function( $d, $row ) { 
+            // print_r($row); die();
             return ' 
-                <a href="javascript:void(0);" class="edit onlyDevAction" data-toggle="modal"  onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">
-                    <i class="bi bi-pencil-fill"></i> 
+            <a href="javascript:void(0);" class="edit onlyDevAction getTicketStatusRef" data-toggle="modal" data-ticketstatus="'.$row['ticketFinalStatus'].'"  onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">
+            <i class="bi bi-pencil-fill"></i> 
                 </a>&nbsp;
                 <a href="javascript:void(0);"  class="delete onlyDevAction" data-toggle="modal" onclick="deleteData('.$d.')">
-                    <i class="bi bi-trash-fill"></i> 
+                <i class="bi bi-trash-fill"></i> 
                 </a>
                 
-            '; 
-        } 
-    ),
+                '; 
+            } 
+        ),
+        array( 'db' => 'ticketFinalStatus',     'dt' => 8 ), 
 ); 
  
 // Include SQL query processing class 

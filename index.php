@@ -71,6 +71,29 @@
           </div>
         </div>
 
+
+        <div class="col-6">
+          <div class="card info-card">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="cardh1">Efforts</h2>
+                <?php include('layout/dashboard/efforts.php'); ?>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card info-card">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="cardh1">Count</h2>
+                <?php include('layout/dashboard/counts.php'); ?>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <!-- Ticket Status -->
         <div class="col-6">
           <div class="card info-card">
@@ -82,39 +105,21 @@
                 </table>
               </span>
             </div>
-
           </div>
         </div>
+
         <div class="col-6">
-          <div class="card info-card">
-            <div class="row">
-              <div class="col-12">
-                <h2 class="cardh1">Efforts</h2>
-                <?php include('layout/dashboard/efforts.php'); ?>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-12">
-                <h2 class="cardh1">Count</h2>
-                <?php include('layout/dashboard/counts.php'); ?>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- <div class="col-6">
           <div class="card info-card">
             <h2 class="cardh1">OTD KPI</h2>
             <?php include('layout/dashboard/otd_data.php'); ?>
             <div class="card-body mt-4">
-              <span class="otd_data_table_response">
-                <table id="phptable4" class="display table table-striped " style="width:100%">
+              <span class="kpiTable1_table_response">
+                <table id="kpiTable1" class="display table table-striped " style="width:100%">
                 </table>
               </span>
             </div>
           </div>
-        </div> -->
+        </div>
 
 
 
@@ -126,6 +131,7 @@
   <?php include('layout/footer.php'); ?>
 
   <script src="assets/js/weeklylog-table.js"></script>
+  <script src="assets/js/kpi-table.js"></script>
 </body>
 
 </html>

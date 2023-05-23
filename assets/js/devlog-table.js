@@ -26,6 +26,10 @@
           orderable: false,
           targets: 0,
         },
+        {
+          visible: false,
+          target: 8,
+        },
       ],
       fnRowCallback : function(nRow, aData, iDisplayIndex){
         // console.log(nRow, aData, iDisplayIndex);
@@ -80,7 +84,9 @@
     document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
     $("#dates").val(current_datetime);
     $("#hrs").val("");
-    $("#c_status").val(1);
+    var getTicketStatus = $(".getTicketStatusRef").attr('data-ticketstatus');
+    $("#c_status").val(getTicketStatus); 
+    // $("#c_status option").filter(function() {return this.text == getTicketStatus ;}).attr('selected', true);
     $("#what_is_done").val("");
     $("#what_is_pending").val("");
     $("#what_support_required").val("");

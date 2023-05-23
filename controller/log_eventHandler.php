@@ -103,6 +103,7 @@ if($jsonObj->request_type == 'addEdit'){
                 if($previousStatus != $updatedStatus) {
                     updateTicketStatus($conn, $c_status, $ticket_id);
                 }
+                updateActualHrs($conn, $ticket_id, $hrs);
 
                 $output = [ 
                     'status' => 1, 
@@ -147,6 +148,8 @@ if($jsonObj->request_type == 'addEdit'){
                     if($previousStatus != $updatedStatus) {
                         updateTicketStatus($conn, $c_status, $ticket_id);
                     }
+
+                    updateActualHrs($conn, $ticket_id, $hrs);
                     
                     $output = [ 
                         'status' => 1, 
@@ -204,4 +207,23 @@ function updateTicketStatus($conn, $c_status, $ticket_id) {
     $stmt = $conn->prepare($sqlQ);
     $stmt->bind_param("ii", $c_status, $ticket_id); 
     $update = $stmt->execute(); 
+}
+
+function updateActualHrs($conn, $ticket_id, $newhrs) {
+    //calcualte original actual hrs of this ticket
+
+    $sql11 = "SELECT SUM(log_history.hrs) AS actual_hrs FROM tickets 
+                    LEFT JOIN 	log_history ON tickets.id = log_history.ticket_id
+                    WHERE tickets.id='$ticket_id' 
+                    GROUP BY log_history.ticket_id
+                    ";
+    $result11 = mysqli_query($conn, $sql11);
+    $row11 = mysqli_fetch_assoc($result11);
+    $actual_hrs = $row11['actual_hrs'];
+
+    $sqlQ = "UPDATE tickets SET actual_hrs=?  WHERE id=?";
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("ii", $actual_hrs, $ticket_id); 
+    $update = $stmt->execute(); 
+
 }
