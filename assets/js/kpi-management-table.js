@@ -1,12 +1,12 @@
 // Initialize DataTables API object and configure table
 
   
-  $(document).ready(function () {
+$(document).ready(function () {
 
     $('#dataList tfoot th').each(function () {
         var title = $(this).text();
         if(title) {
-          $(this).html('<input type="text" placeholder="' + title + '"   size="6"  class="form-control" />');
+          $(this).html('<input type="text" placeholder="' + title + '"   size="6" /  class="form-control">');
         }
         if(title == 'S.N') {
           $(this).html("");
@@ -18,25 +18,37 @@
       serverSide: true,
       bLengthChange: false,
       // bFilter:false,
-      ajax: "db/pages-ticket_list.php",
+      ajax: "db/kpi_list.php",
       scrollX: true,
-      columnDefs: [
-        {
-          orderable: false,
-          targets: 12,
-        },
-        {
-          orderable: false,
-          targets: 0,
-        },
-      ],
+      // columnDefs: [
+      //   {
+      //     orderable: false,
+      //     targets: 10,
+      //   },
+      //   {
+      //     orderable: false,
+      //     targets: 0,
+      //   },
+      //   {
+      //       target: 7,
+      //       visible: false,
+      //   },
+      //   {
+      //       target: 8,
+      //       visible: false,
+      //   },
+      //   {
+      //       target: 9,
+      //       visible: false,
+      //   },
+
+      // ],
       fnRowCallback : function(nRow, aData, iDisplayIndex){
         // console.log(nRow, aData, iDisplayIndex);
         $("td:first", nRow).html(iDisplayIndex +1);
         return nRow;
       },
       orderCellsTop: true,
-      //   fixedHeader: true,
       initComplete: function () {
           // Apply the search
           this.api()
@@ -51,102 +63,66 @@
                   });
               });
       },
-  
     });
+    
+    setTimeout(() => {
+        $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
+    }, 100);
 
-        setTimeout(() => {
-          $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
-        }, 100);
-
+        //sidebar operations
+        $("#master-nav").addClass("show");
+        $("#master-nav").parent().find('a').removeClass("collapsed");
   });
   
-  $('#c_status').on('change', function() {
-    var updatedValue = $('#c_status').find("option:selected").text();
-    $('#updatedStatus').val(updatedValue);
-    if(updatedValue != $('#previousStatus').val()){
-      $("#remark").removeClass('d-none');
-    } else {
-      $("#remark").addClass('d-none');
-    }
-  });
 
-  //Modal CRUD operations 
-  function addData() {
+  //  //Modal CRUD operations 
+   function addData() {
     $(".frm-status").html("");
-    $("#userModalLabel").html("Add New Ticket");
+    $("#userModalLabel").html("Add New KPI");
   
-    $("#ticket_id").val("");
-    $("#type_id").val(1);
-    $("#c_status").val(1);
-    $("#assignee_id").val(1);
-  
-    $("#assigned_date").val("");
-    $("#plan_start_date").val("");
-    $("#plan_end_date").val("");
-    $("#actual_start_date").val("");
-    $("#actual_end_date").val("");
-  
-    $("#planned_hrs").val("");
-    $("#actual_hrs").val("");
+    $("#kpi_name").val("");
+    $("#service_level").val("");
+    $("#description").val("");
+    $("#target_operator").val("");
+    $("#target_value").val("");
+
     $('#editID').val(0);
-  
     $("#userDataModal").modal("show");
   }
   
-  function editData(user_data) {
-      console.log(user_data);
+  function editData(user_data) {//TODO
       $(".frm-status").html("");
-      $("#userModalLabel").html("Edit Ticket #" + user_data.ticket_id);
   
-      $("#ticket_id").val(user_data.ticket_id);
-  
-      $("#type_id option").filter(function() {return this.text == user_data.ticket_type ;}).attr('selected', true);
-      $("#c_status option").filter(function() {return this.text == user_data.c_type_name ;}).attr('selected', true);
-      $("#assignee_id option").filter(function() {return this.text == user_data.assignee ;}).attr('selected', true);
-  
-      // $("#type_id").val(user_data.ticket_type);
-      // $("#c_status").val(user_data.c_status);
-      // $("#assignee_id").val(user_data.assignee_id);
-    
-      $("#assigned_date").val(user_data.assigned_date);
-      $("#plan_start_date").val(user_data.plan_start_date);
-      $("#plan_end_date").val(user_data.plan_end_date);
-      $("#actual_start_date").val(user_data.actual_start_date);
-      $("#actual_end_date").val(user_data.actual_end_date);
-    
-      $("#planned_hrs").val(user_data.planned_hrs);
-      $("#actual_hrs").val(user_data.actual_hrs);
+      $("#userModalLabel").html("Edit Type ");
+
+      // console.log(user_data);
+      $("#kpi_name").val(user_data.kpi_name);
+      $("#service_level").val(user_data.service_level);
+      $("#description").val(user_data.description);
+      $("#target_operator").val(user_data.target_operator);
+      $("#target_value").val(user_data.target_value);
+
+    //   $("#type_name").val(user_data.type_name);
+      // $("#lname").val(user_data.lname);
+      // $("#user_type option").filter(function() {return this.text == user_data.user_type_name ;}).attr('selected', true);
   
       $('#editID').val(user_data.id);
-      $('#previousStatus').val(user_data.c_type_name);
-      $('#updatedStatus').val(user_data.c_type_name);
       $("#userDataModal").modal("show");
   }
+
   
   function submitUserData() {
     $(".frm-status").html("");
     let input_data_arr = [
-      document.getElementById("ticket_id").value,
-      
-      document.querySelector('select[name="type_id"]').value,
-      document.querySelector('select[name="c_status"]').value,
-      document.querySelector('select[name="assignee_id"]').value,
-  
-      document.getElementById("assigned_date").value,
-      document.getElementById("plan_start_date").value,
-      document.getElementById("plan_end_date").value,
-      document.getElementById("planned_hrs").value,
+      document.getElementById("kpi_name").value,
+      document.getElementById("service_level").value,
+      document.getElementById("description").value,
+      document.getElementById("target_operator").value,
+      document.getElementById("target_value").value,
       document.getElementById('editID').value,
-
-      document.getElementById("actual_start_date").value,
-      document.getElementById("actual_end_date").value,
-      document.getElementById("actual_hrs").value,
-      
-      document.getElementById("previousStatus").value,
-      document.getElementById("updatedStatus").value,
     ];
   
-    fetch("controller/ticket_eventHandler.php", {
+    fetch("controller/kpi_eventHandler.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -165,7 +141,6 @@
           }).then((result) => {
             // Redraw the table
             $("#dataList").DataTable().draw();
-  
             $("#userDataModal").modal("hide");
             $("#userDataFrm")[0].reset();
           });
@@ -180,7 +155,8 @@
       .catch(console.error);
   }
   
-  //TODO 
+
+  
   function deleteData(user_id) {
     Swal.fire({
       title: "Are you sure to Delete?",
@@ -193,7 +169,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         // Delete event
-        fetch("eventHandler.php", {
+        fetch("controller/kpi_eventHandler.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -223,3 +199,5 @@
     });
   }
   
+  
+ 

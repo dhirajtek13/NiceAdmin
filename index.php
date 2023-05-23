@@ -103,6 +103,19 @@
           </div>
         </div>
 
+        <!-- <div class="col-6">
+          <div class="card info-card">
+            <h2 class="cardh1">OTD KPI</h2>
+            <?php include('layout/dashboard/otd_data.php'); ?>
+            <div class="card-body mt-4">
+              <span class="otd_data_table_response">
+                <table id="phptable4" class="display table table-striped " style="width:100%">
+                </table>
+              </span>
+            </div>
+          </div>
+        </div> -->
+
 
 
       </div>

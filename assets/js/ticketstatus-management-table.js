@@ -89,6 +89,7 @@ $(document).ready(function () {
   // $("#hrs").val("");
   // $("#c_status").val(1);
   $("#type_name").val("");  
+  $('#editID').val(0);
   $("#userDataModal").modal("show");
 }
 

@@ -84,7 +84,7 @@
     $("#what_is_done").val("");
     $("#what_is_pending").val("");
     $("#what_support_required").val("");
-  
+    $('#editID').val(0);
     $("#userDataModal").modal("show");
   }
   

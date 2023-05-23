@@ -86,6 +86,7 @@ $(document).ready(function () {
     $("#customer_name").val("");
     $("#planned_billing").val("");
     $("#actual_billing").val("");
+    $('#editID').val(0);
 
     $("#userDataModal").modal("show");
   }
