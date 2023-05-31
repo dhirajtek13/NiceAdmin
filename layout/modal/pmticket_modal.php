@@ -14,6 +14,10 @@
                                     <label for="userFirstName" class="form-label">Ticket Id <span class="required_mark">*</span></label>
                                     <input type="text" class="form-control" id="ticket_id" placeholder="Enter Ticket Id">
                             </div>
+                            <div class="col-md-12">
+                                    <label for="zira_link" class="form-label">Zira Link</label>
+                                    <input type="text" class="form-control" id="zira_link" placeholder="Enter Zira Link">
+                            </div>
                             <div class="col-md-6">
                                     <label for="type_id" class="form-label">Type</label>
                                     <?php print_r($ticket_types_row); ?>

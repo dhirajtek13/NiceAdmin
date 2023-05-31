@@ -1,4 +1,8 @@
-<?php include('layout/head.php'); ?>
+<?php include('layout/head.php'); 
+ if($_SESSION['user_type'] != 1) {
+  header("Location: tickets.php");
+ } 
+?>
 
 <body>
   <?php include('layout/header.php'); ?>
@@ -108,9 +112,9 @@
           </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-12">
           <div class="card info-card">
-            <h2 class="cardh1">OTD KPI</h2>
+            <h2 class="cardh1">KPIs</h2>
             <?php include('layout/dashboard/otd_data.php'); ?>
             <div class="card-body mt-4">
               <span class="kpiTable1_table_response">
@@ -131,7 +135,7 @@
   <?php include('layout/footer.php'); ?>
 
   <script src="assets/js/weeklylog-table.js"></script>
-  <script src="assets/js/kpi-table.js"></script>
+  <!-- <script src="assets/js/kpi-table.js"></script> -->
 </body>
 
 </html>

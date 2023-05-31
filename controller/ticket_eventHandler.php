@@ -29,7 +29,8 @@ if($jsonObj->request_type == 'addEdit'){
 
     $actual_start_date = !empty($user_data[9])?$user_data[9]:0;
     $actual_end_date = !empty($user_data[10])?$user_data[10]:0;
-    $actual_hrs = !empty($user_data[11])?$user_data[11]:0;
+    // $actual_hrs = !empty($user_data[11])?$user_data[11]:0;
+    $zira_link = !empty($user_data[11])?$user_data[11]:0;
 
     $previousStatus = !empty($user_data[12])?$user_data[12]: 'NA';
     $updatedStatus = !empty($user_data[13])?$user_data[13]: 'NA';
@@ -62,9 +63,9 @@ if($jsonObj->request_type == 'addEdit'){
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
             // Update user data into the database 
-            $sqlQ = "UPDATE tickets SET ticket_id=?, type_id=?, c_status=?, assignee_id=?, assigned_date=?, plan_start_date=?, plan_end_date=?, actual_start_date=?, actual_end_date=?, planned_hrs=?, actual_hrs=?, updated_at=NOW()  WHERE id=?"; 
+            $sqlQ = "UPDATE tickets SET ticket_id=?, zira_link=?, type_id=?, c_status=?, assignee_id=?, assigned_date=?, plan_start_date=?, plan_end_date=?, actual_start_date=?, actual_end_date=?, planned_hrs=?, actual_hrs=?, updated_at=NOW()  WHERE id=?"; 
             $stmt = $conn->prepare($sqlQ); 
-            $stmt->bind_param("siiisssssddi", $ticket_id, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs,  $id); 
+            $stmt->bind_param("ssiiisssssddi", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs,  $id); 
             $update = $stmt->execute(); 
  
             if($update){ 
@@ -100,10 +101,10 @@ if($jsonObj->request_type == 'addEdit'){
                 echo json_encode(['error' => "Ticket $ticket_id already exist.<br/>"]);
             } else {
                 // Insert event data into the database 
-                $sqlQ = "INSERT INTO tickets (ticket_id,type_id,c_status,assignee_id,assigned_date,plan_start_date,plan_end_date,actual_start_date,actual_end_date,planned_hrs,actual_hrs)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?)"; 
+                $sqlQ = "INSERT INTO tickets (ticket_id,zira_link,type_id,c_status,assignee_id,assigned_date,plan_start_date,plan_end_date,actual_start_date,actual_end_date,planned_hrs,actual_hrs)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("siiisssssdd", $ticket_id, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs); 
+                $stmt->bind_param("ssiiisssssdd", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs); 
                 $insert = $stmt->execute(); 
 
 

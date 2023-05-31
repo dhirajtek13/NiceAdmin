@@ -1,110 +1,94 @@
 <?php
 
-require_once '../db/config.php';
-require_once '../controller/customFunctions.php';
 
-//get current user id
-session_start();
-$current_user_id =  $_SESSION['user_id'];
-
-// Retrieve JSON from POST body 
-$jsonStr = file_get_contents('php://input');
-$jsonObj = json_decode($jsonStr);
-
-print_r($jsonObj); die();
-
-if ($jsonObj->request_type == 'fetch') {
-
-    $kpiTable1_dateSelected = date("Y-m-d");
-    $kpiTable1_allDaysColArr = x_week_range($kpiTable1_dateSelected);
-
-    $startdate =  $kpiTable1_allDaysColArr[0];
-    $enddate =  $kpiTable1_allDaysColArr[6];
-    $projectSelected = $jsonObj->projectselected;
-
-
-    //no of tickets completed on datetime
-    
-
-    if ($projectSelected) { 
-        $sql2 = "SELECT  cs.type_name AS status_name, name as extract_status_id, COUNT(t.id) AS total_ticketCount, t.created_at, t.actual_end_date
-                    FROM c_status_types AS cs 
-                                RIGHT JOIN (
-                                                SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS name 
-                                                FROM c_status_types 
-                                                INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
-                                                WHERE configurations.name = 'ticket_status_c_status_types' 
-                                            )  AS subs  ON cs.id= name 
-                                    LEFT JOIN tickets as t ON t.c_status = name
-                                    WHERE t.project_id = $projectSelected
-                                    AND DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
-                                    GROUP BY cs.id";
+    //get status to consider 
+    if ($projectSelected) {
+        $sql211 = "SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS status_consider, type_name
+                        FROM c_status_types 
+                        INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
+                        WHERE configurations.name = 'kpi_c_status_types'
+                        AND project_id = $projectSelected";
     } else {
-
-        $sql2 = "SELECT  cs.type_name AS status_name, name as extract_status_id, COUNT(t.id) AS total_ticketCount, t.created_at, t.actual_end_date
-                    FROM c_status_types AS cs 
-                                RIGHT JOIN (
-                                                SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS name 
-                                                FROM c_status_types 
-                                                INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
-                                                WHERE configurations.name = 'ticket_status_c_status_types' 
-                                            )  AS subs  ON cs.id= name 
-                                    LEFT JOIN tickets as t ON t.c_status = name
-                                    WHERE DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
-                                    GROUP BY cs.id"; 
+        $sql211 = "SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS status_consider, type_name
+                        FROM c_status_types 
+                        INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
+                        WHERE configurations.name = 'kpi_c_status_types'";
     }
 
+    $logStatusQuery211 = $conn->query($sql211);
+    $extract_status_idArr = [];
+    $extract_status_idAr = [];
+    if ($logStatusQuery211->num_rows > 0) {
+        while ($row211 = $logStatusQuery211->fetch_assoc()) {
+            $extract_status_idArr[] = $row211['status_consider'];
+            $extract_status_idAr[] = $row211;
+        }
+    }
+
+    // echo "<pre>"; print_r($extract_status_idAr); die();
+    $extract_status_idArrImplode = implode(",", $extract_status_idArr);
+    //no of tickets completed on datetime
+    //TODO - can make single query from above and below query
+    if ($projectSelected) {
+        $sql2 = "SELECT tickets.id, planned_hrs, actual_hrs, project_id, c_status, cs.type_name FROM `tickets` 
+                    LEFT JOIN c_status_types AS cs ON cs.id = tickets.c_status
+                    #WHERE planned_hrs <= actual_hrs
+                    WHERE c_status IN ( $extract_status_idArrImplode )
+                    AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+                    AND project_id = $projectSelected ";
+    } else {
+        $sql2 = "SELECT tickets.id, planned_hrs, actual_hrs, project_id, c_status, cs.type_name FROM `tickets` 
+                    LEFT JOIN c_status_types AS cs ON cs.id = tickets.c_status
+                     WHERE c_status IN ( $extract_status_idArrImplode )
+                     AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+                    #WHERE planned_hrs <= actual_hrs";
+    }
+
+    // echo "<pre>"; print_r($sql2); die();
 
     $logStatusQuery2 = $conn->query($sql2);
     $user_ticketsArr = [];
     if ($logStatusQuery2->num_rows > 0) {
-        while ($row2 = $logStatusQuery2->fetch_assoc()) {
-            $user_ticketsArr[$row2['status_name']] =  $row2;
+        $total_tickets = $logStatusQuery2->num_rows;
+        
+        while ($row2 = $logStatusQuery2->fetch_assoc()) {        
+            if(!isset($metricsArr[$row2['type_name']])){
+                $totalCounter = 0;
+                $otdCounter = 0;
+            }
+            
+            if ($row2['planned_hrs'] >= $row2['actual_hrs']) {
+                $user_ticketsArr[$row2['id']] =  $row2;
+                $otdCounter++;
+            }
+            $totalCounter++;
+            $metricsArr[$row2['type_name']]['total'] = $totalCounter; 
+            $metricsArr[$row2['type_name']]['otd'] = $otdCounter; 
         }
     }
 
-    // echo "<pre>"; print_r($user_ticketsArr); die();
+    $metricstext = '';
+    foreach ($metricsArr as $key => $value) {
+        $metricstext .= $value['total']. ' <i>'.$key.'</i>, '. $value['otd'].' <i>'.$key.'</i> delivered on time. <br>';
+    }
 
-    $sql3 = "SELECT cs.type_name AS status_name, extract_status_id 
-                FROM c_status_types AS cs RIGHT JOIN 
-                ( 
-                    SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS extract_status_id 
-                    FROM c_status_types 
-                    INNER JOIN configurations ON CHAR_LENGTH(configurations.value1) - CHAR_LENGTH(REPLACE(configurations.value1, ',', ''))>=c_status_types.id-1 
-                    WHERE configurations.name = 'ticket_status_c_status_types' 
-                ) AS subs ON cs.id= extract_status_id";
+    //tickets plan hrs <= act hrs / tickets in code review count => kpi
+    $kpi_calc = count($user_ticketsArr) / $total_tickets * 100;
+    // echo "<pre>"; print_r($metricsArr); die();
 
 
-            $logStatusQuery3 = $conn->query($sql3);
-            $extract_status_idArr = [];
-            if ($logStatusQuery3->num_rows > 0) {
-                while ($row3 = $logStatusQuery3->fetch_assoc()) {
-                    $extract_status_idArr[$row3['status_name']] = $row3;
-                }
-            }
+    //fetch kpi configuration
+    $sql3 = "SELECT kpi_name, target_operator, target_value, description FROM kpis WHERE kpi_name='OTD'";
 
-// echo "<pre>"; print_r($extract_status_idArr); die();
+    $logStatusQuery3 = $conn->query($sql3);
+    $kpisArr = [];
+    if ($logStatusQuery3->num_rows > 0) {
+        while ($row3 = $logStatusQuery3->fetch_assoc()) {
+            $kpisArr[$row3['kpi_name']] = $row3;
+        }
+    }
+
+    $kpi_success = false;
+    $metrics = "$total_tickets "
+
 ?>
-        <table id="kpiTable1" class=" kpiTable1class display m-3" style="width:70%">
-            <tr>
-                <?php 
-                foreach ($extract_status_idArr as $key => $value) {
-                    echo "<th>$key</th>";
-                }
-                ?>
-            </tr>
-
-            <tr>
-                <?php 
-                    foreach ($extract_status_idArr as $status_name => $value) {
-                        if(array_key_exists($status_name, $user_ticketsArr)) {
-                            echo "<td>".$user_ticketsArr[$status_name]['total_ticketCount']."</td>";
-                        } else {
-                            echo "<td>0</td>";
-                        }
-                    }
-                ?>
-            </tr>
-        </table>
-    <!-- </span> -->
-<?php } ?>

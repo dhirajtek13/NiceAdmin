@@ -59,7 +59,7 @@
                       <tr>
                           <th>S.N</th>
                           <th>Date</th>
-                          <th>Hours</th>
+                          <th>Logged Hours</th>
                           <th>Status</th>
                           <th>What Is Done</th>
                           <th>What is pending</th>
@@ -71,7 +71,7 @@
                       <tr>
                           <th>S.N</th>
                           <th>Date</th>
-                          <th>Hours</th>
+                          <th>Logged Hours</th>
                           <th>Status</th>
                           <th>What Is Done</th>
                           <th>What is pending</th>

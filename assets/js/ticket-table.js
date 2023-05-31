@@ -84,6 +84,7 @@
     $("#userModalLabel").html("Add New Ticket");
   
     $("#ticket_id").val("");
+    $("#zira_link").val("");
     $("#type_id").val(1);
     $("#c_status").val(5);
     $("#assignee_id").val(1);
@@ -110,6 +111,7 @@
       $("#userModalLabel").html("Edit Ticket #" + user_data.ticket_id);
   
       $("#ticket_id").val(user_data.ticket_id);
+      $("#zira_link").val(user_data.zira_link);
   
       $("#type_id option").filter(function() {return this.text == user_data.ticket_type ;}).attr('selected', true);
       $("#c_status option").filter(function() {return this.text == user_data.c_type_name ;}).attr('selected', true);
@@ -141,7 +143,7 @@
       document.querySelector('select[name="type_id"]').value,
       document.querySelector('select[name="c_status"]').value,
       document.querySelector('select[name="assignee_id"]').value,
-  
+      
       document.getElementById("assigned_date").value,
       document.getElementById("plan_start_date").value,
       document.getElementById("plan_end_date").value,
@@ -150,9 +152,11 @@
       // document.getElementById("actual_start_date").value,
       // document.getElementById("actual_end_date").value,
       // document.getElementById("actual_hrs").value,
-
+      
       document.getElementById("previousStatus").value,
       document.getElementById("updatedStatus").value,
+      
+      document.getElementById("zira_link").value,
       
     ];
   

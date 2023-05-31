@@ -8,6 +8,7 @@ $(document).ready(function () {
   fetchTicketStatusData();
   fetchEffortData();
   fetchCountData();
+  fetchOTDData();
 
 
   var table = $("#phptable").DataTable({
@@ -179,6 +180,42 @@ function fetchCountData() {
     });
 }
 
+function fetchOTDData() {
+  var startdate = $("#otd_start_date").val();
+  var enddate = $("#otd_end_date").val();
+  var projectselected = $("#project_selection").val();
+  // var actual_hrs = $("#project_selection").val();
+
+  fetch("controller/kpi_fetchHandler.php", {
+    method: "POST",
+    dataType: "html",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      request_type: "fetch",
+      startdate: startdate,
+      enddate: enddate,
+      projectselected: projectselected,
+    }),
+  })
+    .then(function (response) {
+      // When the page is loaded convert it to text
+      return response.text();
+    })
+    .then(function (html) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, "text/html");
+      // console.log(doc);
+      var docArticle2 = doc.querySelector(".kpiTable1class").innerHTML;
+
+      $("#kpiTable1").html(docArticle2);
+      // console.log(docArticle);
+    })
+    .catch(function (err) {
+      console.log("Failed to fetch page: ", err);
+    });
+}
 
 function projectLoad() {
   var prj_selected = $("#project_selection").val();

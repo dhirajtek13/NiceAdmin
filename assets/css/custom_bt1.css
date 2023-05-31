@@ -47,6 +47,10 @@ hr {
     font-size: x-large;
     font-weight: bold;
   } 
+
+.kpi_status_i {
+    font-size: xx-large;
+}  
 /* table tr td:last-child {
     text-align: end !important;
 } */
