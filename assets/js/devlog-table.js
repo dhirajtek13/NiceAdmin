@@ -81,8 +81,8 @@
     const dt = new Date();
     dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
     var current_datetime = dt.toISOString().slice(0, 16);
-   // document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
-    //$("#dates").val(current_datetime);
+    document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
+    $("#dates").val(current_datetime);
     $("#hrs").val("");
     var getTicketStatus = $(".getTicketStatusRef1").attr('data-cstatus');
 

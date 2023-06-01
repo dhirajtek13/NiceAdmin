@@ -92,7 +92,7 @@ if($jsonObj->request_type == 'addEdit'){
             if($update){ 
                 //Also add in the log_timings
                 $details = json_encode($user_data);
-                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $ticket_assigned_user, $remark);
+                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $dates, $details, $ticket_assigned_user, $remark);
                 
                 if($shouldUpdate_wip_start_datetime) {
                     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
@@ -137,7 +137,7 @@ if($jsonObj->request_type == 'addEdit'){
                 if ($insert) { 
                     //Also add in the log_timings
                     $details = json_encode($user_data);
-                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $details, $ticket_assigned_user);
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $dates, $details, $ticket_assigned_user);
 
                     if($shouldUpdate_wip_start_datetime) {
                         updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
@@ -180,12 +180,12 @@ if($jsonObj->request_type == 'addEdit'){
     } 
 }
 
-function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $details='', $assignee_id, $remark='') {
+function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $dates, $details='', $assignee_id, $remark='') {
 
-    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id,remark)
-                VALUES (?,?,?,?,?,?,?)"; 
+    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id,remark, dates)
+                VALUES (?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("iiissis", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id,$remark); 
+                $stmt->bind_param("iiississ", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id,$remark,$dates); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
 }

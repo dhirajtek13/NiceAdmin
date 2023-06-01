@@ -28,91 +28,28 @@ if ($jsonObj->request_type == 'fetch') {
      */
         require_once '../controller/otd_fetchHandler.php';//OTD
 
-        switch ($kpisArr['OTD']['target_operator']) {
-            case '>':
-                if ($kpi_calc > $kpisArr['OTD']['target_value']) {
-                    $kpi_success = true;
-                }
-                break;
-            case '<':
-                if ($kpi_calc < $kpisArr['OTD']['target_value']) {
-                    $kpi_success = true;
-                }
-                break;
-            case '>=':
-                if ($kpi_calc >= $kpisArr['OTD']['target_value']) {
-                    $kpi_success = true;
-                }
-                break;
-            case '<=':
-                if ($kpi_calc <= $kpisArr['OTD']['target_value']) {
-                    $kpi_success = true;
-                }
-                break;
-            case '==':
-                if ($kpi_calc == $kpisArr['OTD']['target_value']) {
-                    $kpi_success = true;
-                }
-                break;
-            
-            default:
-                $kpi_success = false;
-                break;
-        }
-     
-
     /**
      * ODD
      */ 
-    require_once '../controller/odd_fetchHandler.php';//ODD
-        switch ($odd_kpisArr['ODD']['target_operator']) {
-            case '>':
-                if ($odd_kpi_calc > $odd_kpisArr['ODD']['target_value']) {
-                    $odd_kpi_success = true;
-                }
-                break;
-            case '<':
-                if ($odd_kpi_calc < $odd_kpisArr['ODD']['target_value']) {
-                    $odd_kpi_success = true;
-                }
-                break;
-            case '>=':
-                if ($odd_kpi_calc >= $odd_kpisArr['ODD']['target_value']) {
-                    $odd_kpi_success = true;
-                }
-                break;
-            case '<=':
-                if ($odd_kpi_calc <= $odd_kpisArr['ODD']['target_value']) {
-                    $odd_kpi_success = true;
-                }
-                break;
-            case '==':
-                if ($odd_kpi_calc == $odd_kpisArr['ODD']['target_value']) {
-                    $odd_kpi_success = true;
-                }
-                break;
-            
-            default:
-                $odd_kpi_success = false;
-                break;
-        }
+        require_once '../controller/odd_fetchHandler.php';//ODD
+    
 
     /**
      * Resource Utilization
     */ 
 
-    require_once '../controller/resource_utilization_fetchHandler.php';//resource utilization
+     //   require_once '../controller/resource_utilization_fetchHandler.php';//resource utilization
     
     
     /**
      * FTR
      */
-    require_once '../controller/ftr_fetchHandler.php';//resource utilization
+  //  require_once '../controller/ftr_fetchHandler.php';//resource utilization
     
     /**
      * Productivity
      */
-    require_once '../controller/productivity_fetchHandler.php';//productivity
+   // require_once '../controller/productivity_fetchHandler.php';//productivity
     // $prod_kpi_status = false;
 
 
@@ -130,36 +67,19 @@ if ($jsonObj->request_type == 'fetch') {
         </tr>
         <tr class="">
             <td>OTD</td>
-            
-            <td><?= $kpisArr['OTD']['target_value'] ?>%</td>
+            <td><?= $otd_target_value ?></td>
             <td><?= $metricstext ?></td>
-            <td><?= round($kpi_calc, 2) ?>%</td>
-            <td>
-                <?php
-                if ( $kpi_success == true) {
-                    // $kpi_success = true;
-                    //show green
-                    echo '<i class="bx bxs-check-square kpi_status_i"></i>';
-                } else {
-                    echo '<i class="bx bxs-x-circle kpi_status_i"></i>';
-                }
-                ?>
-            </td>
+            <td><?= $kpi_calc ?></td>
+            <td><?= $kpi_success ?></td>
         </tr>
         <tr class="">
             <td>ODD</td>
-            <td><?= $odd_kpisArr['ODD']['target_value'] ?>%</td>
+            <td><?= $odd_target_value ?></td>
             <td><?= $odd_metricstext ?></td>
-            <td><?= round($odd_kpi_calc, 2) ?>%</td>
-            <td>
-                <?php if ($odd_kpi_success == true) {
-                    echo '<i class="bx bxs-check-square kpi_status_i"></i>';
-                } else {
-                    echo '<i class="bx bxs-x-circle kpi_status_i"></i>';
-                }
-                ?>
-            </td>
+            <td><?= $odd_kpi_calc ?></td>
+            <td><?= $odd_kpi_success ?></td>
         </tr>
+        <!--
         <tr>
             <td>Resource Utilization</td>
             <td><?= $ru_kpisArr['Resource Utilization']['target_value'] ?>%</td>
@@ -201,6 +121,6 @@ if ($jsonObj->request_type == 'fetch') {
                 }
                 ?>
             </td>
-        </tr>
+        </tr> -->
     </table>
 </div>
