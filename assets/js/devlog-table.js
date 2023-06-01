@@ -81,10 +81,11 @@
     const dt = new Date();
     dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
     var current_datetime = dt.toISOString().slice(0, 16);
-    document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
-    $("#dates").val(current_datetime);
+   // document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
+    //$("#dates").val(current_datetime);
     $("#hrs").val("");
-    var getTicketStatus = $(".getTicketStatusRef").attr('data-ticketstatus');
+    var getTicketStatus = $(".getTicketStatusRef1").attr('data-cstatus');
+
     $("#c_status").val(getTicketStatus); 
     // $("#c_status option").filter(function() {return this.text == getTicketStatus ;}).attr('selected', true);
     $("#what_is_done").val("");
@@ -149,12 +150,14 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.status == 1) {
+          $("#dataList").DataTable().draw();
+          
           Swal.fire({
             title: data.msg,
             icon: "success",
           }).then((result) => {
             // Redraw the table
-            $("#dataList").DataTable().draw();
+            
   
             $("#userDataModal").modal("hide");
             $("#userDataFrm")[0].reset();
