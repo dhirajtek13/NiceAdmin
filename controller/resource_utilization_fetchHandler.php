@@ -2,8 +2,10 @@
 
 //Resource Utilization [( total hrs actual hrs * working day * members in project )if logged hrs of each day are there / 40hrs   220/240 log => 90% (compare with 80%). green if it greater target   ]
     $CODE_REVIEW_STATUS = 7;
-    $WORKING_HRS = 7;
-    $WORKING_DAY = 6;
+    $WORKING_HRS = $config_actual_hrs;// from dashboard configuration
+    $WORKING_DAY = 5;
+
+
     if ($projectSelected) {
         $sql31 = "SELECT tickets.id, planned_hrs, actual_hrs, project_id, c_status FROM `tickets`  
                    # WHERE c_status= $CODE_REVIEW_STATUS
@@ -48,7 +50,7 @@
 
     $actual_hrs_week = $total_actual_hrs * $WORKING_DAY * $total_members;
     $shouldbe_hrs_week = $WORKING_HRS * $WORKING_DAY * $total_members;
-    $ruPerc = round((( $actual_hrs_week ) / ( $shouldbe_hrs_week ) ) * 100 , 2);
+    $ru_kpi_calc = round((( $actual_hrs_week ) / ( $shouldbe_hrs_week ) ) * 100 , 2);
 
     //fetch kpi configuration
     $sql32 = "SELECT kpi_name, target_operator, target_value, description FROM kpis WHERE kpi_name='Resource Utilization'";
@@ -62,16 +64,24 @@
     }
 
     $ru_kpi_success = false;
-    if($ruPerc >= $ru_kpisArr['Resource Utilization']['target_value'] ) {
+    $ru_target_value = $ru_kpisArr['Resource Utilization']['target_value'];
+    if($ru_kpi_calc >= $ru_target_value ) {
         $ru_kpi_success = true;
-        $ruPerc = 100;
+        $ru_kpi_calc = 100;
     }
 
+    $ru_target_value =  $ru_target_value.'%';
     $ru_metricstext = '';
     // foreach ($ftr_metricsArr as $key => $value) {
-        $ru_metricstext .= $actual_hrs_week ." / ".$shouldbe_hrs_week." hours";
+        $ru_metricstext .= $actual_hrs_week ." / ".$shouldbe_hrs_week." hours ($total_members members)";
         // $metricstext .= "160/160 hours";
     // }
+
+    if ( $ru_kpi_success == true) {
+        $ru_kpi_success =  '<i class="bx bxs-check-square kpi_status_i"></i>';
+    } else {
+        $ru_kpi_success = '<i class="bx bxs-x-circle kpi_status_i"></i>';
+    }
 
     // echo "<pre>"; print_r($res_utilArr['total_actual_hrs']); die();
 

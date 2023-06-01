@@ -29,7 +29,7 @@ $(document).ready(function () {
 function reloadData() {
   var dateselected = $("#dateSelected").val();
   var projectselected = $("#project_selection").val();
-  var actual_hrs = $("#project_selection").val();
+  var actual_hrs = $("#hidden_actual_hrs").val();
 
   fetch("controller/weekly_fetchHandler.php", {
     method: "POST",
@@ -184,6 +184,8 @@ function fetchOTDData() {
   var startdate = $("#otd_start_date").val();
   var enddate = $("#otd_end_date").val();
   var projectselected = $("#project_selection").val();
+  var actual_hrs = $("#hidden_actual_hrs").val();
+  // alert(actual_hrs);
   // var actual_hrs = $("#project_selection").val();
 
   fetch("controller/kpi_fetchHandler.php", {
@@ -197,6 +199,7 @@ function fetchOTDData() {
       startdate: startdate,
       enddate: enddate,
       projectselected: projectselected,
+      actual_hrs:actual_hrs
     }),
   })
     .then(function (response) {

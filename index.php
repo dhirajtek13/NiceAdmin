@@ -10,7 +10,6 @@
   <?php include('controller/customFunctions.php'); ?>
   <?php include('db/fetchConfiguration.php'); ?>
 
-
   <?php include('layout/sidebar.php'); ?>
 
 

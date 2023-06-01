@@ -81,7 +81,7 @@ $odd_extract_status_idArrImplode = implode(",", $odd_extract_status_idArr);
 // }
 
 $odd_kpi_success = false;
-$odd_metricstext = '0 tickets';
+$odd_metricstext = '0 ticket';
 $odd_kpi_calc = '0';
 $odd_kpisArr = [];
 // $otd_target_value = '-';

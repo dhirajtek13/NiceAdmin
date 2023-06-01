@@ -87,7 +87,7 @@
 
     // echo "<pre>"; print_r($tickets_to_consider); die();
     $kpi_success = false;
-    $metricstext = '0 tickets';
+    $metricstext = '0 ticket';
     $kpi_calc = '0';
     $kpisArr = [];
     // $otd_target_value = '-';
@@ -192,8 +192,6 @@
     }
 
     if ( $kpi_success == true) {
-        // $kpi_success = true;
-        //show green
         $kpi_success =  '<i class="bx bxs-check-square kpi_status_i"></i>';
     } else {
         $kpi_success = '<i class="bx bxs-x-circle kpi_status_i"></i>';

@@ -19,37 +19,37 @@ if ($jsonObj->request_type == 'fetch') {
     $startdate =  $jsonObj->startdate;
     $enddate = $jsonObj->enddate;
     $projectSelected = $jsonObj->projectselected;
-
+    $config_actual_hrs = $jsonObj->actual_hrs;
+    
     $allDaysColArr = x_week_range($startdate);
 
 
     /**
      * OTD Calculation
      */
-        require_once '../controller/otd_fetchHandler.php';//OTD
+    require_once '../controller/otd_fetchHandler.php'; //OTD
 
     /**
      * ODD
-     */ 
-        require_once '../controller/odd_fetchHandler.php';//ODD
-    
+     */
+    require_once '../controller/odd_fetchHandler.php'; //ODD
+
 
     /**
      * Resource Utilization
-    */ 
+     */
+    require_once '../controller/resource_utilization_fetchHandler.php'; //resource utilization
 
-     //   require_once '../controller/resource_utilization_fetchHandler.php';//resource utilization
-    
-    
+
     /**
      * FTR
      */
-  //  require_once '../controller/ftr_fetchHandler.php';//resource utilization
-    
+    //  require_once '../controller/ftr_fetchHandler.php';//resource utilization
+
     /**
      * Productivity
      */
-   // require_once '../controller/productivity_fetchHandler.php';//productivity
+    // require_once '../controller/productivity_fetchHandler.php';//productivity
     // $prod_kpi_status = false;
 
 
@@ -79,8 +79,15 @@ if ($jsonObj->request_type == 'fetch') {
             <td><?= $odd_kpi_calc ?></td>
             <td><?= $odd_kpi_success ?></td>
         </tr>
-        <!--
         <tr>
+            <td>Resource Utilization</td>
+            <td><?= $ru_target_value ?></td>
+            <td><?= $ru_metricstext ?></td>
+            <td><?= $ru_kpi_calc ?></td>
+            <td><?= $ru_kpi_success ?></td>
+        </tr>
+
+        <!-- <tr>
             <td>Resource Utilization</td>
             <td><?= $ru_kpisArr['Resource Utilization']['target_value'] ?>%</td>
             <td><?= $ru_metricstext ?></td>
@@ -93,7 +100,8 @@ if ($jsonObj->request_type == 'fetch') {
                 }
                 ?>
             </td>
-        </tr>
+        </tr> -->
+        <!--
         <tr>
             <td>Quality (FTR)</td>
             <td><?= $ftr_kpisArr['FTR']['target_value'] ?>%</td>
