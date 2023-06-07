@@ -50,6 +50,7 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
         $kpi_selected_status_arr = explode(",", $CONFIG_ALL['kpi_c_status_types']['value1']);
         $ftr_selected_status_arr = explode(",", $CONFIG_ALL['ftr_c_status_types']['value1']);
         $prod_selected_status_arr = explode(",", $CONFIG_ALL['prod_c_status_types']['value1']);
+        $reassigned_selected_status_arr = explode(",", $CONFIG_ALL['reassigned_c_status_types']['value1']);
         $ticket_status_selected_status_arr = explode(",", $CONFIG_ALL['ticket_status_c_status_types']['value1']);
 
         $sql = "SELECT * FROM c_status_types";
@@ -58,6 +59,7 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
         $kpi_c_status_types_row = '<select name="kpi_c_status_types[]" id="kpi_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $ftr_c_status_types_row = '<select name="ftr_c_status_types[]" id="ftr_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $prod_c_status_types_row = '<select name="prod_c_status_types[]" id="prod_c_status_types" class="form-control"  multiple aria-label="multiple select">';
+        $reassigned_c_status_types_row = '<select name="reassigned_c_status_types[]" id="reassigned_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $ticket_status_c_status_types_row = '<select name="ticket_status_c_status_types[]" id="ticket_status_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         // $c_status_types_row .= '<option value="0" disabled>Select Project</option>';
         if ($c_status_types->num_rows > 0) {
@@ -79,6 +81,11 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
                 } else {
                     $prod_c_status_types_row .= '<option value="'.$id.'">'.$name.'</option>';
                 }
+                if (in_array($id, $reassigned_selected_status_arr)) {
+                    $reassigned_c_status_types_row .= '<option value="'.$id.'" selected>'.$name.'</option>';
+                } else {
+                    $reassigned_c_status_types_row .= '<option value="'.$id.'">'.$name.'</option>';
+                }
                 if (in_array($id, $ticket_status_selected_status_arr)) {
                     $ticket_status_c_status_types_row .= '<option value="'.$id.'" selected>'.$name.'</option>';
                 } else {
@@ -89,6 +96,7 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
        $kpi_c_status_types_row .= '</option></select>';
        $ftr_c_status_types_row .= '</option></select>';
        $prod_c_status_types_row .= '</option></select>';
+       $reassigned_c_status_types_row .= '</option></select>';
        $ticket_status_c_status_types_row .= '</option></select>';
 } else {
 

@@ -11,8 +11,6 @@
  *		100-90 = 10 => 100% green
  * 
  */
-$allDaysColArr[0] = '2023-06-01';
-$allDaysColArr[6] = '2023-06-14';
 
 //1) pick which status to choose 
 //get status to consider 
@@ -84,6 +82,7 @@ $prod_metricstext = '0 ticket';
 $prod_kpi_success = false;
 $prod_kpi_calc = '0';
 $prod_kpisArr = [];
+$prod_metricsArr = [];
 if (!empty($tickets_to_consider)) {
     $extract_tickets_to_considerArrImplode = implode(",", $tickets_to_consider);
     /**
@@ -167,6 +166,9 @@ if ($prod_kpi_calc >= -10) {
 
 
 $prod_metricstext = '';
+if(empty($prod_metricsArr)){
+    $prod_metricstext = '0 code review';
+}
 //143/101 (For Code Review) +29.37
 // echo "<pre>";  print_r($prod_metricsArr); die();
 foreach ($prod_metricsArr as $key => $value) {

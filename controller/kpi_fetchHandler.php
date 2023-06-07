@@ -23,8 +23,6 @@ if ($jsonObj->request_type == 'fetch') {
     
     $allDaysColArr = x_week_range($startdate);
 
-
-
     /**
      * OTD Calculation
      */
@@ -51,6 +49,11 @@ if ($jsonObj->request_type == 'fetch') {
      * Productivity
      */
     require_once '../controller/productivity_fetchHandler.php';//productivity
+
+    /**
+     * Productivity
+     */
+    require_once '../controller/reassigned_fetchHandler.php';//productivity
     // $prod_kpi_status = false;
 
 
