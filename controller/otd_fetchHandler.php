@@ -86,9 +86,9 @@
     }
 
     // echo "<pre>"; print_r($tickets_to_consider); die();
-    $kpi_success = false;
-    $metricstext = '0 ticket';
-    $kpi_calc = '0';
+    $otd_kpi_success = false;
+    $otd_metricstext = '0 ticket';
+    $otd_kpi_calc = '0';
     $kpisArr = [];
     // $otd_target_value = '-';
     if(!empty($tickets_to_consider)) {
@@ -109,7 +109,7 @@
 
 
         $logStatusQuery13 = $conn->query($sql13);
-        $user_ticketsArr = [];
+        $user_ticketsArr = [];$metricsArr=[];
         if ($logStatusQuery13->num_rows > 0) {
             //  $total_tickets = $logStatusQuery13->num_rows;
             
@@ -131,13 +131,16 @@
 
            
 
-        $metricstext = '';
+        $otd_metricstext = '';
+        if(empty($metricsArr)){
+            $otd_metricstext = '0 ticket';
+        }
         foreach ($metricsArr as $key => $value) {
-            $metricstext .= $value['total']. ' <i>'.$key.'</i>, '. $value['otd'].' <i>'.$key.'</i> delivered on time. <br>';
+            $otd_metricstext .= $value['total']. ' <i>'.$key.'</i>, '. $value['otd'].' <i>'.$key.'</i> delivered on time. <br>';
         }
        
         //tickets plan hrs <= act hrs / tickets in code review count => kpi
-        $kpi_calc =  round(count($user_ticketsArr) / $total_tickets * 100, 2);
+        $otd_kpi_calc =  round(count($user_ticketsArr) / $total_tickets * 100, 2);
 
     } 
 
@@ -157,33 +160,33 @@
         $otd_target_value = $kpisArr['OTD']['target_value'];
         switch ($kpisArr['OTD']['target_operator']) {
             case '>':
-                if ($kpi_calc > $otd_target_value) {
-                    $kpi_success = true;
+                if ($otd_kpi_calc > $otd_target_value) {
+                    $otd_kpi_success = true;
                 }
                 break;
             case '<':
-                if ($kpi_calc < $otd_target_value) {
-                    $kpi_success = true;
+                if ($otd_kpi_calc < $otd_target_value) {
+                    $otd_kpi_success = true;
                 }
                 break;
             case '>=':
-                if ($kpi_calc >= $otd_target_value) {
-                    $kpi_success = true;
+                if ($otd_kpi_calc >= $otd_target_value) {
+                    $otd_kpi_success = true;
                 }
                 break;
             case '<=':
-                if ($kpi_calc <= $otd_target_value) {
-                    $kpi_success = true;
+                if ($otd_kpi_calc <= $otd_target_value) {
+                    $otd_kpi_success = true;
                 }
                 break;
             case '==':
-                if ($kpi_calc == $otd_target_value) {
-                    $kpi_success = true;
+                if ($otd_kpi_calc == $otd_target_value) {
+                    $otd_kpi_success = true;
                 }
                 break;
             
             default:
-                $kpi_success = false;
+                $otd_kpi_success = false;
                 break;
         }
 
@@ -191,10 +194,10 @@
 
     }
 
-    if ( $kpi_success == true) {
-        $kpi_success =  '<i class="bx bxs-check-square kpi_status_i"></i>';
+    if ( $otd_kpi_success == true) {
+        $otd_kpi_success =  '<i class="bx bxs-check-square kpi_status_i"></i>';
     } else {
-        $kpi_success = '<i class="bx bxs-x-circle kpi_status_i"></i>';
+        $otd_kpi_success = '<i class="bx bxs-x-circle kpi_status_i"></i>';
     }
    
 

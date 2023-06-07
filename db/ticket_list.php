@@ -33,7 +33,7 @@ $table = <<<EOT
     ON tickets.assignee_id = users.id
     LEFT JOIN 	log_history
     ON tickets.id = log_history.ticket_id
-    GROUP BY log_history.ticket_id
+    GROUP BY tickets.id
     ORDER BY tickets.id DESC
  ) temp
 EOT; 

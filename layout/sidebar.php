@@ -2,14 +2,14 @@
   <aside id="sidebar" class="sidebar">
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
+    <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 1) { ?>
       <li class="nav-item">
         <a class="nav-link " href="index.php">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
-
+      <?php } ?>
 
       <li class="nav-heading">Pages</li>
 

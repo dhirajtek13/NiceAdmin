@@ -24,6 +24,7 @@ if ($jsonObj->request_type == 'fetch') {
     $allDaysColArr = x_week_range($startdate);
 
 
+
     /**
      * OTD Calculation
      */
@@ -44,12 +45,12 @@ if ($jsonObj->request_type == 'fetch') {
     /**
      * FTR
      */
-    //  require_once '../controller/ftr_fetchHandler.php';//resource utilization
+     require_once '../controller/ftr_fetchHandler.php';//resource utilization
 
     /**
      * Productivity
      */
-    // require_once '../controller/productivity_fetchHandler.php';//productivity
+    require_once '../controller/productivity_fetchHandler.php';//productivity
     // $prod_kpi_status = false;
 
 
@@ -65,7 +66,38 @@ if ($jsonObj->request_type == 'fetch') {
             <th>% Achieved</th>
             <th>Status</th>
         </tr>
-        <tr class="">
+
+<?php 
+//fetch KPIS from KPI Master
+$sql_01 = "SELECT * FROM kpis";
+$logStatusQuery01 = $conn->query($sql_01);
+$kpis_data = [];
+if ($logStatusQuery01->num_rows > 0) {
+    while ($row01 = $logStatusQuery01->fetch_assoc()) {
+        $kpis_data[] = $row01;
+    }
+}
+
+
+foreach ($kpis_data as $key => $kpi) {
+    // echo "<pre>"; print_r($kpi); die();
+   
+    echo "<tr>";
+    $target_value = $kpi['shortname']."_target_value";
+    $metricstext = $kpi['shortname']."_metricstext";
+    $kpi_calc = $kpi['shortname']."_kpi_calc";
+    $kpi_success = $kpi['shortname']."_kpi_success";
+    echo "<td>".$kpi['kpi_name']."</td>";
+    echo "<td>". $kpi['target_value']. "%</td>";
+    echo "<td>".$$metricstext. "</td>";
+    echo "<td>".$$kpi_calc. "</td>";
+    echo "<td>".$$kpi_success. "</td>";
+    echo "</tr>";
+}
+
+?>
+
+        <!-- <tr class="">
             <td>OTD</td>
             <td><?= $otd_target_value ?></td>
             <td><?= $metricstext ?></td>
@@ -86,37 +118,24 @@ if ($jsonObj->request_type == 'fetch') {
             <td><?= $ru_kpi_calc ?></td>
             <td><?= $ru_kpi_success ?></td>
         </tr>
-
-        <!-- <tr>
-            <td>Resource Utilization</td>
-            <td><?= $ru_kpisArr['Resource Utilization']['target_value'] ?>%</td>
-            <td><?= $ru_metricstext ?></td>
-            <td><?= $ruPerc ?>%</td>
-            <td>
-                <?php if ($ru_kpi_success == true) {
-                    echo '<i class="bx bxs-check-square kpi_status_i"></i>';
-                } else {
-                    echo '<i class="bx bxs-x-circle kpi_status_i"></i>';
-                }
-                ?>
-            </td>
-        </tr> -->
-        <!--
         <tr>
             <td>Quality (FTR)</td>
-            <td><?= $ftr_kpisArr['FTR']['target_value'] ?>%</td>
+            <td><?= $ftr_target_value ?></td>
             <td><?= $ftr_metricstext ?></td>
-            <td><?= $ftrPerc ?>%</td>
-            <td>
-                <?php if ($ftr_kpi_success == true) {
-                    echo '<i class="bx bxs-check-square kpi_status_i"></i>';
-                } else {
-                    echo '<i class="bx bxs-x-circle kpi_status_i"></i>';
-                }
-                ?>
-            </td>
-        </tr>
-        <tr>
+            <td><?= $ftr_kpi_calc ?></td>
+            <td><?= $ftr_kpi_success ?></td>
+        </tr> -->
+
+        <!-- <tr>
+            <td>Productivity</td>
+            <td><?= $prod_target_value ?></td>
+            <td><?= $prod_metricstext ?></td>
+            <td><?= $prod_kpi_calc ?></td>
+            <td><?= $prod_kpi_success ?></td>
+        </tr> -->
+        
+        
+        <!-- <tr>
             <td>Productivity</td>
             <td><?= $prod_kpisArr['productivity']['target_value'] ?>%</td>
             <td><?= $prod_metricstext ?></td>

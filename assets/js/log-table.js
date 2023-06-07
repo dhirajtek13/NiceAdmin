@@ -129,12 +129,13 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.status == 1) {
+          $("#dataList").DataTable().draw();
           Swal.fire({
             title: data.msg,
             icon: "success",
           }).then((result) => {
             // Redraw the table
-            $("#dataList").DataTable().draw();
+            
   
             $("#userDataModal").modal("hide");
             $("#userDataFrm")[0].reset();

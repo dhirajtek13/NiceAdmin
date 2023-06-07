@@ -20,11 +20,11 @@
                 ";
     }
 
+    $total_actual_hrs = 0;
     $logStatusQuery31 = $conn->query($sql31);
     $res_utilArr=[];
     if ($logStatusQuery31->num_rows > 0) {
         $total_tickets = $logStatusQuery31->num_rows;
-        $total_actual_hrs = 0;
         while ($row31 = $logStatusQuery31->fetch_assoc()) {
             $total_actual_hrs += $row31['actual_hrs'];
         }

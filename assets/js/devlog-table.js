@@ -150,7 +150,7 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.status == 1) {
-          $("#dataList").DataTable().draw();
+         
           
           Swal.fire({
             title: data.msg,
@@ -158,9 +158,10 @@
           }).then((result) => {
             // Redraw the table
             
-  
             $("#userDataModal").modal("hide");
             $("#userDataFrm")[0].reset();
+            
+            $("#dataList").DataTable().draw();
           });
         } else {
           $(".frm-status").html(
