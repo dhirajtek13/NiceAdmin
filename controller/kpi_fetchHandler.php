@@ -83,7 +83,7 @@ if ($logStatusQuery01->num_rows > 0) {
 
 
 foreach ($kpis_data as $key => $kpi) {
-    // echo "<pre>"; print_r($kpi); die();
+   
    
     echo "<tr>";
     $target_value = $kpi['shortname']."_target_value";
@@ -96,6 +96,11 @@ foreach ($kpis_data as $key => $kpi) {
     echo "<td>".$$kpi_calc. "</td>";
     echo "<td>".$$kpi_success. "</td>";
     echo "</tr>";
+
+    // if($kpi['kpi_name'] == 'Reassigned Tickets') {
+
+    //     echo "<pre>"; print_r($$kpi_calc); die();
+    // }
 }
 
 ?>

@@ -34,14 +34,20 @@
                 <thead>
                     <tr>
                         <th>S.N</th>
-                        <th scope="col">Status Name</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tfoot style="display:table-header-group">
                     <tr>
                         <th>S.N</th>
-                        <th>Status Name</th>
+                        <th> Name</th>
+                        <th> Description</th>
+                        <th> Start Date</th>
+                        <th> End Date</th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -58,10 +64,10 @@
 
   </main><!-- End #main -->
 
-  <?php include "layout/modal/ticketstatus_management_modal.php"; ?>
+  <?php include "layout/modal/holiday_management_modal.php"; ?>
 
   <?php include('layout/footer.php'); ?>
-  <script src="assets/js/ticketstatus-management-table.js"></script>
+  <script src="assets/js/holiday-management-table.js"></script>
   <script>
    
   </script>

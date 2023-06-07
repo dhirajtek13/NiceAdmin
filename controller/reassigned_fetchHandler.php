@@ -1,7 +1,6 @@
 <?php
 
 
-$Reassigned_tickets = [4];
 
 //get status to consider 
 if ($projectSelected) {
