@@ -72,6 +72,14 @@
                 <span>User Type Master</span>
               </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="master_holiday.php">
+                <i class="bi bi-layout-text-window-reverse"></i>
+                <span>Holiday Master</span>
+              </a>
+            </li>
+
           </ul>
         </li>
 
@@ -106,6 +114,13 @@
           </a>
         </li>
       <?php } ?>
+
+      <li class="nav-item">
+          <a class="nav-link collapsed" href="leave_tracker.php">
+            <i class="bi bi-layout-text-window-reverse"></i>
+            <span>Leave Tracker</span>
+          </a>
+        </li>
 
 
     </ul>

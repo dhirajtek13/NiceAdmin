@@ -13,5 +13,18 @@
                               date('Y-m-d', strtotime('next saturday', $start)));
               }
 
+              function dates_month($month, $year) {
+                $num = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+                $dates_month = array();
+            
+                for ($i = 1; $i <= $num; $i++) {
+                    $mktime = mktime(0, 0, 0, $month, $i, $year);
+                    $date = date("d-m-Y", $mktime);
+                    $dates_month[$i] = $date;
+                }
+            
+                return $dates_month;
+            }
+
 
               ?>
