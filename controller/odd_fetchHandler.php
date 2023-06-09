@@ -38,7 +38,7 @@ $odd_extract_status_idArrImplode = implode(",", $odd_extract_status_idArr);
 //     $sql22 = "WITH ranked_messages AS (
 //                 SELECT m.*, ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn, tickets.project_id FROM log_timing AS m 
 //                 LEFT JOIN tickets ON tickets.id = m.ticket_id
-//                 WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+//                 WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
 //                 AND m.c_status IN ($extract_status_idArrImplode)
 //                 AND tickets.project_id = $projectSelected
 //             ) 
@@ -46,7 +46,7 @@ $odd_extract_status_idArrImplode = implode(",", $odd_extract_status_idArr);
 // } else {
 //     $sql22 = "WITH ranked_messages AS (
 //                 SELECT m.*, ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn FROM log_history AS m 
-//                 WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+//                 WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
 //                 AND m.c_status IN ($extract_status_idArrImplode)
 //             ) 
 //             SELECT ticket_id FROM ranked_messages WHERE rn = 1";
@@ -70,14 +70,14 @@ $odd_extract_status_idArrImplode = implode(",", $odd_extract_status_idArr);
 //                 FROM `tickets` 
 //                 LEFT JOIN c_status_types AS cs ON cs.id = tickets.c_status
 //                 WHERE c_status IN ( $odd_extract_status_idArrImplode )
-//                 AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+//                 AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$enddate' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
 //                 AND project_id = $projectSelected ";
 // } else {
 //     $odd_sql23 = "SELECT tickets.id, DATE_FORMAT(`plan_end_date`, '%Y-%m-%d') AS plan_end_date, DATE_FORMAT(`actual_end_date`, '%Y-%m-%d') AS actual_end_date, cs.type_name 
 //             FROM `tickets`
 //             LEFT JOIN c_status_types AS cs ON cs.id = tickets.c_status
 //             WHERE c_status IN ( $odd_extract_status_idArrImplode )
-//             AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')";
+//             AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$enddate' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')";
 // }
 
 $odd_kpi_success = false;

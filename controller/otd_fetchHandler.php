@@ -32,8 +32,8 @@
     //no of tickets completed on datetime
     // echo "<pre>"; print_r($extract_status_idArrImplode); die(); //3,7
 
-    // $allDaysColArr[0] = '2023-05-01';
-    // $allDaysColArr[6] = '2023-05-14';
+    // $startdate = '2023-05-01';
+    // $enddate = '2023-05-14';
     /**
      * 2) Fetch tickets to consider as per the date range and final(last) ticket status in that date range
      */
@@ -42,7 +42,7 @@
                     SELECT cs.type_name, tickets.plan_end_date, m.*, ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn, tickets.project_id FROM log_timing AS m 
                     LEFT JOIN tickets ON tickets.id = m.ticket_id
                     LEFT JOIN c_status_types AS cs ON cs.id = m.c_status
-                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
                     AND tickets.project_id = $projectSelected
                 ) 
                 SELECT ticket_id,plan_end_date,dates,c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_status_idArrImplode)";
@@ -51,7 +51,7 @@
                     SELECT  cs.type_name, tickets.plan_end_date, m.*, ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn FROM log_timing AS m 
                     LEFT JOIN tickets ON tickets.id = m.ticket_id
                     LEFT JOIN c_status_types AS cs ON cs.id = m.c_status
-                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
                 ) 
                 SELECT ticket_id,plan_end_date,dates, c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_status_idArrImplode)";
     }
@@ -102,8 +102,8 @@
                     FROM log_history AS lh 
                     LEFT JOIN tickets AS tickets ON tickets.id = lh.ticket_id 
                     LEFT JOIN c_status_types AS cs ON cs.id = lh.c_status 
-                    WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' 
-                    AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+                    WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$startdate' 
+                    AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$enddate' 
                     AND lh.ticket_id IN ($extract_tickets_to_considerArrImplode) 
                     GROUP BY lh.ticket_id";
 

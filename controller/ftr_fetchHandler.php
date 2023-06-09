@@ -6,8 +6,8 @@
  */
 
 //  $REWORK_STATUS = '10, 11, 12';
-$allDaysColArr[0] = '2023-05-01';
-$allDaysColArr[6] = '2023-06-10';
+// $startdate = '2023-05-01';
+// $enddate = '2023-06-10';
 
     //get status to consider 
     if ($projectSelected) {
@@ -32,10 +32,10 @@ $allDaysColArr[6] = '2023-06-10';
     //tickets to consider. pick those tickets of which reworks is done in between selected time range
     if ($projectSelected) {
         $sql411 = "SELECT log_timing.ticket_id, log_timing.c_status FROM `log_timing` LEFT JOIN tickets ON tickets.id = log_timing.ticket_id 
-                        WHERE DATE_FORMAT(`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]'  
-                        AND DATE_FORMAT(`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND tickets.project_id=$projectSelected";
+                        WHERE DATE_FORMAT(`dates`, '%Y-%m-%d') >= '$startdate'  
+                        AND DATE_FORMAT(`dates`, '%Y-%m-%d') <= '$enddate' AND tickets.project_id=$projectSelected";
     } else {
-        $sql411 = "SELECT ticket_id, c_status FROM `log_timing` WHERE DATE_FORMAT(`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]'  AND DATE_FORMAT(`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]'";
+        $sql411 = "SELECT ticket_id, c_status FROM `log_timing` WHERE DATE_FORMAT(`dates`, '%Y-%m-%d') >= '$startdate'  AND DATE_FORMAT(`dates`, '%Y-%m-%d') <= '$enddate'";
     }
     $logStatusQuery411 = $conn->query($sql411);
     if ($logStatusQuery411->num_rows > 0) {
@@ -64,8 +64,8 @@ $allDaysColArr[6] = '2023-06-10';
                     FROM log_history AS lh 
                     LEFT JOIN tickets AS tickets ON tickets.id = lh.ticket_id 
                     LEFT JOIN c_status_types AS cs ON cs.id = lh.c_status 
-                    WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' 
-                    AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+                    WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$startdate' 
+                    AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$enddate' 
                     AND lh.ticket_id IN ($extract_tickets_to_considerArrImplode)";
 
 // echo "<pre>"; print_r($sql43); die();  //not using group as of now because of       
@@ -247,13 +247,13 @@ $allDaysColArr[6] = '2023-06-10';
     //     $sql41 = "SELECT tickets.id, c_status, actual_hrs, planned_hrs, ROUND(((planned_hrs /10) + planned_hrs), 2) AS ten_percent_planned_hrs, cs.type_name FROM `tickets` 
     //                     LEFT JOIN c_status_types AS cs ON cs.id = tickets.c_status
     //                     WHERE c_status IN ($reworkStatus_FTR)
-    //                     #AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+    //                     #AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$enddate' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$startdate' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
     //                     AND project_id = $projectSelected";
     // } else {
     //     $sql41 = "SELECT tickets.id, c_status, actual_hrs, planned_hrs, ROUND(((planned_hrs /10) + planned_hrs), 2) AS ten_percent_planned_hrs ,cs.type_name FROM `tickets` 
     //                 LEFT JOIN c_status_types AS cs ON cs.id = tickets.c_status
     //                 WHERE c_status IN ($reworkStatus_FTR)
-    //                 #AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+    //                 #AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$enddate' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$startdate' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
     //                 ";
     // }
 

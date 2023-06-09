@@ -49,7 +49,7 @@ if ($projectSelected) {
                     SELECT cs.type_name, tickets.plan_end_date, m.*, ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn, tickets.project_id FROM log_timing AS m 
                     LEFT JOIN tickets ON tickets.id = m.ticket_id
                     LEFT JOIN c_status_types AS cs ON cs.id = m.c_status
-                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
                     AND tickets.project_id = $projectSelected
                 ) 
                 SELECT ticket_id,plan_end_date,dates,c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_prod_status_idArrImplode)";
@@ -58,7 +58,7 @@ if ($projectSelected) {
                     SELECT  cs.type_name, tickets.plan_end_date, m.*, ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn FROM log_timing AS m 
                     LEFT JOIN tickets ON tickets.id = m.ticket_id
                     LEFT JOIN c_status_types AS cs ON cs.id = m.c_status
-                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+                    WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
                 ) 
                 SELECT ticket_id,plan_end_date,dates, c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_prod_status_idArrImplode)";
 }
@@ -93,7 +93,7 @@ if (!empty($tickets_to_consider)) {
         FROM `log_history` 
         LEFT JOIN tickets ON log_history.ticket_id = tickets.id 
         LEFT JOIN c_status_types AS cs ON cs.id = log_history.c_status 
-        WHERE DATE_FORMAT(log_history.`dates`, '%Y-%m-%d') >= '$allDaysColArr[0]' AND DATE_FORMAT(log_history.`dates`, '%Y-%m-%d') <= '$allDaysColArr[6]' 
+        WHERE DATE_FORMAT(log_history.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(log_history.`dates`, '%Y-%m-%d') <= '$enddate' 
         AND log_history.ticket_id IN ($extract_tickets_to_considerArrImplode) 
         GROUP BY tickets.id
         
