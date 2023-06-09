@@ -1,56 +1,118 @@
 <?php
 
 //Resource Utilization [( total hrs actual hrs * working day * members in project )if logged hrs of each day are there / 40hrs   220/240 log => 90% (compare with 80%). green if it greater target   ]
-    $CODE_REVIEW_STATUS = 7;
-    $WORKING_HRS = $config_actual_hrs;// from dashboard configuration
-    $WORKING_DAY = 5;
+   
+//fetch hrs to work a day
+//fetch working days in week
+//fetch members in project
 
+$WORKING_HRS = $config_actual_hrs;// from dashboard configuration
+$WORKING_DAY = $CONFIG_ALL['working_days']['value1'];
 
-    if ($projectSelected) {
-        $sql31 = "SELECT tickets.id, planned_hrs, actual_hrs, project_id, c_status FROM `tickets`  
-                   # WHERE c_status= $CODE_REVIEW_STATUS
-                    WHERE project_id = $projectSelected
-                    AND DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
-                    
-                    ";
-    } else {
-        $sql31 = "SELECT tickets.id, planned_hrs, actual_hrs, project_id, c_status FROM `tickets`  
-                #WHERE c_status= $CODE_REVIEW_STATUS
-                WHERE DATE_FORMAT(tickets.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(tickets.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
-                ";
-    }
+//check if we need start and end date as per date range or entire month
+// $startdate = '2023-06-01';
+// $enddate = '2023-06-29';
 
-    $total_actual_hrs = 0;
-    $logStatusQuery31 = $conn->query($sql31);
-    $res_utilArr=[];
-    if ($logStatusQuery31->num_rows > 0) {
-        $total_tickets = $logStatusQuery31->num_rows;
-        while ($row31 = $logStatusQuery31->fetch_assoc()) {
-            $total_actual_hrs += $row31['actual_hrs'];
+//get days without weekends////remove non-working days (weekends) in given range
+$TOTAL_DAYS_IN_RANGE = daysWithoutWeekend($startdate, $enddate);
+
+        //check if anyholiday comes in betwwen start and end date selected
+        $sql1 = "SELECT * FROM holidays 
+                    WHERE DATE_FORMAT(hol_start_date, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(hol_end_date, '%Y-%m-%d')  <= '$enddate'";
+        $logStatusQuery1 = $conn->query($sql1);
+        $holidays = [];
+        if ($logStatusQuery1->num_rows > 0) {
+            while ($row1 = $logStatusQuery1->fetch_assoc()) {
+                //remove substract days from $TOTAL_DAYS_IN_RANGE
+                //holiday should not be in weekend days
+                $skip_weekend_in_holiday = daysWithoutWeekend($row1['hol_start_date'], $row1['hol_end_date']);
+                $TOTAL_DAYS_IN_RANGE = $TOTAL_DAYS_IN_RANGE - $skip_weekend_in_holiday;
+                // $holidays[] = $row1;
+            }
         }
-        $res_utilArr['total_actual_hrs'] = $total_actual_hrs;
-    }
 
+        
 
-    //members in projects 
-    if ($projectSelected) {
-        $sql33 = "SELECT COUNT(user_id) as project_members FROM `project_user_map` WHERE project_id = $projectSelected GROUP BY project_id";
-    } else {
-        $sql33 = "SELECT COUNT(user_id) as project_members FROM `project_user_map`  GROUP BY project_id  ";
-    }
-
-    $logStatusQuery33 = $conn->query($sql33);
-    $res_utilArr=[];
-    if ($logStatusQuery33->num_rows > 0) {
-        $total_members = 0;
-        while ($row33 = $logStatusQuery33->fetch_assoc()) {
-            $total_members +=  $row33['project_members'];
+        //remove leaves of members in this project in given date range
+        if ($projectSelected) {
+            $sql2 = "SELECT * FROM leave_tracker  
+                        LEFT JOIN project_user_map ON project_user_map.user_id=leave_tracker.user_id
+                        WHERE DATE_FORMAT(leave_start_date, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(leave_end_date, '%Y-%m-%d')  <= '$enddate'
+                        AND project_user_map.project_id=$projectSelected
+                        ";
+        } else {
+            $sql2 = "SELECT * FROM leave_tracker 
+                        WHERE DATE_FORMAT(leave_start_date, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(leave_end_date, '%Y-%m-%d')  <= '$enddate'";
         }
-    }
+        $logStatusQuery2 = $conn->query($sql2);
+        $leave_days = [];
+        if ($logStatusQuery2->num_rows > 0) {
+            while ($row2 = $logStatusQuery2->fetch_assoc()) {
+                //remove substract days from $TOTAL_DAYS_IN_RANGE
+                $skip_weekend_in_holiday = daysWithoutWeekend($row2['leave_start_date'], $row2['leave_end_date']);
+                $TOTAL_DAYS_IN_RANGE = $TOTAL_DAYS_IN_RANGE - $skip_weekend_in_holiday;
+                // $leave_days[] = $row2;
+            }
+        }
 
-    $actual_hrs_week = $total_actual_hrs * $WORKING_DAY * $total_members;
-    $shouldbe_hrs_week = $WORKING_HRS * $WORKING_DAY * $total_members;
-    $ru_kpi_calc = round((( $actual_hrs_week ) / ( $shouldbe_hrs_week ) ) * 100 , 2);
+$FINAL_TOTAL_DAYS_TO_COUNT = $TOTAL_DAYS_IN_RANGE;
+
+
+        //get total members
+        if ($projectSelected) {
+            $sql3 = "SELECT * FROM users 
+                        LEFT JOIN project_user_map ON project_user_map.user_id=users.id
+                        WHERE project_user_map.project_id=$projectSelected
+                        ";
+        } else {
+            $sql3 = "SELECT * FROM users ";
+        }
+
+            $logStatusQuery3 = $conn->query($sql3);
+            $membersData = [];
+            if ($logStatusQuery3->num_rows > 0) {
+                $total_members = $logStatusQuery3->num_rows;
+                $PM_count = 0;
+                while ($row3 = $logStatusQuery3->fetch_assoc()) {
+                    if($row3['user_type'] != 1) { //skipping PM
+                        // $membersData[] = $row3;
+                    } else {
+                        $PM_count++;
+                    }
+                }
+                $total_members = $total_members - $PM_count;
+            }
+
+
+//SHOULD BE HRS TO CONSIDER
+$shouldbe_hrs_range = $WORKING_HRS * $FINAL_TOTAL_DAYS_TO_COUNT * $total_members;
+
+
+            //ACTUAL HRS LOGGED
+            if ($projectSelected) {
+                $sql4 = "SELECT SUM(hrs) AS logged_hrs FROM log_history 
+                            LEFT JOIN project_user_map ON project_user_map.user_id=log_history.user_id
+                            WHERE DATE_FORMAT(dates, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(dates, '%Y-%m-%d')  <= '$enddate'
+                            AND project_user_map.project_id=$projectSelected
+                            ";
+            } else {
+                $sql4 = "SELECT  SUM(hrs) AS logged_hrs FROM log_history 
+                            WHERE DATE_FORMAT(dates, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(dates, '%Y-%m-%d')  <= '$enddate' ";
+            }
+            $logStatusQuery4 = $conn->query($sql4);
+            $logged_hrs = 0;
+            if ($logStatusQuery4->num_rows > 0) {
+                while ($row4 = $logStatusQuery4->fetch_assoc()) {
+                    $logged_hrs += $row4['logged_hrs'];
+                }
+            }
+
+//ACTUAL BE HRS TO CONSIDER
+$actual_hrs_range = $logged_hrs;
+
+
+
+    $ru_kpi_calc = round((( $actual_hrs_range ) / ( $shouldbe_hrs_range ) ) * 100 , 2);
 
     //fetch kpi configuration
     $sql32 = "SELECT kpi_name, target_operator, target_value, description FROM kpis WHERE kpi_name='Resource Utilization'";
@@ -73,7 +135,7 @@
     $ru_target_value =  $ru_target_value.'%';
     $ru_metricstext = '';
     // foreach ($ftr_metricsArr as $key => $value) {
-        $ru_metricstext .= $actual_hrs_week ." / ".$shouldbe_hrs_week." hours ($total_members members)";
+        $ru_metricstext .= $actual_hrs_range ." / ".$shouldbe_hrs_range." hours ($total_members members)";
         // $metricstext .= "160/160 hours";
     // }
 
@@ -83,6 +145,19 @@
         $ru_kpi_success = '<i class="bx bxs-x-circle kpi_status_i"></i>';
     }
 
-    // echo "<pre>"; print_r($res_utilArr['total_actual_hrs']); die();
 
+
+function daysWithoutWeekend($startdate, $enddate) {
+    $start = new DateTime($startdate);
+    $end = new DateTime($enddate);
+    $oneday = new DateInterval("P1D");
+    $daysWithoutWeekend = 0;
+    foreach(new DatePeriod($start, $oneday, $end->add($oneday)) as $day) {
+        $day_num = $day->format("N"); /* 'N' number days 1 (mon) to 7 (sun) */
+        if($day_num < 6) { /* weekday */
+            $daysWithoutWeekend++;
+        } 
+    }  
+    return  $daysWithoutWeekend;
+}
 ?>

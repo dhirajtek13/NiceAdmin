@@ -52,15 +52,19 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
         $prod_selected_status_arr = explode(",", $CONFIG_ALL['prod_c_status_types']['value1']);
         $reassigned_selected_status_arr = explode(",", $CONFIG_ALL['reassigned_c_status_types']['value1']);
         $ticket_status_selected_status_arr = explode(",", $CONFIG_ALL['ticket_status_c_status_types']['value1']);
+        $default_project_selected_status_arr = explode(",", $CONFIG_ALL['default_project']['value1']);
 
         $sql = "SELECT * FROM c_status_types";
-        $c_status_types = $conn->query($sql); 
+        $sql2 = "SELECT * FROM projects";
+        $c_status_types = $conn->query($sql);
+        $c_status_types2 = $conn->query($sql2);
         //IMP: row variable here should be same as name in configurations table
         $kpi_c_status_types_row = '<select name="kpi_c_status_types[]" id="kpi_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $ftr_c_status_types_row = '<select name="ftr_c_status_types[]" id="ftr_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $prod_c_status_types_row = '<select name="prod_c_status_types[]" id="prod_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $reassigned_c_status_types_row = '<select name="reassigned_c_status_types[]" id="reassigned_c_status_types" class="form-control"  multiple aria-label="multiple select">';
         $ticket_status_c_status_types_row = '<select name="ticket_status_c_status_types[]" id="ticket_status_c_status_types" class="form-control"  multiple aria-label="multiple select">';
+        $default_project_row = '<select name="default_project[]" id="default_project" class="form-control"  multiple aria-label="select">';
         // $c_status_types_row .= '<option value="0" disabled>Select Project</option>';
         if ($c_status_types->num_rows > 0) {
             while($row = $c_status_types->fetch_assoc()) {
@@ -93,11 +97,23 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
                 }
             }
         }
+        if ($c_status_types2->num_rows > 0) {
+            while($row2 = $c_status_types2->fetch_assoc()) {
+                $id = $row2['id'];
+                $name = $row2['project_name'];
+                if (in_array($id, $default_project_selected_status_arr)) {
+                    $default_project_row .= '<option value="'.$id.'" selected>'.$name.'</option>';
+                } else {
+                    $default_project_row .= '<option value="'.$id.'">'.$name.'</option>';
+                }
+            }
+        }
        $kpi_c_status_types_row .= '</option></select>';
        $ftr_c_status_types_row .= '</option></select>';
        $prod_c_status_types_row .= '</option></select>';
        $reassigned_c_status_types_row .= '</option></select>';
        $ticket_status_c_status_types_row .= '</option></select>';
+       $default_project_row .= '</option></select>';
 } else {
 
     //ticket_types dropdown

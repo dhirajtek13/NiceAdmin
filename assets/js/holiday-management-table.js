@@ -97,22 +97,22 @@ $(document).ready(function () {
     $("#userDataModal").modal("show");
   }
   
+
+
   function editData(user_data) {//TODO
       $(".frm-status").html("");
   
       $("#userModalLabel").html("Edit Type ");
-  
-      // console.log(user_data);
-      // $("#username").val(user_data.username);
-      // $("#email").val(user_data.email);
-      // $("#employee_id").val(user_data.employee_id);
-      // $("#designation").val(user_data.designation);
-      // $("#user_type").val(user_data.user_type);
-      // $("#password").val(user_data.password);
+
+     let start_date = formatDate(user_data.hol_start_date);
+     let end_date = formatDate(user_data.hol_end_date);
+
+     console.log(user_data.hol_start_date);
+
       $("#hol_name").val(user_data.hol_name);
       $("#hol_desc").val(user_data.hol_desc);
-      $("#hol_start_date").val(user_data.hol_start_date);
-      $("#hol_end_date").val(user_data.hol_end_date);
+      $("#hol_start_date").val(start_date);
+      $("#hol_end_date").val(end_date);
       // $("#lname").val(user_data.lname);
       // $("#user_type option").filter(function() {return this.text == user_data.user_hol_name ;}).attr('selected', true);
   
@@ -209,5 +209,19 @@ $(document).ready(function () {
     });
   }
   
+
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
   
   

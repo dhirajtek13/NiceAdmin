@@ -25,11 +25,11 @@
                             </div>
                             <div class="col-md-6">
                                    <label for="hol_start_date" class="form-label">Start Date</label>
-                                    <input type="datetime-local" name="hol_start_date" id="hol_start_date" class="form-control" >
+                                    <input type="date" name="hol_start_date" id="hol_start_date" class="form-control" >
                             </div>
                             <div class="col-md-6">
                                     <label for="hol_end_date" class="form-label">End Date</label>
-                                    <input type="datetime-local" name="hol_end_date" id="hol_end_date" class="form-control" >
+                                    <input type="date" name="hol_end_date" id="hol_end_date" class="form-control" >
                             </div>
                           
                             

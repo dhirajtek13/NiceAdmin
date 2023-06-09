@@ -37,7 +37,11 @@
             if (isset($projectSelected) && $projectSelected == $project_details['project_id']) {
               echo "<option value='" . $project_details['project_id'] . "' selected>" . $project_details['project_name'] . "</option>";
             } else {
-              echo "<option value='" . $project_details['project_id'] . "'>" . $project_details['project_name'] . "</option>";
+              if($CONFIG_ALL['default_project']['value1'] == $project_details['project_id'] ){
+                echo "<option value='" . $project_details['project_id'] . "'selected>" . $project_details['project_name'] . "</option>";
+              } else {
+                echo "<option value='" . $project_details['project_id'] . "'>" . $project_details['project_name'] . "</option>";
+              }
             }
           }
           ?>
