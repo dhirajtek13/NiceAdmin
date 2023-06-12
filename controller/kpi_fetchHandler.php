@@ -92,7 +92,9 @@ foreach ($kpis_data as $key => $kpi) {
     $kpi_success = $kpi['shortname']."_kpi_success";
 
     echo "<tr>";
-    echo "<td>".$kpi['kpi_name']."</td>";
+    echo "<td>";
+    echo "<a href='".$kpi['shortname']."_kpi_detail.php?start_date=".$startdate."&end_date=".$enddate."&project=".$projectSelected."'   >".$kpi['kpi_name']."</a>";
+    echo "</td>";
     echo "<td>".$kpi['target_value']. "%</td>";
     echo "<td>".$$metricstext. "</td>";
     echo "<td>".$$kpi_calc. "</td>";
