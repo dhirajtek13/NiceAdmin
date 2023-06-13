@@ -25,7 +25,7 @@ if ($jsonObj->request_type == 'fetch') {
                     LEFT JOIN log_history AS lh ON lh.ticket_id = t.id
                     LEFT JOIN ticket_types AS tt ON tt.id=t.type_id
                     WHERE t.project_id = $projectSelected 
-                     DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00') 
+                    AND DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00') 
                     GROUP BY t.type_id";
     } else {
         //fetch all projects
@@ -45,7 +45,7 @@ if ($jsonObj->request_type == 'fetch') {
         }
     }
 
-    // echo "<pre>"; print_r($user_ticketsArr); die();
+    // echo "<pre>"; print_r($sql2); die();
 ?>
     <!-- <span class="ticket_status_fetch_html" id="ticket_status_fetch_html"> -->
     <table id="phptable3" class=" phptable3class display m-3" style="width:70%">

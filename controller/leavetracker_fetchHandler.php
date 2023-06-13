@@ -108,6 +108,8 @@ if ($jsonObj->request_type == 'fetch') {
                         }
 
                     }
+                    
+                    // echo '<pre>'; print_r($value); die();
 
                     //weekend check //- working days not fetched. directly 5 working days considered
                     $dt1 = strtotime($value);
@@ -120,7 +122,7 @@ if ($jsonObj->request_type == 'fetch') {
         
                     echo "<td>";
                         echo "<div class='form-check'>";
-                            echo "<input class='form-check-input' type='checkbox'  $disabled id='gridCheck1'   $checked  onclick='updateLeave()'>";
+                            echo '<input class="form-check-input" type="checkbox"  '.$disabled.' id="gridCheck1"   '.$checked.'  onclick="updateLeave(\''.date('Y-m-d',strtotime($value)).'\', \''.$checked.'\')">';
                             echo "<label class='form-check-label' for='gridCheck1'>";
 
                             echo "</label>";

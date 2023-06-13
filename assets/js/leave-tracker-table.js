@@ -68,9 +68,82 @@ function fetchLeaveTrackerData() {
 }
 
 
-function updateLeave() {
+
+function submitUserData() {
+  $(".frm-status").html("");
+
+
+  let input_data_arr = [
+    document.getElementById("leave_desc").value,
+    document.getElementById("leave_type").value,
+
+    document.getElementById("day_type").value,
+    document.getElementById("leave_start_date").value,
+    // document.querySelector('select[name="c_status"]').value,
+    
+    document.getElementById("leave_end_date").value,
+    // document.getElementById("what_is_pending").value,
+    // document.getElementById("what_support_required").value,
+    
+    document.getElementById('editID').value,
+
+    // document.getElementById("remark").value,
+    // document.getElementById("previousStatus").value,
+    // document.getElementById("updatedStatus").value,
+  ];
+
+  fetch("controller/log_eventHandler.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      request_type: "addEdit",
+      user_data: input_data_arr,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status == 1) {
+       
+        
+        Swal.fire({
+          title: data.msg,
+          icon: "success",
+        }).then((result) => {
+          // Redraw the table
+          
+          $("#userDataModal").modal("hide");
+          $("#userDataFrm")[0].reset();
+          
+          $("#dataList").DataTable().draw();
+        });
+      } else {
+        $(".frm-status").html(
+          '<div class="alert alert-danger" role="alert">' +
+            data.error +
+            "</div>"
+        );
+      }
+    })
+    .catch(console.error);
+}
+
+
+function updateLeave(start_date, checked, t) {
     //open modal form to let user enter leave details
     //user can add new leave or if alrady checked then he can cancel his leave in form
-    // alert(11);
-    $("#userDataModal").modal('show');
+    // alert(checked);
+    console.log(t);
+    // alert(start_date);
+
+    $("#leave_start_date").val(start_date);
+
+    if(!checked){
+      $("#userDataModal").modal('show');
+    }
+
+    //refresh table
+    
+
 }

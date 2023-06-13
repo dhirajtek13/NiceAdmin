@@ -11,21 +11,37 @@
                     <div class="container">
                         <div class="row g-3">
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input name="type_name" type="text" class="form-control" id="type_name" placeholder="Type name">
-                                    <label for="floatingName">Status Name</label>
+                                    <input name="leave_desc" type="text" class="form-control" id="leave_desc">
+                                    <label for="leave_desc">Leave Description</label>
                                 </div>
                             </div>
-                          
-                            
-                            <!-- <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input name="password" type="password" class="form-control" id="password" placeholder="Password">
-                                    <label for="floatingPassword">Password</label>
-                                </div>
-                            </div> -->
 
+                            <div class="form-floating col-6">
+                                <select name="leave_type" id="leave_type" class="form-control" >
+                                    <!-- <option value=''>None</option> -->
+                                    <option value='1'>Sick</option>
+                                    <option value='2'>Earned</option>
+                                    <option value='3'>Emergency</option>
+                                </select>
+                                <label for="leave_type">Select Leave Type</label>
+                            </div>
+                            <div class="form-floating col-6">
+                                <select name="day_type" id="day_type" class="form-control" >
+                                    <option value='1'>Full Day</option>
+                                    <option value='2'>Half Day</option>
+                                </select>
+                                <label for="day_type">Select One</label>
+                            </div>
+                            <div class="col-md-6">
+                                    <label for="leave_start_date" class="form-label">Leave Start Date</label>
+                                    <input type="date" name="leave_start_date" id="leave_start_date" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                    <label for="leave_end_date" class="form-label">Leave Start Date</label>
+                                    <input type="date" name="leave_end_date" id="leave_end_date" class="form-control">
+                            </div>
                         </div>
                     </div>
 

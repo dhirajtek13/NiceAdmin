@@ -80,6 +80,12 @@
               </a>
             </li>
 
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="master_leavetypes.php">
+                <i class="bi bi-layout-text-window-reverse"></i>
+                <span>Leave Master</span>
+              </a>
+            </li>
           </ul>
         </li>
 
