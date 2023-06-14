@@ -149,7 +149,8 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
     //fetch assignees dropdown
     $sql = "SELECT * FROM users";
     $assignees = $conn->query($sql);
-    $assignees_row = '<select name="assignee_id" id="assignee_id" class="form-control">';
+    $disabled = ($_SESSION['user_type'] != 1) ? 'disabled': '';//while editing ticket assignining should not get changed
+    $assignees_row = '<select name="assignee_id" id="assignee_id" class="form-control" '.$disabled.' >';
     if ($assignees->num_rows > 0) {
         while($row = $assignees->fetch_assoc()) {
             if($row['user_type'] != 1){ //dont select PM

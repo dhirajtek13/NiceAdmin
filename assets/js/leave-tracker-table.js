@@ -141,6 +141,10 @@ function updateLeave(start_date, checked, t) {
 
     if(!checked){
       $("#userDataModal").modal('show');
+    } else {
+      //uncheck this date//remove this leave//if two days then update to single date, if 3 days then update to 2days
+      
+      
     }
 
     //refresh table

@@ -41,7 +41,7 @@ if(isset($_GET['project'])) {
 
     <div class="pagetitle">
       <div>
-        <h1>Resource Utilization List</h1>
+        <h1>Reassigned List</h1>
       </div>
 
       <div class="row m-2">
@@ -61,8 +61,8 @@ if(isset($_GET['project'])) {
           
         </div>
 
-        <input type="hidden" name="hidden_actual_hrs" id="hidden_actual_hrs" value="<?= $CONFIG_ALL['actual_hrs']['value1'] ?>">
-        <input type="hidden" name="hidden_working_days" id="hidden_working_days" value="<?= $CONFIG_ALL['working_days']['value1'] ?>">
+        <!-- <input type="hidden" name="hidden_actual_hrs" id="hidden_actual_hrs" value="<?= $CONFIG_ALL['actual_hrs']['value1'] ?>">
+        <input type="hidden" name="hidden_working_days" id="hidden_working_days" value="<?= $CONFIG_ALL['working_days']['value1'] ?>"> -->
         <input type="hidden" name="hidden_project" id="hidden_project" value="<?=$project  ?>">
       </div>
 
@@ -91,7 +91,7 @@ if(isset($_GET['project'])) {
   </main><!-- End #main -->
 
   <?php include('layout/footer.php'); ?>
-  <script src="assets/js/ru-table.js"></script>
+  <script src="assets/js/rt-table.js"></script>
   <script>
 
   </script>

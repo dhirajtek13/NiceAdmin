@@ -28,9 +28,9 @@ if ($logStatusQuery51->num_rows > 0) {
 
 
 $Reassigned_tickets_implode = implode(',', $Reassigned_tickets);
-// print_r($Reassigned_tickets_implode); die();
 
 $sql61 = "SELECT COUNT(c_status) AS reassigned_count_of_ticket FROM `log_timing` WHERE c_status IN ($Reassigned_tickets_implode) GROUP BY ticket_id";
+// print_r($sql61); die();
 
 $logStatusQuery61 = $conn->query($sql61);
 $total_reassigned = 0;

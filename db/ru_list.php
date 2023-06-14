@@ -20,8 +20,8 @@ if ($jsonObj->request_type == 'fetch') {
     $enddate = $jsonObj->enddate;
     $projectSelected = $jsonObj->projectSelected;
 
-$startdate = '2023-06-01';
-$enddate = '2023-06-29';
+// $startdate = '2023-06-01';
+// $enddate = '2023-06-29';
     
     $TOTAL_DAYS_IN_RANGE = daysWithoutWeekend($startdate, $enddate);
 
