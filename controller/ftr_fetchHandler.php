@@ -47,15 +47,16 @@
             }
         }
     }
-    // echo "<pre>"; print_r($tickets_to_consider); die();
-
+    
 
     $ftr_kpi_success = false;
     $ftr_metricstext = '0 ticket';
     $ftr_kpi_calc = '0';
     $ftr_kpisArr = [];
     if(!empty($tickets_to_consider)) {
+        $tickets_to_consider = array_unique($tickets_to_consider);
         $extract_tickets_to_considerArrImplode = implode(',', $tickets_to_consider);
+        // echo "<pre>"; print_r($extract_tickets_to_considerArrImplode); die();
 
         /**
          * 3) get total log hrs in between that date range of the eligible tickets as per above queries result
@@ -104,7 +105,7 @@
         }
 
        
-        $allowedLastStatus = [3, 7, 9, 14, 15, 16, 17, 18, 19];
+        $allowedLastStatus = [3, 7, 9, 14, 15, 16, 17, 18, 19];//TODO - fetch from configuration
         $ftr_metricsArr=[];$ftrCounter = 0;
         $total_tickets = 0;
         foreach ($ftr_Arr as $key => $value) {

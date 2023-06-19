@@ -24,7 +24,7 @@ if ($jsonObj->request_type == 'fetch') {
 // $enddate = '2023-06-29';
     
     $TOTAL_DAYS_IN_RANGE = daysWithoutWeekend($startdate, $enddate);
-
+    
     
 
         //check if any holiday comes in betwwen start and end date selected
@@ -41,7 +41,7 @@ if ($jsonObj->request_type == 'fetch') {
                 // $holidays[] = $row1;
             }
         }
-
+        // echo "<pre>"; print_r( $TOTAL_DAYS_IN_RANGE); die();
 
         $sql2 = "SELECT * FROM leave_tracker 
                             WHERE DATE_FORMAT(leave_start_date, '%Y-%m-%d') >= '$startdate' 
@@ -81,34 +81,57 @@ if ($jsonObj->request_type == 'fetch') {
 
     //members in projects 
     if ($projectSelected) {
-        $sql33 = "SELECT SUM(log_history.hrs) AS logged_hrs, users.id AS user_id, users.username, CONCAT(users.fname, ' ', users.lname) AS fullname FROM users 
+        $sql33 = "SELECT log_history.hrs AS logged_hrs, users.id AS user_id, users.username, CONCAT(users.fname, ' ', users.lname) AS fullname, DATE_FORMAT(log_history.dates, '%Y-%m-%d') AS dates FROM users 
                             LEFT JOIN log_history ON log_history.user_id = users.id
                             LEFT JOIN project_user_map ON project_user_map.user_id = users.id 
                             WHERE users.user_type != 1  
                             AND project_user_map.project_id = $projectSelected
-                            GROUP BY users.id
+                            ORDER BY users.id
+                            -- AND DATE_FORMAT(log_history.dates, '%Y-%m-%d') >= '$startdate' 
+                            -- AND DATE_FORMAT(log_history.dates, '%Y-%m-%d')  <= '$enddate'
+                            -- GROUP BY users.id
                             ";
     } else {
-        $sql33 = "SELECT SUM(log_history.hrs) AS logged_hrs, users.id AS user_id, users.username, CONCAT(users.fname, ' ', users.lname) AS fullname FROM users 
+        $sql33 = "SELECT SUM(log_history.hrs) AS logged_hrs, users.id AS user_id, users.username, CONCAT(users.fname, ' ', users.lname) AS fullname, DATE_FORMAT(log_history.dates, '%Y-%m-%d') AS dates FROM users 
                     LEFT JOIN log_history ON log_history.user_id = users.id 
                     WHERE users.user_type != 1
-                    GROUP BY users.id";
+                    ORDER BY users.id
+                    -- AND DATE_FORMAT(log_history.dates, '%Y-%m-%d') >= '$startdate' 
+                    -- AND DATE_FORMAT(log_history.dates, '%Y-%m-%d')  <= '$enddate'
+                    -- GROUP BY users.id
+                    ";
     }
 
-
+    //changing memberdata to remove date conditions from query to manage the records of users who have not even logged single date in log-history and we want his name also
     $logStatusQuery33 = $conn->query($sql33);
     $res_utilArr=[];
     if ($logStatusQuery33->num_rows > 0) {
         $memberData = [];
         while ($row33 = $logStatusQuery33->fetch_assoc()) {
             // echo "<pre>"; print_r($row33);die();
-            $memberData[] =  $row33;
+            if($row33['dates'] >= $startdate && $row33['dates'] <= $enddate){
+                if(!isset($memberData[$row33['user_id']])) {
+                    $loggedHrs = $row33['logged_hrs'];
+                    $memberData[$row33['user_id']] = $row33;
+                } else {
+                    $row33['logged_hrs'] += $loggedHrs;
+                    $memberData[$row33['user_id']] = $row33;
+                }
+            } else {
+                if(!isset($memberData[$row33['user_id']]) && $row33['dates'] =='' ) {
+                    $row33['logged_hrs'] = 0;
+                    $memberData[$row33['user_id']] = $row33;
+                }
+
+            }
+          
+            
         }
     }
 
 
     $ru_member_data = []; $sr = 0;
-    // echo "<pre>"; print_r($sql33);die();
+    // echo "<pre>"; print_r($memberData);die();
 
     echo '<table id="phptable" class="phptableclass display" style="">';
      echo '<thead>

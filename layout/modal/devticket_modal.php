@@ -45,7 +45,8 @@
                             </div>
                              <div class="col-md-6">
                                    <label for="actual_start_date" class="form-label">Actual Start Date</label>
-                                    <input type="datetime-local" name="actual_start_date" id="actual_start_date" class="form-control">
+                                   <!-- <input class="datelocalformatted" type="date" my-date="" my-date-format="DD/MM/YYYY, hh:mm:ss" value="2015-08-09"> -->
+                                    <input type="datetime-local" name="actual_start_date" id="actual_start_date" class="form-control" data-date-format="DD/MM/YYYY" data-date="">
                             </div>
                             <div class="col-md-6">
                                     <label for="actual_end_date" class="form-label">Actual End Date</label>
@@ -76,3 +77,23 @@
     </div>
 </div>
 </div>
+<script>
+// function nowAsDuration(){
+//     return moment.duration({
+//         hours:   moment().hour(),
+//         minutes: moment().minute(),
+//         seconds: moment().second()
+//     });
+// }
+
+
+// $(".datelocalformatted").on("change", function() {
+//     var a = moment(this.value);
+//     var b = nowAsDuration();
+//     var c = a.add(b);
+    
+        
+//     this.setAttribute("my-date", c.format( this.getAttribute("my-date-format") )
+//     )
+// }).trigger("change")
+</script>

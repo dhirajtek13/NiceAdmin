@@ -52,12 +52,15 @@ if ($jsonObj->request_type == 'fetch') {
         $holidaysData = [];
         if ($logStatusQuery3->num_rows > 0) {
             while ($row3 = $logStatusQuery3->fetch_assoc()) {
-                $holidaysData['start_date'][] = date("d-m-Y", strtotime($row3['hol_start_date']));
-                $holidaysData['end_date'][] = date("d-m-Y", strtotime($row3['hol_end_date']));
+                // $holidaysData['start_date'][] = date("d-m-Y", strtotime($row3['hol_start_date']));
+                // $holidaysData['end_date'][] = date("d-m-Y", strtotime($row3['hol_end_date']));
+
+                foreach ($userData as $username => $info) {
+                    $userData[$username]['leave_start_date'][] = date("d-m-Y", strtotime($row3['hol_start_date']));
+                    $userData[$username]['leave_end_date'][] = date("d-m-Y", strtotime($row3['hol_end_date']));
+                }
             }
         }
-
-    // echo "<pre>"; print_r($userData); die();
 
 ?>
     <!-- <span class="weekly_fetch_html" id="weekly_fetch_html"> -->
@@ -101,13 +104,13 @@ if ($jsonObj->request_type == 'fetch') {
                      }
 
                      //holiday check
-                    $searchKey = array_search($value, $holidaysData['start_date']);
-                     if($searchKey != '') {
-                        if($value >= $holidaysData['start_date'][$searchKey] && $value <= $holidaysData['end_date'][$searchKey]) {
-                            $checked = 'checked';
-                        }
+                    // $searchKey = array_search($value, $holidaysData['start_date']);
+                    //  if($searchKey != '') {
+                    //     if($value >= $holidaysData['start_date'][$searchKey] && $value <= $holidaysData['end_date'][$searchKey]) {
+                    //         $checked = 'checked';
+                    //     }
 
-                    }
+                    // }
                     
                     // echo '<pre>'; print_r($value); die();
 

@@ -1,6 +1,6 @@
 <?php include('layout/head.php');
 require_once './controller/customFunctions.php';
-
+require_once './db/fetch_dropdown_data.php';
 ?>
 <?php
 //Middleware: check user type and restrict access 

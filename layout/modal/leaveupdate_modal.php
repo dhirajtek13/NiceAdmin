@@ -19,19 +19,20 @@
                             </div>
 
                             <div class="form-floating col-6">
-                                <select name="leave_type" id="leave_type" class="form-control" >
-                                    <!-- <option value=''>None</option> -->
+                                <!-- <select name="leave_type" id="leave_type" class="form-control" >
                                     <option value='1'>Sick</option>
                                     <option value='2'>Earned</option>
                                     <option value='3'>Emergency</option>
-                                </select>
+                                </select> -->
+                                <?php echo $leave_types_row; ?>
                                 <label for="leave_type">Select Leave Type</label>
                             </div>
                             <div class="form-floating col-6">
-                                <select name="day_type" id="day_type" class="form-control" >
+                                <?php echo $day_types_row; ?>
+                                <!-- <select name="day_type" id="day_type" class="form-control" >
                                     <option value='1'>Full Day</option>
                                     <option value='2'>Half Day</option>
-                                </select>
+                                </select> -->
                                 <label for="day_type">Select One</label>
                             </div>
                             <div class="col-md-6">

@@ -25,13 +25,13 @@ $TOTAL_DAYS_IN_RANGE = daysWithoutWeekend($startdate, $enddate);
             while ($row1 = $logStatusQuery1->fetch_assoc()) {
                 //remove substract days from $TOTAL_DAYS_IN_RANGE
                 //holiday should not be in weekend days
-                $skip_weekend_in_holiday = daysWithoutWeekend($row1['hol_start_date'], $row1['hol_end_date']);
-                $TOTAL_DAYS_IN_RANGE = $TOTAL_DAYS_IN_RANGE - $skip_weekend_in_holiday;
+                $days_skipping_weekend_in_holiday = daysWithoutWeekend($row1['hol_start_date'], $row1['hol_end_date']);
+                $TOTAL_DAYS_IN_RANGE = $TOTAL_DAYS_IN_RANGE - $days_skipping_weekend_in_holiday;
                 // $holidays[] = $row1;
             }
         }
 
-        
+       
 
         //remove leaves of members in this project in given date range
         if ($projectSelected) {
@@ -45,15 +45,17 @@ $TOTAL_DAYS_IN_RANGE = daysWithoutWeekend($startdate, $enddate);
                         WHERE DATE_FORMAT(leave_start_date, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(leave_end_date, '%Y-%m-%d')  <= '$enddate'";
         }
         $logStatusQuery2 = $conn->query($sql2);
-        $leave_days = [];
+        $leave_days = []; $leave_dayscount = 0;
         if ($logStatusQuery2->num_rows > 0) {
             while ($row2 = $logStatusQuery2->fetch_assoc()) {
                 //remove substract days from $TOTAL_DAYS_IN_RANGE
-                $skip_weekend_in_holiday = daysWithoutWeekend($row2['leave_start_date'], $row2['leave_end_date']);
-                $TOTAL_DAYS_IN_RANGE = $TOTAL_DAYS_IN_RANGE - $skip_weekend_in_holiday;
+                $days_skipping_weekend_in_holiday = daysWithoutWeekend($row2['leave_start_date'], $row2['leave_end_date']);
+                $leave_dayscount += $days_skipping_weekend_in_holiday;
+              //  $TOTAL_DAYS_IN_RANGE = $TOTAL_DAYS_IN_RANGE - $days_skipping_weekend_in_holiday;
                 // $leave_days[] = $row2;
             }
         }
+        // echo "<pre>"; print_r( $sql2 );die();  
 
 $FINAL_TOTAL_DAYS_TO_COUNT = $TOTAL_DAYS_IN_RANGE;
 
@@ -85,8 +87,9 @@ $FINAL_TOTAL_DAYS_TO_COUNT = $TOTAL_DAYS_IN_RANGE;
 
 
 //SHOULD BE HRS TO CONSIDER
-$shouldbe_hrs_range = $WORKING_HRS * $FINAL_TOTAL_DAYS_TO_COUNT * $total_members;
+$shouldbe_hrs_range = $WORKING_HRS * (( $FINAL_TOTAL_DAYS_TO_COUNT * $total_members) - $leave_dayscount);
 
+// echo "<pre>"; print_r( ( $FINAL_TOTAL_DAYS_TO_COUNT * $total_members) - $leave_dayscount );die();
 
             //ACTUAL HRS LOGGED
             if ($projectSelected) {

@@ -24,14 +24,14 @@ if ($jsonObj->request_type == 'fetch') {
                     FROM tickets AS t
                     LEFT JOIN ticket_types AS tt ON tt.id=t.type_id
                     WHERE t.project_id = $projectSelected 
-                    AND  DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+                    AND  DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') <= '$enddate' AND DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') >= '$startdate' 
                     GROUP BY t.type_id";
     } else {
         //fetch all projects
         $sql2 = " SELECT  tt.type_name, COUNT(t.type_id) AS typeCount 
                     FROM tickets AS t
                     LEFT JOIN ticket_types AS tt ON tt.id=t.type_id
-                    WHERE  DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+                    WHERE  DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') <= '$enddate' AND DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') >= '$startdate' 
                     GROUP BY t.type_id";
     }
 

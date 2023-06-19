@@ -19,7 +19,7 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
          */
          $sql = "SELECT * FROM projects";
          $c_status_types = $conn->query($sql);
-         $projects_row = '<select name="projects" id="projects" class="form-control"  multiple aria-label="multiple select">';
+         $projects_row = '<select name="projects[]" id="projects" class="form-control"  multiple aria-label="multiple select">';
          $projects_row .= '<option value="0" disabled>Select Project</option>';
          if ($c_status_types->num_rows > 0) {
              while($row = $c_status_types->fetch_assoc()) { 
@@ -114,6 +114,37 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
        $reassigned_c_status_types_row .= '</option></select>';
        $ticket_status_c_status_types_row .= '</option></select>';
        $default_project_row .= '</option></select>';
+} else if ($_SERVER['PHP_SELF'] == '/leave_tracker.php') {
+        //ticket_types dropdown
+        $sql = "SELECT * FROM leave_type";
+        $leave_types = $conn->query($sql);
+        // $leave_types_row = [];
+        $leave_types_row = '<select name="type_id" id="type_id" class="form-control">';
+        if ($leave_types->num_rows > 0) {
+            while($row = $leave_types->fetch_assoc()) {
+                // $leave_types_row[] = $row;
+                $id = $row['id'];
+                $name = $row['type_name'];
+                $leave_types_row .= '<option value="'.$id.'">'.$name.'</option>';
+            }
+        }
+        $leave_types_row .= '</option></select>';
+
+        $sql2 = "SELECT * FROM day_type";
+        $day_types = $conn->query($sql2);
+        // $day_types_row = [];
+        $day_types_row = '<select name="type_id" id="type_id" class="form-control">';
+        if ($day_types->num_rows > 0) {
+            while($row = $day_types->fetch_assoc()) {
+                // $day_types_row[] = $row;
+                $id = $row['id'];
+                $name = $row['type_name'];
+                $day_types_row .= '<option value="'.$id.'">'.$name.'</option>';
+            }
+        }
+        $day_types_row .= '</option></select>';
+    // die($sql2);
+
 } else {
 
     //ticket_types dropdown
@@ -166,6 +197,31 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
         }
     }
     $assignees_row .= '</option></select>';
+
+
+    /**
+         * fetch projects list
+         */
+        $sql = "SELECT * FROM projects";
+        $c_status_types = $conn->query($sql);
+        $projects_row = '<select name="project_id" id="project_id" class="form-control"   aria-label="select">';
+        // $projects_row .= '<option value="0" disabled>Select Project</option>';
+        if ($c_status_types->num_rows > 0) {
+            while($row = $c_status_types->fetch_assoc()) { 
+                $id = $row['id'];
+                $name = $row['project_name'];
+                
+                if(isset($CONFIG_ALL) && $CONFIG_ALL['default_project']['value1']  == $id ){
+                    $projects_row .= '<option value="'.$id.'" selected>'.$name.'</option>';
+
+                } else {
+                    $projects_row .= '<option value="'.$id.'">'.$name.'</option>';
+                }
+            }
+        }
+       $projects_row .= '</option></select>';
+
+    //   print_r( $CONFIG_ALL); die();
 
 }
 

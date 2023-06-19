@@ -36,6 +36,7 @@
         $("td:first", nRow).html(iDisplayIndex +1);
         return nRow;
       },
+      aaSorting: [[ 1, "desc" ]],//sort by 2nd column i.e date logged
       orderCellsTop: true,
       initComplete: function () {
           // Apply the search
@@ -81,7 +82,7 @@
     const dt = new Date();
     dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
     var current_datetime = dt.toISOString().slice(0, 16);
-    document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
+    // document.getElementsByName("dates")[0].min = current_datetime;//disable previous dates
     $("#dates").val(current_datetime);
     $("#hrs").val("");
     var getTicketStatus = $(".getTicketStatusRef1").attr('data-cstatus');
@@ -158,10 +159,12 @@
           }).then((result) => {
             // Redraw the table
             
-            $("#userDataModal").modal("hide");
-            $("#userDataFrm")[0].reset();
-            
-            $("#dataList").DataTable().draw();
+            // $("#userDataModal").modal("hide");
+            // $("#userDataFrm")[0].reset();
+            // $("#hrs").val("");
+            // $("#dataList").DataTable().draw();
+            //reload page
+            location.reload();
           });
         } else {
           $(".frm-status").html(

@@ -17,8 +17,8 @@ if ($jsonObj->request_type == 'fetch') {
     $enddate = $jsonObj->enddate;
     $projectSelected = $jsonObj->projectSelected;
 
-$startdate = '2023-06-01';
-$enddate = '2023-06-29';
+// $startdate = '2023-06-01';
+// $enddate = '2023-06-29';
 
         if ($projectSelected) {
             $sql51 = "SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS status_consider, type_name

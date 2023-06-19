@@ -27,13 +27,18 @@ if($jsonObj->request_type == 'addEdit'){
 
     $id = !empty($user_data[8])?$user_data[8]:0; 
 
-    $actual_start_date = !empty($user_data[9])?$user_data[9]:0;
-    $actual_end_date = !empty($user_data[10])?$user_data[10]:0;
     // $actual_hrs = !empty($user_data[11])?$user_data[11]:0;
-    $zira_link = !empty($user_data[11])?$user_data[11]:0;
+    
+    $previousStatus = !empty($user_data[9])?$user_data[9]: 'NA';
+    $updatedStatus = !empty($user_data[10])?$user_data[10]: 'NA';
+    
+    $zira_link = !empty($user_data[11])?$user_data[11]:"";
+    $project_id = !empty($user_data[12])?$user_data[12]:0;
+    // $project_id = !empty($user_data[13])?$user_data[13]: 'NA';
 
-    $previousStatus = !empty($user_data[12])?$user_data[12]: 'NA';
-    $updatedStatus = !empty($user_data[13])?$user_data[13]: 'NA';
+    $actual_start_date = !empty($user_data[13])?$user_data[13]:0;
+    $actual_end_date = !empty($user_data[14])?$user_data[14]:0;
+
  
     $err = ''; 
     if(empty($ticket_id)){ 
@@ -42,9 +47,9 @@ if($jsonObj->request_type == 'addEdit'){
     if(empty($plan_start_date)){ 
         $err .= 'Please enter your Plan Start Date.<br/>'; 
     }
-    if(empty($plan_end_date)){ 
-        $err .= 'Please enter your  Plan End Date.<br/>'; 
-    }
+    // if(empty($plan_end_date)){ 
+    //     $err .= 'Please enter your  Plan End Date.<br/>'; 
+    // }
     if(empty($planned_hrs)){ 
         $err .= 'Please enter your Plan hours.<br/>'; 
     }
@@ -63,9 +68,9 @@ if($jsonObj->request_type == 'addEdit'){
     if(!empty($user_data) && empty($err)){ 
         if(!empty($id)){ 
             // Update user data into the database 
-            $sqlQ = "UPDATE tickets SET ticket_id=?, zira_link=?, type_id=?, c_status=?, assignee_id=?, assigned_date=?, plan_start_date=?, plan_end_date=?, actual_start_date=?, actual_end_date=?, planned_hrs=?, actual_hrs=?, updated_at=NOW()  WHERE id=?"; 
+            $sqlQ = "UPDATE tickets SET ticket_id=?, zira_link=?, type_id=?, c_status=?, assignee_id=?, assigned_date=?, plan_start_date=?, plan_end_date=?, actual_start_date=?, actual_end_date=?, planned_hrs=?, actual_hrs=?, project_id=?, updated_at=NOW()  WHERE id=?"; 
             $stmt = $conn->prepare($sqlQ); 
-            $stmt->bind_param("ssiiisssssddi", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs,  $id); 
+            $stmt->bind_param("ssiiisssssddis", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs, $project_id, $id); 
             $update = $stmt->execute(); 
  
             if($update){ 
@@ -101,10 +106,10 @@ if($jsonObj->request_type == 'addEdit'){
                 echo json_encode(['error' => "Ticket $ticket_id already exist.<br/>"]);
             } else {
                 // Insert event data into the database 
-                $sqlQ = "INSERT INTO tickets (ticket_id,zira_link,type_id,c_status,assignee_id,assigned_date,plan_start_date,plan_end_date,actual_start_date,actual_end_date,planned_hrs,actual_hrs)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"; 
+                $sqlQ = "INSERT INTO tickets (ticket_id,zira_link,type_id,c_status,assignee_id,assigned_date,plan_start_date,plan_end_date,actual_start_date,actual_end_date,planned_hrs,actual_hrs,project_id)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("ssiiisssssdd", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs); 
+                $stmt->bind_param("ssiiisssssddi", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs, $project_id); 
                 $insert = $stmt->execute(); 
 
                 // print_r($insert); die();
@@ -135,16 +140,16 @@ if($jsonObj->request_type == 'addEdit'){
 }elseif($jsonObj->request_type == 'deleteUser'){ 
     $id = $jsonObj->user_id; 
  
-    $sql = "DELETE FROM members WHERE id=$id"; 
+    $sql = "DELETE FROM tickets WHERE id=$id"; 
     $delete = $conn->query($sql); 
     if($delete){ 
         $output = [ 
             'status' => 1, 
-            'msg' => 'Member deleted successfully!' 
+            'msg' => 'Ticket deleted successfully!' 
         ]; 
         echo json_encode($output); 
     }else{ 
-        echo json_encode(['error' => 'Member Delete request failed!']); 
+        echo json_encode(['error' => 'Ticket Delete request failed!']); 
     } 
 }
 

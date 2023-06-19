@@ -1,5 +1,6 @@
 
 <?php include('layout/head.php'); ?>
+
  <?php 
         //Middleware: check user type and restrict access 
         if(isset($_SESSION) && $_SESSION['user_type'] != 1) {
@@ -18,7 +19,22 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
+
+    <?php           
+        $highlight = '';
+        if ( isset($_GET['success']) && $_GET['success'] == 1 ) {
+            // treat the succes case ex:
+            // echo "Success";
+            $highlight =  'highlightfirst';
+            echo ' <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Successfully created new user!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>';
+        }
+             ?>
       <div><h1>Users List</h1></div>
+
+     
       
       <div class="addDataBtn"><a href="add-user.php" class="btn btn-primary my-2 " >Add New User</a></div>
     </div><!-- End Page Title -->
@@ -32,7 +48,7 @@
               <!-- <h5 class="card-title">Datatables</h5> -->
              
               <!-- Table with stripped rows -->
-              <table  id="dataList" class="display" style="width:100%">
+              <table  id="dataList" class="display <?= $highlight ?>" style="width:100%">
                 <thead>
                     <tr>
                         <th scope="col">S.N</th>
@@ -87,6 +103,10 @@
 
   <?php include('layout/footer.php'); ?>
   <script src="assets/js/user-management-table.js"></script>
+  <!-- <script
+  src="https://code.jquery.com/jquery-3.7.0.min.js"
+  integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+  crossorigin="anonymous"></script> -->
   <script>
    
   </script>

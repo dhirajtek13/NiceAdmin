@@ -3,22 +3,29 @@
   
   $(document).ready(function () {
 
+    let ticket_id_hidden = $("#ticket_id_hidden").val();
+    // var ajax_url = (ticket_id_hidden == '') ? "db/ticket_list.php" : "db/ticket_list.php?ticket_id="+ticket_id_hidden;
+    var ajax_url = (ticket_id_hidden == '') ? "db/ticket_list.php" : "db/ticket_list.php";
+
     $('#dataList tfoot th').each(function () {
         var title = $(this).text();
         if(title) {
-          $(this).html('<input type="text" placeholder="' + title + '"   size="6" /  class="form-control">');
+          // $(this).html('<input type="text" placeholder="' + title + '"   size="6"   class="form-control">');
+          // let varvalue = title.replace(/\s+/g, '_').toLowerCase()+'_hidden';
+          $(this).html('<input type="text" placeholder="' + title + '"   size="6" value=""  class="form-control">');
         }
         if(title == 'S.N') {
           $(this).html("");
         }
     });
 
+
     var table = $("#dataList").DataTable({
       processing: true,
       serverSide: true,
       bLengthChange: false,
       // bFilter:false,
-      ajax: "db/ticket_list.php",
+      ajax: ajax_url,
       columnDefs: [
         {
           orderable: false,
@@ -49,7 +56,7 @@
               .every(function () {
                   var that = this;
 
-                  $('input', this.footer()).on('keyup change clear', function () {
+                  $('input', this.footer()).on('keyup change clear input', function () {
                       if (that.search() !== this.value) {
                           that.search(this.value).draw();
                       }
@@ -61,6 +68,10 @@
     setTimeout(() => {
         $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
     }, 100);
+
+    setTimeout(() => {
+        $("[placeholder='Ticket Id']").val(ticket_id_hidden).trigger("input");
+    }, 500);
 
         //sidebar operations
         $("#user-nav").addClass("show");
@@ -93,7 +104,7 @@
     dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
     var current_datetime = dt.toISOString().slice(0, 16);
     $("#assigned_date").val(current_datetime);
-    $("#plan_start_date").val("");
+    $("#plan_start_date").val(current_datetime);
     $("#plan_end_date").val("");
     $("#actual_start_date").val("");
     $("#actual_end_date").val("");
@@ -106,7 +117,7 @@
   }
   
   function editData(user_data) {
-      // console.log(user_data);
+      console.log(user_data);
       $(".frm-status").html("");
       $("#userModalLabel").html("Edit Ticket #" + user_data.ticket_id);
   
@@ -132,33 +143,40 @@
       $('#previousStatus').val(user_data.c_type_name);
       $('#updatedStatus').val(user_data.c_type_name);
 
+      $('#project_id').val(user_data.project_id);
+
       $("#userDataModal").modal("show");
   }
   
   function submitUserData() {
     $(".frm-status").html("");
     let input_data_arr = [
-      document.getElementById("ticket_id").value,
+      document.getElementById("ticket_id").value,//0
       
-      document.querySelector('select[name="type_id"]').value,
-      document.querySelector('select[name="c_status"]').value,
-      document.querySelector('select[name="assignee_id"]').value,
+      document.querySelector('select[name="type_id"]').value,//1
+      document.querySelector('select[name="c_status"]').value,//2
+      document.querySelector('select[name="assignee_id"]').value,//3
       
-      document.getElementById("assigned_date").value,
-      document.getElementById("plan_start_date").value,
-      document.getElementById("plan_end_date").value,
-      document.getElementById("planned_hrs").value,
-      document.getElementById('editID').value,
-      // document.getElementById("actual_start_date").value,
-      // document.getElementById("actual_end_date").value,
+      document.getElementById("assigned_date").value,//4
+      document.getElementById("plan_start_date").value,//5
+      document.getElementById("plan_end_date").value,//6
+      document.getElementById("planned_hrs").value,//7
+      document.getElementById('editID').value,//8
+
       // document.getElementById("actual_hrs").value,
       
-      document.getElementById("previousStatus").value,
-      document.getElementById("updatedStatus").value,
+      document.getElementById("previousStatus").value,//9
+      document.getElementById("updatedStatus").value,//10
       
-      document.getElementById("zira_link").value,
+      document.getElementById("zira_link").value,//11
+      document.getElementById("project_id").value,//12
+
+      document.getElementById("actual_start_date").value,//13
+      document.getElementById("actual_end_date").value,//14
       
     ];
+
+    // console.log(input_data_arr);alert(111);
   
     fetch("controller/ticket_eventHandler.php", {
       method: "POST",
@@ -208,7 +226,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         // Delete event
-        fetch("eventHandler.php", {
+        fetch("controller/ticket_eventHandler.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -62,7 +62,7 @@
     $odd_ticketsArr = [];
     if ($logStatusQuery12->num_rows > 0) {
         $total_tickets = $logStatusQuery12->num_rows; //total tickets //also used for ODD
-        while ($row12 = $logStatusQuery12->fetch_assoc()) {        
+        while ($row12 = $logStatusQuery12->fetch_assoc()) {     
             $tickets_to_consider[] = $row12['ticket_id'];//for OTD itself
             // if($value['plan_end_date'] >= $value['dates']){
                 // $for_ODD[$row12['ticket_id']] = $row12;
@@ -98,14 +98,17 @@
         /**
          * 3) get total log hrs in between that date range of the eligible tickets as per above queries result
         */
-        $sql13 = "SELECT lh.ticket_id, lh.dates, SUM(lh.hrs) AS log_hrs_sum, tickets.planned_hrs, tickets.actual_hrs, cs.type_name 
-                    FROM log_history AS lh 
-                    LEFT JOIN tickets AS tickets ON tickets.id = lh.ticket_id 
-                    LEFT JOIN c_status_types AS cs ON cs.id = lh.c_status 
-                    WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$startdate' 
-                    AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$enddate' 
-                    AND lh.ticket_id IN ($extract_tickets_to_considerArrImplode) 
-                    GROUP BY lh.ticket_id";
+        $sql13 = "WITH ranked_messages AS (    
+                        SELECT lh.ticket_id, lh.dates, lh.hrs , tickets.planned_hrs, tickets.actual_hrs, cs.type_name,  ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY lh.id DESC) AS rn
+                                        FROM log_history AS lh 
+                                        LEFT JOIN tickets AS tickets ON tickets.id = lh.ticket_id 
+                                        LEFT JOIN c_status_types AS cs ON cs.id = lh.c_status 
+                                        WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$startdate' 
+                                        AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$enddate' 
+                                        AND lh.ticket_id IN ($extract_tickets_to_considerArrImplode) 
+                                    ) 
+                                    SELECT ticket_id, dates, SUM(hrs) AS log_hrs_sum, planned_hrs, actual_hrs, type_name
+                                    FROM ranked_messages  WHERE rn = 1";
 
 
         $logStatusQuery13 = $conn->query($sql13);
@@ -129,7 +132,7 @@
                 }
             }
 
-           
+            // echo "<pre>"; print_r($sql13); die();
 
         $otd_metricstext = '';
         if(empty($metricsArr)){

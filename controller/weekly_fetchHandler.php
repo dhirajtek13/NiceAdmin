@@ -75,6 +75,7 @@ if ($jsonObj->request_type == 'fetch') {
                     JOIN users on users.id = l.user_id
                     JOIN projects on projects.id = t.project_id
                     WHERE t.project_id = $projectSelected
+                    AND l.dates >= '" . $allDaysColArr[0] . "' && l.dates <= '" . $allDaysColArr[6] . "'
                 ) atr
                 ON wd.week_day_num = DAYOFWEEK(atr.datesl)
                 GROUP BY DAYOFWEEK(atr.datesl), user_id
@@ -91,6 +92,7 @@ if ($jsonObj->request_type == 'fetch') {
                     FROM `tickets` as t 
                     JOIN log_history as l ON l.ticket_id = t.id 
                     JOIN users on users.id = l.user_id
+                    WHERE  l.dates >= '" . $allDaysColArr[0] . "' && l.dates <= '" . $allDaysColArr[6] . "'
                 ) atr
                 ON wd.week_day_num = DAYOFWEEK(atr.datesl)
                 GROUP BY DAYOFWEEK(atr.datesl), user_id
@@ -107,7 +109,7 @@ if ($jsonObj->request_type == 'fetch') {
     if ($logStatusQuery->num_rows > 0) {
         while ($row = $logStatusQuery->fetch_assoc()) {
             // $allData[] =  $row ;
-            // echo "<pre>"; print_r($row); die();
+            // echo "<pre>"; print_r($sql); die();
             // $allData[$row['fullname']][$row['dates']] =  $row['total_hrs'];
             $row['ticket_collection_arr'] = explode(",", $row['ticket_collection']);
             $row['ticket_collection_all_arr'] = explode(",", $user_ticketsArr[$row['fullname']]);

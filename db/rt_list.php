@@ -46,9 +46,13 @@ if ($jsonObj->request_type == 'fetch') {
 
     $Reassigned_tickets_implode = implode(',', $Reassigned_tickets);
     
-    $Reassigned_tickets_implode = 5;
-   $sql33 = "SELECT users.id, users.username, CONCAT(users.fname, ' ', users.lname) AS fullname, COUNT(log_timing.c_status) AS reassigned_count_of_ticket FROM users LEFT JOIN `log_timing` ON log_timing.user_id = users.id
-                    WHERE c_status IN ($Reassigned_tickets_implode) 
+    // $Reassigned_tickets_implode = 5;
+   $sql33 = "SELECT users.id, users.username, CONCAT(users.fname, ' ', users.lname) AS fullname, COUNT(log_timing.c_status) AS reassigned_count_of_ticket,
+                    GROUP_CONCAT(tickets.ticket_id) AS tickets_collection,  GROUP_CONCAT(tickets.id) AS tickets_id_collection
+                    FROM users 
+                    LEFT JOIN `log_timing` ON log_timing.user_id = users.id
+                    LEFT JOIN `tickets` ON tickets.id = log_timing.ticket_id
+                    WHERE log_timing.c_status IN ($Reassigned_tickets_implode) 
                     AND DATE_FORMAT(log_timing.dates, '%Y-%m-%d') >= '$startdate' 
                     AND DATE_FORMAT(log_timing.dates, '%Y-%m-%d') <= '$enddate'
                     GROUP BY users.id";
@@ -65,7 +69,7 @@ if ($jsonObj->request_type == 'fetch') {
 
 
     $ru_member_data = []; $sr = 0;
-    // echo "<pre>"; print_r($memberData);die();
+    // echo "<pre>"; print_r($sql33);die();
 
     echo '<table id="phptable" class="phptableclass display" style="">';
      echo '<thead>
@@ -73,21 +77,38 @@ if ($jsonObj->request_type == 'fetch') {
                     <th>S.N</th>
                     <th scope="col">Member Name</th>
                     <th scope="col">Reassigned Tickets</th>
+                    <th scope="col">Tickets</th>
                   </tr>
                 </thead>';
+    if(empty($memberData)) {
+        echo "<tr><td>No record found!</td></tr>";
+    } else {
+        foreach ($memberData as $key => $member) {
+            //remove leaves of members in this project in given date range
+            
+           // $ru_member_data[]
+           $sr++;
+            echo "<tr>";
+            echo "<td>$sr</td>"; 
+            echo "<td>".$member['fullname']."</td>";
+            echo "<td>".$member['reassigned_count_of_ticket']."</td>";
 
-    foreach ($memberData as $key => $member) {
-         //remove leaves of members in this project in given date range
-         
-        // $ru_member_data[]
-        $sr++;
-         echo "<tr>";
-         echo "<td>$sr</td>"; 
-         echo "<td>".$member['fullname']."</td>";
-         echo "<td>".$member['reassigned_count_of_ticket']."</td>";
+            $implode_tickets_collection = explode(",", $member['tickets_collection']);
+            $implode_tickets_id_collection = explode(",", $member['tickets_id_collection']);
 
-         echo "</tr>";
+            $tickets_list_html = '';
+            foreach ($implode_tickets_collection as $key => $value) {
+                $tickets_list_html .= "<a href='/tickets.php?ticket_id=".$value."'>$value</a>, ";
+                // $tickets_list_html .= "<a href='/tickets.php?ticket_id=".$value."'>$value</a>, ";
+            }
+            $tickets_list_html = rtrim($tickets_list_html, ', ');
+
+
+            echo "<td>".$tickets_list_html."</td>";
+            echo "</tr>";
+       }
     }
+
 
      echo '</table>';
 

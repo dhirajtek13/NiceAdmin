@@ -8,6 +8,7 @@
         }
 ?>
 <!-- Fetch type, status, assignee dropdown -->
+<?php include "db/fetchConfiguration.php"; ?>
 <?php include "db/fetch_dropdown_data.php"; ?>
 
 <body>
@@ -22,6 +23,10 @@
       
       <div class="addDataBtn"><a href="javascript:void(0);" class="btn btn-primary my-2 " onclick="addData()">Add New Ticket</a></div>
     </div><!-- End Page Title -->
+    <?php 
+    $ticket_id = (isset($_GET['ticket_id'])) ? $_GET["ticket_id"] : '';
+    ?>
+    <input type="hidden" name="ticket_id" value="<?= $ticket_id ?>"  id="ticket_id_hidden">
     
     <section class="section">
       <div class="row">

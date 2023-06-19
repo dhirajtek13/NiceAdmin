@@ -18,7 +18,7 @@ $result1 = $stmt1->get_result(); // get the mysqli result
 $select_data = $result1->fetch_assoc(); // fetch data
 
 
-if($_GET['ticket']) {
+if($_GET['ticket'] && isset( $select_data['id'])) {
 
     $ticket_id = $select_data['id'];
     $ticket_input_html = '<input type="text" class="form-control" id="ticket" value="'.$ticket.'" disabled>';

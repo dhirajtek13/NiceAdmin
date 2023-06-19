@@ -18,6 +18,8 @@ if ($jsonObj->request_type == 'fetch') {
 
     $allDaysColArr = x_week_range($startdate);
 
+    // echo "<pre>"; print_r($allDaysColArr); die();
+
     if ($projectSelected) {
         // $sql2 = " SELECT  ts.type_name, COUNT(t.c_status) AS statusCount, ts.id as status_id
         //            FROM tickets AS t
@@ -25,7 +27,7 @@ if ($jsonObj->request_type == 'fetch') {
         //            WHERE t.project_id = $projectSelected
         //            AND t.created_at > $allDaysColArr[0] 
         //            GROUP BY t.c_status";  
-        $sql2 = "SELECT  cs.type_name AS status_name, name as extract_status_id, COUNT(t.id) AS total_ticketCount, t.created_at, t.actual_end_date
+        $sql2 = "SELECT  cs.type_name AS status_name, name as extract_status_id, COUNT(t.id) AS total_ticketCount, t.assigned_date
                     FROM c_status_types AS cs 
                                 RIGHT JOIN (
                                                 SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS name 
@@ -35,7 +37,7 @@ if ($jsonObj->request_type == 'fetch') {
                                             )  AS subs  ON cs.id= name 
                                     LEFT JOIN tickets as t ON t.c_status = name
                                     WHERE t.project_id = $projectSelected
-                                    AND DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+                                    AND DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') <= '$enddate' AND DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') >= '$startdate'
                                     GROUP BY cs.id";
     } else {
         //fetch all projects
@@ -50,7 +52,7 @@ if ($jsonObj->request_type == 'fetch') {
         //                        LEFT JOIN tickets as t ON t.c_status = name
         //            # WHERE  t.created_at > $allDaysColArr[0] 
         //                   GROUP BY cs.id";
-        $sql2 = "SELECT  cs.type_name AS status_name, name as extract_status_id, COUNT(t.id) AS total_ticketCount, t.created_at, t.actual_end_date
+        $sql2 = "SELECT  cs.type_name AS status_name, name as extract_status_id, COUNT(t.id) AS total_ticketCount, t.assigned_date
                     FROM c_status_types AS cs 
                                 RIGHT JOIN (
                                                 SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(configurations.value1, ',', c_status_types.id), ',', -1) AS name 
@@ -59,10 +61,10 @@ if ($jsonObj->request_type == 'fetch') {
                                                 WHERE configurations.name = 'ticket_status_c_status_types' 
                                             )  AS subs  ON cs.id= name 
                                     LEFT JOIN tickets as t ON t.c_status = name
-                                    WHERE DATE_FORMAT(t.`created_at`, '%Y-%m-%d') <= '$allDaysColArr[6]' AND ( DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') >= '$allDaysColArr[0]' OR  DATE_FORMAT(t.`actual_end_date`, '%Y-%m-%d') = '0000-00-00')
+                                    WHERE DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') <= '$enddate' AND  DATE_FORMAT(t.`assigned_date`, '%Y-%m-%d') >= '$startdate' 
                                     GROUP BY cs.id"; 
     }
-
+    // echo "<pre>"; print_r($sql2); die();
 
     $logStatusQuery2 = $conn->query($sql2);
     $user_ticketsArr = [];

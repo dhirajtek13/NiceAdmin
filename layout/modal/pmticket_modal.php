@@ -39,13 +39,27 @@
                                    <label for="plan_start_date" class="form-label">Plan Start Date <span class="required_mark">*</span></label>
                                     <input type="datetime-local" name="plan_start_date" id="plan_start_date" class="form-control">
                             </div>
+                            
                             <div class="col-md-6">
-                                    <label for="plan_end_date" class="form-label">Plan End Date <span class="required_mark">*</span></label>
+                                    <label for="plan_end_date" class="form-label">Plan End Date</label>
                                     <input type="datetime-local" name="plan_end_date" id="plan_end_date" class="form-control">
                             </div>
                             <div class="col-md-6">
                                     <label for="planned_hrs" class="form-label">Planned Hours <span class="required_mark">*</span></label>
                                     <input type="number" class="form-control" id="planned_hrs" placeholder="00.0">
+                            </div>
+                            <div class="col-md-6">
+                                    <label for="project_id" class="form-label">Project</label>
+                                    <?php print_r($projects_row); ?>
+                            </div>
+
+                            <div class="col-md-6 d-none">
+                                   <label for="actual_start_date" class="form-label">Actual Start Date</label>
+                                    <input type="datetime-local" name="actual_start_date" id="actual_start_date" class="form-control">
+                            </div>
+                            <div class="col-md-6 d-none">
+                                    <label for="actual_end_date" class="form-label">Actual End Date</label>
+                                    <input type="datetime-local" name="actual_end_date" id="actual_end_date" class="form-control">
                             </div>
                             
                         </div>
