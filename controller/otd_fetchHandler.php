@@ -129,8 +129,8 @@
                 $totalCounter++;
                 $metricsArr[$row13['type_name']]['total'] = $totalCounter; 
                 $metricsArr[$row13['type_name']]['otd'] = $otdCounter; 
-                }
             }
+        }
 
             // echo "<pre>"; print_r($sql13); die();
 

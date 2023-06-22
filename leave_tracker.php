@@ -5,7 +5,7 @@ require_once './db/fetch_dropdown_data.php';
 <?php
 //Middleware: check user type and restrict access 
 if (isset($_SESSION) && $_SESSION['user_type'] != 1) {
- // header("location: pages-ticket.php");
+  // header("location: pages-ticket.php");
   //exit;
 }
 
@@ -17,10 +17,8 @@ $dateSelected = date('m');
 $allDaysColArr = dates_month(date('m'), date('Y'));
 // echo "<pre>"; print_r($allDaysColArr); die();
 
-
-
-
-
+//get current year, month and maxdays of it
+$allDaysColArr = dates_month(date('m'), date('Y'));
 ?>
 
 <body>
@@ -46,8 +44,22 @@ $allDaysColArr = dates_month(date('m'), date('Y'));
     <section class="section">
       <div class="row">
         <div class="col-12">
-          <table id="phptable" class="phptableclass display" style="width:180%">
-            
+          <table id="phptable" class="phptableclass display" style="width:225%;">
+            <thead class="org_thead">
+              <tr>
+
+                <th>S.N</th>
+                <th>Employee Name</th>
+                <?php
+                foreach ($allDaysColArr as $index => $value) {
+                  $day1 = strtotime($value);
+                  $day2 = date("D", $day1);
+                  echo "<th class='no-sort'>$value ($day2)</th>";
+                }
+                ?>
+              </tr>
+
+            </thead>
           </table>
         </div>
       </div>

@@ -13,8 +13,8 @@
 
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input name="leave_desc" type="text" class="form-control" id="leave_desc">
-                                    <label for="leave_desc">Leave Description</label>
+                                    <input name="leave_desc" type="text" class="form-control" id="leave_desc" required>
+                                    <label for="leave_desc">Leave Description <span class="required_mark">*</span></label>
                                 </div>
                             </div>
 
@@ -40,7 +40,7 @@
                                     <input type="date" name="leave_start_date" id="leave_start_date" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                    <label for="leave_end_date" class="form-label">Leave Start Date</label>
+                                    <label for="leave_end_date" class="form-label">Leave End Date</label>
                                     <input type="date" name="leave_end_date" id="leave_end_date" class="form-control">
                             </div>
                         </div>
@@ -49,8 +49,10 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" id="editID" value="0">
+                    <input type="hidden" id="userID" value="0">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="submitUserData()">Submit</button>
+                    <button type="button" class="btn btn-primary submitleave" onclick="submitUserData('addEdit')">Submit</button>
+                    <button type="button" class="btn btn-danger deleteButton" onclick="submitUserData('deleteUser')">Delete</button>
                 </div>
             </form>
         </div>

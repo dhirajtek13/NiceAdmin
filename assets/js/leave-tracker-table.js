@@ -59,6 +59,8 @@ function fetchLeaveTrackerData() {
         // Example:
         var docArticle = doc.querySelector(".phptableclass").innerHTML;
         // console.log(docArticle);
+
+        $(".org_thead").remove();//remove org thead //directly remove giving js error
       $("#phptable").html(docArticle);
       // console.log(docArticle);
     })
@@ -68,37 +70,25 @@ function fetchLeaveTrackerData() {
 }
 
 
-
-function submitUserData() {
+function submitUserData(request_type) {
   $(".frm-status").html("");
-
-
   let input_data_arr = [
     document.getElementById("leave_desc").value,
     document.getElementById("leave_type").value,
-
     document.getElementById("day_type").value,
     document.getElementById("leave_start_date").value,
-    // document.querySelector('select[name="c_status"]').value,
-    
     document.getElementById("leave_end_date").value,
-    // document.getElementById("what_is_pending").value,
-    // document.getElementById("what_support_required").value,
-    
     document.getElementById('editID').value,
-
-    // document.getElementById("remark").value,
-    // document.getElementById("previousStatus").value,
-    // document.getElementById("updatedStatus").value,
+    document.getElementById('userID').value,
   ];
 
-  fetch("controller/log_eventHandler.php", {
+  fetch("controller/leave_eventHandler.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      request_type: "addEdit",
+      request_type: request_type,
       user_data: input_data_arr,
     }),
   })
@@ -116,7 +106,9 @@ function submitUserData() {
           $("#userDataModal").modal("hide");
           $("#userDataFrm")[0].reset();
           
-          $("#dataList").DataTable().draw();
+          $("#phptable").DataTable().draw(); //or reload the page
+          fetchLeaveTrackerData();
+
         });
       } else {
         $(".frm-status").html(
@@ -130,21 +122,50 @@ function submitUserData() {
 }
 
 
-function updateLeave(start_date, checked, t) {
+function updateLeave(start_date, checked, user_id, leave_id, element) {
     //open modal form to let user enter leave details
     //user can add new leave or if alrady checked then he can cancel his leave in form
     // alert(checked);
-    console.log(t);
-    // alert(start_date);
-
+    // element.preventDefault();
     $("#leave_start_date").val(start_date);
+    //disable previous dates for leave end dates
+    $("#leave_end_date").prop("min", start_date);
+    $("#leave_end_date").val(start_date);
+    // var current_datetime = dt.toISOString().slice(0, 16);
+    // document.getElementsByName("leave_end_date")[0].min = leave_end_date;//disable previous dates
 
     if(!checked){
+      $('#leave_desc').val('');
+      $('#leave_type').val(1);
+      $('#day_type').val(1);
+
+      $(".frm-status").html("");
+      $("#userModalLabel").html("Add New Leave");
+      $('#editID').val(0);
+      $('#userID').val(user_id);
+      $(".deleteButton").hide();
+      $(".submitleave").text('Submit');
       $("#userDataModal").modal('show');
+      element.checked = false;
     } else {
       //uncheck this date//remove this leave//if two days then update to single date, if 3 days then update to 2days
-      
-      
+      var dataleaveObj = JSON.parse(element.getAttribute('dataleave'));
+
+      console.log(dataleaveObj);
+      $('#leave_desc').val(dataleaveObj.leave_leave_desc);
+      $('#leave_type').val(dataleaveObj.leave_leave_type);
+      $('#day_type').val(dataleaveObj.leave_day_type);
+      $('#leave_start_date').val(dataleaveObj.leave_start_date);
+      $('#leave_end_date').val(dataleaveObj.leave_end_date);
+
+      $(".frm-status").html("");
+      $("#userModalLabel").html("Update Leave");
+      $('#editID').val(leave_id);
+      $('#userID').val(user_id);
+      $(".submitleave").text('Update');
+      $(".deleteButton").show();
+      $("#userDataModal").modal('show');
+      element.checked = true;
     }
 
     //refresh table

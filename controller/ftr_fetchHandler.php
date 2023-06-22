@@ -65,9 +65,8 @@
                     FROM log_history AS lh 
                     LEFT JOIN tickets AS tickets ON tickets.id = lh.ticket_id 
                     LEFT JOIN c_status_types AS cs ON cs.id = lh.c_status 
-                    WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$startdate' 
-                    AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$enddate' 
-                    AND lh.ticket_id IN ($extract_tickets_to_considerArrImplode)";
+                    -- WHERE DATE_FORMAT(lh.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(lh.`dates`, '%Y-%m-%d') <= '$enddate' 
+                    WHERE lh.ticket_id IN ($extract_tickets_to_considerArrImplode)";
 
 // echo "<pre>"; print_r($sql43); die();  //not using group as of now because of       
 

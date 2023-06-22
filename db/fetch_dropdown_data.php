@@ -119,7 +119,7 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
         $sql = "SELECT * FROM leave_type";
         $leave_types = $conn->query($sql);
         // $leave_types_row = [];
-        $leave_types_row = '<select name="type_id" id="type_id" class="form-control">';
+        $leave_types_row = '<select name="leave_type" id="leave_type" class="form-control">';
         if ($leave_types->num_rows > 0) {
             while($row = $leave_types->fetch_assoc()) {
                 // $leave_types_row[] = $row;
@@ -133,7 +133,7 @@ if($_SERVER['PHP_SELF'] == '/add-user.php' || $_SERVER['PHP_SELF'] == '/user_man
         $sql2 = "SELECT * FROM day_type";
         $day_types = $conn->query($sql2);
         // $day_types_row = [];
-        $day_types_row = '<select name="type_id" id="type_id" class="form-control">';
+        $day_types_row = '<select name="day_type" id="day_type" class="form-control">';
         if ($day_types->num_rows > 0) {
             while($row = $day_types->fetch_assoc()) {
                 // $day_types_row[] = $row;
