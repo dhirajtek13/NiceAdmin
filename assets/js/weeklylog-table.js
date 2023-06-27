@@ -75,6 +75,8 @@ function fetchTicketStatusData() {
   var projectselected = $("#project_selection").val();
   // var actual_hrs = $("#project_selection").val();
 
+  $("#ticket_status_end_date").prop("min", startdate);
+
   fetch("controller/ticketStatus_fetchHandler.php", {
     method: "POST",
     dataType: "html",
@@ -112,6 +114,8 @@ function fetchEffortData() {
   var projectselected = $("#project_selection").val();
   // var actual_hrs = $("#project_selection").val();
 
+  $("#efforts_end_date").prop("min", startdate);
+
   fetch("controller/efforts_fetchHandler.php", {
     method: "POST",
     dataType: "html",
@@ -148,6 +152,8 @@ function fetchCountData() {
   var enddate = $("#counts_end_date").val();
   var projectselected = $("#project_selection").val();
   // var actual_hrs = $("#project_selection").val();
+
+  $("#counts_end_date").prop("min", startdate);
 
   fetch("controller/counts_fetchHandler.php", {
     method: "POST",
@@ -187,6 +193,8 @@ function fetchOTDData() {
   var actual_hrs = $("#hidden_actual_hrs").val();
   // alert(actual_hrs);
   // var actual_hrs = $("#project_selection").val();
+
+  $("#otd_end_date").prop("min", startdate);
 
   fetch("controller/kpi_fetchHandler.php", {
     method: "POST",
@@ -237,3 +245,5 @@ function projectLoad() {
 //     console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 //   });
 // });
+
+

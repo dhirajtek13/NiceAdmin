@@ -47,23 +47,27 @@ if ($jsonObj->request_type == 'fetch') {
         $sql12 = "WITH ranked_messages AS (
                     SELECT tickets.ticket_id as ticket_name, cs.type_name,  DATE_FORMAT(tickets.plan_end_date, '%Y-%m-%d') as plan_end_date, 
                     m.id, DATE_FORMAT(m.dates, '%Y-%m-%d') as dates, m.ticket_id as ticket_id, m.c_status as c_status,
-                    ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn, tickets.project_id FROM log_timing AS m 
+                    ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn, 
+                    tickets.project_id, tickets.planned_hrs, tickets.actual_hrs
+                    FROM log_timing AS m 
                     LEFT JOIN tickets ON tickets.id = m.ticket_id
                     LEFT JOIN c_status_types AS cs ON cs.id = m.c_status
                     WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
                     AND tickets.project_id = $projectSelected
                 ) 
-                SELECT ticket_name, ticket_id, plan_end_date,dates,c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_status_idArrImplode)";
+                SELECT planned_hrs, actual_hrs, ticket_name, ticket_id, plan_end_date,dates,c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_status_idArrImplode)";
     } else {
         $sql12 = "WITH ranked_messages AS (
                     SELECT  tickets.ticket_id as ticket_name, cs.type_name, DATE_FORMAT(tickets.plan_end_date, '%Y-%m-%d') as plan_end_date, 
                     m.id, DATE_FORMAT(m.dates, '%Y-%m-%d') as dates, m.ticket_id as ticket_id, m.c_status as c_status,
-                    ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn FROM log_timing AS m 
+                    ROW_NUMBER() OVER (PARTITION BY ticket_id ORDER BY id DESC) AS rn ,
+                    tickets.planned_hrs, tickets.actual_hrs
+                    FROM log_timing AS m 
                     LEFT JOIN tickets ON tickets.id = m.ticket_id
                     LEFT JOIN c_status_types AS cs ON cs.id = m.c_status
                     WHERE DATE_FORMAT(m.`dates`, '%Y-%m-%d') >= '$startdate' AND DATE_FORMAT(m.`dates`, '%Y-%m-%d') <= '$enddate' 
                 ) 
-                SELECT ticket_name, ticket_id,plan_end_date,dates, c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_status_idArrImplode)";
+                SELECT planned_hrs, actual_hrs, ticket_name, ticket_id,plan_end_date,dates, c_status,  type_name FROM ranked_messages WHERE rn = 1 AND c_status IN ($extract_status_idArrImplode)";
     }
 
     $logStatusQuery12 = $conn->query($sql12);
@@ -82,6 +86,8 @@ if ($jsonObj->request_type == 'fetch') {
                 $memberData[$row12['ticket_id']]['ticket_name'] = $row12['ticket_name'];
                 $memberData[$row12['ticket_id']]['plan_end_date'] = $row12['plan_end_date'];
                 $memberData[$row12['ticket_id']]['actual_end_date'] = $row12['dates'];
+
+                $memberData[$row12['ticket_id']]['variance'] = $row12['planned_hrs'] - $row12['actual_hrs'];
 
                 $memberData[$row12['ticket_id']]['kpi'] = '0';
                 if ($row12['plan_end_date'] >= $row12['dates']) {
@@ -105,6 +111,7 @@ if ($jsonObj->request_type == 'fetch') {
                     <th scope="col">Ticket Id</th>
                     <th scope="col">Planned date</th>
                     <th scope="col">Actual Date</th>
+                    <th scope="col">Variance</th>
                     <th scope="col">KPI Status</th>
                   </tr>
                 </thead>';
@@ -123,6 +130,8 @@ if ($jsonObj->request_type == 'fetch') {
             echo "</td>";
             echo "<td>".$member['plan_end_date']."</td>";
             echo "<td>".$member['actual_end_date']."</td>";
+
+            echo "<td>".$member['variance']."</td>";
 
             $td_background = ($member['kpi'] == 100) ? 'green': 'red';
             echo "<td style='background:".$td_background."'>".$member['kpi']."</td>";

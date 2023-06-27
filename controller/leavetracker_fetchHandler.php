@@ -85,8 +85,9 @@ if ($jsonObj->request_type == 'fetch') {
         <tbody >
             <?php
             $sr = 0;
-            //    echo "<pre>";  print_r($userData); die();
+            // echo "<pre>"; print_r($userData); die();
             foreach ($userData as $k => $v) {
+                //    echo "<pre>";  print_r($v['details']['uid']); die();
                 $disabled = ($_SESSION['user_type'] != 1) ? 'disabled' : '';
                 $disabled = ($_SESSION['user_id'] == $v['details']['uid']) ? '' : $disabled;
 
@@ -109,13 +110,17 @@ if ($jsonObj->request_type == 'fetch') {
                     $leave_id = '';$leave_data =[];$leave_data_encode = json_encode( $leave_data );
                      if(isset($v['leave_start_date']['l'])) {
                         foreach ($v['leave_start_date']['l'] as $indexl => $leavestartdatel) {
-                            if($value >= $leavestartdatel && $value <= $v['leave_end_date']['l'][$indexl]) {
+                            if(strtotime($value) >= strtotime($leavestartdatel) && strtotime($value) <= strtotime($v['leave_end_date']['l'][$indexl])) {
+
+
                                 $checked_bgcolor = 'background-color:red';
                                 $checked_color = 'border-color:brown';
                                 $checked = 'checked';
                                 $leave_id = $v['leave_end_date']['leave_id'][$indexl];
 
-                                // echo "<pre>";  print_r($v); die();
+                                // echo "<pre>";  print_r($v['leave_end_date']['l'][$indexl]); 
+                                // echo "<br>"; print_r($value);
+                                // die();
 
                                 $leave_data = [
                                     'leave_id' => $leave_id,
@@ -134,7 +139,7 @@ if ($jsonObj->request_type == 'fetch') {
                      $holiday = false;
                      if(isset($v['leave_start_date']['h'])) {
                         foreach ($v['leave_start_date']['h'] as $indexh => $leavestartdateh) {
-                            if($value >= $leavestartdateh && $value <= $v['leave_end_date']['h'][$indexh]) {
+                            if(strtotime($value) >= strtotime($leavestartdateh) && strtotime($value) <= strtotime($v['leave_end_date']['h'][$indexh])) {
                                 // $checked_bgcolor = 'background-color:purple';
                                 // $checked_color = 'border-color:blue';
                                 // $checked = 'checked';
@@ -142,7 +147,6 @@ if ($jsonObj->request_type == 'fetch') {
                             }
                         }
                      }
-
                     
                     // echo '<pre>'; print_r($value); die();
 
@@ -150,11 +154,11 @@ if ($jsonObj->request_type == 'fetch') {
                     $dt1 = strtotime($value);
                     $dt2 = date("l", $dt1);
                     $dt3 = strtolower($dt2);
-                    $disabled = '';
+                    // $disabled = '';
                     
                     if(($dt3 == "saturday" )|| ($dt3 == "sunday")) {
                         $checked = 'checked';
-                        $disabled  = 'disabled';
+                        // $disabled  = 'disabled';
                         $checked_bgcolor = 'background-color:#f69a10';
                         $checked_color = 'border-color:red';
 
@@ -183,17 +187,8 @@ if ($jsonObj->request_type == 'fetch') {
                                 echo "</div>";
                             echo "</td>";
                         }
-
-                        
                     }
-
-        
-                    
-            
-                    // echo "<td>$value</td>";
                 }
-
-
                 echo '</tr>';
             }
             ?>

@@ -35,7 +35,7 @@ $(document).ready(function () {
     var projectSelected = $("#hidden_project").val();
     // alert()
   
-    console.log(start_date);
+    $("#kpi_end_date").prop("min", start_date);
   
     fetch("db/odd_list.php", {
       method: "POST",

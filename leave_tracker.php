@@ -18,7 +18,7 @@ $allDaysColArr = dates_month(date('m'), date('Y'));
 // echo "<pre>"; print_r($allDaysColArr); die();
 
 //get current year, month and maxdays of it
-$allDaysColArr = dates_month(date('m'), date('Y'));
+// $allDaysColArr = dates_month(date('m'), date('Y'));
 ?>
 
 <body>
@@ -36,8 +36,10 @@ $allDaysColArr = dates_month(date('m'), date('Y'));
       <!-- <div class="addDataBtn"><a href="javascript:void(0);" class="btn btn-primary my-2 " onclick="addData()" >Add New Holiday</a></div> -->
 
       <div class="form-floating">
-        <input type="date" value="2023-06-07" name="dateSelected" id="dateSelected" class="form-control w-25" oninput="fetchLeaveTrackerData()">
-        <label for="floatingName">Select any day of the month</label>
+        <!-- <input type="date" value="2023-06-07" name="dateSelected" id="dateSelected" class="form-control w-25" oninput="fetchLeaveTrackerData()"> -->
+        <input type="month" value="<?php echo date('Y').'-'.date('m')  ?>" name="dateSelected" id="dateSelected" class="form-control w-25" oninput="fetchLeaveTrackerData()">
+        <label for="floatingName">Select month and year</label>
+
       </div>
     </div><!-- End Page Title -->
 

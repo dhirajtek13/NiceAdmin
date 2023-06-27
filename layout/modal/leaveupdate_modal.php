@@ -36,12 +36,16 @@
                                 <label for="day_type">Select One</label>
                             </div>
                             <div class="col-md-6">
-                                    <label for="leave_start_date" class="form-label">Leave Start Date</label>
-                                    <input type="date" name="leave_start_date" id="leave_start_date" class="form-control">
+                                    <div class="form-floating">
+                                        <input type="date" name="leave_start_date" id="leave_start_date" class="form-control">
+                                        <label for="leave_start_date" class="form-label">Leave Start Date</label>
+                                    </div>
                             </div>
                             <div class="col-md-6">
-                                    <label for="leave_end_date" class="form-label">Leave End Date</label>
+                                <div class="form-floating">
                                     <input type="date" name="leave_end_date" id="leave_end_date" class="form-control">
+                                    <label for="leave_end_date" class="form-label">Leave End Date</label>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -151,7 +151,7 @@ function updateLeave(start_date, checked, user_id, leave_id, element) {
       //uncheck this date//remove this leave//if two days then update to single date, if 3 days then update to 2days
       var dataleaveObj = JSON.parse(element.getAttribute('dataleave'));
 
-      console.log(dataleaveObj);
+      // console.log(dataleaveObj);
       $('#leave_desc').val(dataleaveObj.leave_leave_desc);
       $('#leave_type').val(dataleaveObj.leave_leave_type);
       $('#day_type').val(dataleaveObj.leave_day_type);

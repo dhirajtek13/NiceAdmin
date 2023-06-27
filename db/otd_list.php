@@ -95,6 +95,9 @@ if ($jsonObj->request_type == 'fetch') {
                 $memberData[$row13['ticket_id']]['total_hrs'] = $row13['total_hrs'];
                 $memberData[$row13['ticket_id']]['planned_hrs'] = $row13['planned_hrs'];
 
+
+                $memberData[$row13['ticket_id']]['variance'] = $row13['planned_hrs'] - $row13['total_hrs'];
+
                 $memberData[$row13['ticket_id']]['kpi'] = '0';
                 if ($row13['planned_hrs'] >= $row13['total_hrs']) {
                     $memberData[$row13['ticket_id']]['kpi'] = '100';
@@ -111,6 +114,7 @@ if ($jsonObj->request_type == 'fetch') {
                     <th scope="col">Ticket Id</th>
                     <th scope="col">Planned Hrs</th>
                     <th scope="col">Actual Hrs</th>
+                    <th scope="col">Variance</th>
                     <th scope="col">KPI Status</th>
                   </tr>
                 </thead>';
@@ -129,6 +133,7 @@ if ($jsonObj->request_type == 'fetch') {
             echo "</td>";
             echo "<td>".$member['planned_hrs']."</td>";
             echo "<td>".$member['total_hrs']."</td>";
+            echo "<td>".$member['variance']."</td>";
 
             $td_background = ($member['kpi'] == 100) ? 'green': 'red';
             echo "<td style='background:".$td_background."'>".$member['kpi']."</td>";
