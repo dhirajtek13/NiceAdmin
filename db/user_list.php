@@ -20,10 +20,15 @@ $dbDetails = array(
 $table = <<<EOT
  (
     SELECT 
-    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname, users.user_status
+    users.id, username, CONCAT(fname, ' ', lname ) as full_name, user_type.type_name as user_type_name, employee_id, designation, email, user_type, password, fname, lname, users.user_status, GROUP_CONCAT(projects.project_code) AS project_id, GROUP_CONCAT(projects.project_name) AS project_name
     FROM users 
     LEFT JOIN user_type 
     ON users.user_type = user_type.id 
+    LEFT JOIN project_user_map 
+    ON project_user_map.user_id = users.id 
+    LEFT JOIN projects 
+    ON projects.id = project_user_map.project_id
+    GROUP BY  project_user_map.user_id, users.id
     ORDER BY users.id DESC
  ) temp
 EOT; 
@@ -34,6 +39,7 @@ $primaryKey = 'id';
 // Array of database columns which should be read and sent back to DataTables. 
 // The `db` parameter represents the column name in the database.  
 // The `dt` parameter represents the DataTables column identifier. 
+
 $columns = array( 
     array( 
         'db' => 'id', 
@@ -48,7 +54,7 @@ $columns = array(
     array( 'db' => 'employee_id',  'dt' => 4 ), 
     array( 'db' => 'designation',  'dt' => 5 ), 
     array( 'db' => 'email',  'dt' => 6 ), 
-    array( 'db' => 'user_type',  'dt' => 7 ), 
+    // array( 'db' => 'user_type',  'dt' => 7 ), 
     // array( 'db' => 'password',  'dt' => 8 ), 
     // array( 
     //     'db'        => 'password', 
@@ -57,9 +63,10 @@ $columns = array(
     //         return password_verify($row['password'], $row['password']);
     //     }
     // ),
-    array( 'db' => 'fname',  'dt' => 8 ), 
-    array( 'db' => 'lname',  'dt' => 9 ), 
-   
+    array( 'db' => 'fname',  'dt' => 7 ), 
+    array( 'db' => 'lname',  'dt' => 8 ), 
+    array( 'db' => 'project_id',  'dt' => 9 ), 
+    array( 'db' => 'project_name',  'dt' => 10 ), 
 
     // array( 
     //     'db'        => 'planned_hrs', 
@@ -72,7 +79,7 @@ $columns = array(
     array( 'db' => 'user_status',  'dt' => 11 ), 
     array( 
         'db'        => 'id', 
-        'dt'        => 10,
+        'dt'        => 12,
         'formatter' => function( $d, $row ) { 
             
             // print_r($row['user_status']); die();
@@ -88,6 +95,7 @@ $columns = array(
             '; 
         } 
     ),
+    
     // array( 
     //     'db'        => 'id', 
     //     'dt'        => 7, 

@@ -4,7 +4,21 @@
 <body>
 <?php include('layout/header.php'); ?>
 <?php include('layout/sidebar.php'); ?>
+<style>
+  /* .datelocalformatted {
+    position: relative;
+    width: 250px; height: 20px;
+    color: white;
+}
 
+.datelocalformatted:before {
+    position: absolute;
+    top: 3px; left: 3px;
+    content: attr(my-date);
+    display: inline-block;
+    color: black;
+} */
+</style>
 
   <main id="main" class="main">
 

@@ -16,6 +16,7 @@ $jsonObj = json_decode($jsonStr);
 if($jsonObj->request_type == 'addEdit'){ 
     $user_data = $jsonObj->user_data;
 
+    // print_r($user_data); die();
     $username = !empty($user_data[0])?$user_data[0]:''; 
     $email = !empty($user_data[1])?$user_data[1]: '';
     $employee_id = !empty($user_data[2])?$user_data[2]:'0'; 
@@ -23,8 +24,9 @@ if($jsonObj->request_type == 'addEdit'){
     $fname = !empty($user_data[4])?$user_data[4]:''; 
     $lname = !empty($user_data[5])?$user_data[5]:'0.0'; 
     $user_type = !empty($user_data[6])?$user_data[6]: 1; 
+    $projects = !empty($user_data[7])?$user_data[7]: []; 
 
-    $id = !empty($user_data[7])?$user_data[7]:0; 
+    $id = !empty($user_data[8])?$user_data[8]:0; 
  
     $err = ''; 
 
@@ -40,6 +42,32 @@ if($jsonObj->request_type == 'addEdit'){
                 //Also add in the log_timings
                 // $details = json_encode($user_data);
                 // addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $current_user_id);
+                if(!empty($projects)) {
+                    //check and update the project_user_map with new map record
+                     //remove all projects for this user and add new as per selected
+                     $sql = "DELETE FROM project_user_map WHERE user_id=$id"; 
+                    $delete = $conn->query($sql); 
+                    if($delete) {
+                        foreach ($projects as $key => $value) {
+                            //if this combo not exist then add
+                            $sql2 = "Select * from project_user_map where project_id='$value' and user_id='$id'";
+                            $result2 = mysqli_query($conn, $sql2);
+                            $num2 = mysqli_num_rows($result2);
+    
+                            // print_r(mysqli_num_rows($result2)); die();
+                           
+                            if ( mysqli_num_rows($result2) == 0) {
+                                $sqlQ3 = "INSERT INTO project_user_map (project_id, user_id)
+                                    VALUES (?,?)"; 
+                                    $stmt3 = $conn->prepare($sqlQ3); 
+                                    $stmt3->bind_param("ii", $value, $id); 
+                                    $insert = $stmt3->execute();
+                            } 
+                        }
+                    }
+
+                    
+                }
                 $output = [ 
                     'status' => 1, 
                     'msg' => 'User updated successfully!' 
@@ -71,6 +99,14 @@ if($jsonObj->request_type == 'addEdit'){
 
                 if ($insert) { 
                     //Also add in the log_timings
+
+                    // $sqlQ3 = "INSERT INTO project_user_map (project_id, user_id)
+                    //             VALUES (?,?)"; 
+                    //             $stmt3 = $conn->prepare($sqlQ3); 
+                    //             $stmt3->bind_param("ii", $value, $id); 
+                    //             $insert = $stmt3->execute(); 
+
+
                     $details = json_encode($user_data);
                     addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $details, $current_user_id);
                     $output = [ 

@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $employee_id = $_POST["employee_id"];
   $designation = $_POST["designation"];
   $user_type = $_POST["user_type"];
+  $projects = $_POST["projects"];
 
 
   if ($username == '' || $email == '' || $password == '') {
@@ -53,16 +54,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       $hash = password_hash($password, PASSWORD_DEFAULT);
 
-
       $sql = "INSERT INTO `users` ( `username`, `fname`, `lname`, `email`, `password`, `employee_id`, `designation`, `user_type`) VALUES ('$username', '$fname', '$lname','$email', '$hash', '$employee_id', '$designation', '$user_type')";
       $result = mysqli_query($conn, $sql);
       // echo '<pre>'; print_r($result); die();
 
-      // print_r($sql);
+      // print_r($result);
       // die();
       if ($result) {
+        $last_id = $conn->insert_id;
+        // echo '<pre>'; print_r($last_id); echo "<hr>"; print_r($projects);die();
+        foreach ($projects as $key => $project_id) {
+          $sql2 = "INSERT INTO `project_user_map` ( `project_id`, `user_id`) VALUES ('$project_id', '$last_id')";
+          $result2 = mysqli_query($conn, $sql2);
+        }
+
         $showAlert = true;
-        // header("Location: /forum/index.php?signupsuccess=true");
+        header("Location: /user_management.php?success=1");
         // exit();
       }
     }
@@ -150,6 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                           <label for="employee_id">Employee Id</label>
                         </div>
                       </div>
+                      
                       <div class="col-md-6">
                         <div class="form-floating">
                           <input name="designation" type="text" class="form-control" id="designation" placeholder="Your Name">
@@ -159,9 +167,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       <div class="col-md-6">
                         <div class="form-floating mb-3">
                           <?php echo $user_type_row; ?>
-
                           <label for="floatingSelect">User Type</label>
                         </div>
+                      </div>
+                      <div class="col-md-12">
+                          <?php echo $projects_row; ?>
+                        
                       </div>
 
                       <div class="text-center">

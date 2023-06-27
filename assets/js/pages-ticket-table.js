@@ -88,6 +88,7 @@
   
     $("#planned_hrs").val("");
     $("#actual_hrs").val("");
+    $('#editID').val(0);
   
     $("#userDataModal").modal("show");
   }

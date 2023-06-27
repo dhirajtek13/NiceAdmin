@@ -14,6 +14,10 @@
                                     <label for="userFirstName" class="form-label">Ticket Id <span class="required_mark">*</span></label>
                                     <input type="text" class="form-control" id="ticket_id" placeholder="Enter Ticket Id">
                             </div>
+                            <div class="col-md-12">
+                                    <label for="zira_link" class="form-label">Zira Link</label>
+                                    <input type="text" class="form-control" id="zira_link" placeholder="Enter Zira Link">
+                            </div>
                             <div class="col-md-6">
                                     <label for="type_id" class="form-label">Type</label>
                                     <?php print_r($ticket_types_row); ?>
@@ -41,7 +45,8 @@
                             </div>
                              <div class="col-md-6">
                                    <label for="actual_start_date" class="form-label">Actual Start Date</label>
-                                    <input type="datetime-local" name="actual_start_date" id="actual_start_date" class="form-control">
+                                   <!-- <input class="datelocalformatted" type="date" my-date="" my-date-format="DD/MM/YYYY, hh:mm:ss" value="2015-08-09"> -->
+                                    <input type="datetime-local" name="actual_start_date" id="actual_start_date" class="form-control" data-date-format="DD/MM/YYYY" data-date="">
                             </div>
                             <div class="col-md-6">
                                     <label for="actual_end_date" class="form-label">Actual End Date</label>
@@ -72,3 +77,23 @@
     </div>
 </div>
 </div>
+<script>
+// function nowAsDuration(){
+//     return moment.duration({
+//         hours:   moment().hour(),
+//         minutes: moment().minute(),
+//         seconds: moment().second()
+//     });
+// }
+
+
+// $(".datelocalformatted").on("change", function() {
+//     var a = moment(this.value);
+//     var b = nowAsDuration();
+//     var c = a.add(b);
+    
+        
+//     this.setAttribute("my-date", c.format( this.getAttribute("my-date-format") )
+//     )
+// }).trigger("change")
+</script>

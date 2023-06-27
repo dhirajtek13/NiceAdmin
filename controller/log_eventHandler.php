@@ -92,7 +92,7 @@ if($jsonObj->request_type == 'addEdit'){
             if($update){ 
                 //Also add in the log_timings
                 $details = json_encode($user_data);
-                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $details, $ticket_assigned_user, $remark);
+                addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'UPDATE_LOG', $dates, $details, $ticket_assigned_user, $remark);
                 
                 if($shouldUpdate_wip_start_datetime) {
                     updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
@@ -103,6 +103,7 @@ if($jsonObj->request_type == 'addEdit'){
                 if($previousStatus != $updatedStatus) {
                     updateTicketStatus($conn, $c_status, $ticket_id);
                 }
+                updateActualHrs($conn, $ticket_id, $hrs);
 
                 $output = [ 
                     'status' => 1, 
@@ -136,7 +137,7 @@ if($jsonObj->request_type == 'addEdit'){
                 if ($insert) { 
                     //Also add in the log_timings
                     $details = json_encode($user_data);
-                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $details, $ticket_assigned_user);
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $dates, $details, $ticket_assigned_user);
 
                     if($shouldUpdate_wip_start_datetime) {
                         updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
@@ -147,6 +148,8 @@ if($jsonObj->request_type == 'addEdit'){
                     if($previousStatus != $updatedStatus) {
                         updateTicketStatus($conn, $c_status, $ticket_id);
                     }
+
+                    updateActualHrs($conn, $ticket_id, $hrs);
                     
                     $output = [ 
                         'status' => 1, 
@@ -177,12 +180,12 @@ if($jsonObj->request_type == 'addEdit'){
     } 
 }
 
-function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $details='', $assignee_id, $remark='') {
+function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $dates, $details='', $assignee_id, $remark='') {
 
-    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id,remark)
-                VALUES (?,?,?,?,?,?,?)"; 
+    $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id,remark, dates)
+                VALUES (?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 
-                $stmt->bind_param("iiissis", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id,$remark); 
+                $stmt->bind_param("iiississ", $ticket_id, $user_id,  $ticket_status, $activity_type,$details,$assignee_id,$remark,$dates); 
                 $insert = $stmt->execute();
                 //TODO return and handle return
 }
@@ -204,4 +207,23 @@ function updateTicketStatus($conn, $c_status, $ticket_id) {
     $stmt = $conn->prepare($sqlQ);
     $stmt->bind_param("ii", $c_status, $ticket_id); 
     $update = $stmt->execute(); 
+}
+
+function updateActualHrs($conn, $ticket_id, $newhrs) {
+    //calcualte original actual hrs of this ticket
+
+    $sql11 = "SELECT SUM(log_history.hrs) AS actual_hrs FROM tickets 
+                    LEFT JOIN 	log_history ON tickets.id = log_history.ticket_id
+                    WHERE tickets.id='$ticket_id' 
+                    GROUP BY log_history.ticket_id
+                    ";
+    $result11 = mysqli_query($conn, $sql11);
+    $row11 = mysqli_fetch_assoc($result11);
+    $actual_hrs = $row11['actual_hrs'];
+
+    $sqlQ = "UPDATE tickets SET actual_hrs=?  WHERE id=?";
+    $stmt = $conn->prepare($sqlQ);
+    $stmt->bind_param("ii", $actual_hrs, $ticket_id); 
+    $update = $stmt->execute(); 
+
 }

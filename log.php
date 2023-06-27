@@ -11,12 +11,16 @@
           header("Location: /");
       } else {
 
+          $get_ticket = $_GET['ticket'];
+          $sql = "Select assignee_id, c_status from tickets where ticket_id='$get_ticket' ";
+          $result = mysqli_query($conn, $sql);
+          $row = mysqli_fetch_assoc($result);
+          $ticket_c_status = $row['c_status'];
+          // print_r($ticket_c_status); die();
           //Recheck check if $_GET['ticket'] ticket belongs to current user otherwise redirect
           if($_SESSION['user_type'] != 1) { //if not PM then check only
-            $get_ticket = $_GET['ticket'];
-            $sql = "Select assignee_id from tickets where ticket_id='$get_ticket' ";
-            $result = mysqli_query($conn, $sql);
-            $row = mysqli_fetch_assoc($result);
+           
+            // print_r($row['c_status']); die();
             if (!isset($row) || $row['assignee_id'] != $_SESSION['user_id']){
               header("Location: tickets.php");//this will again redirect to pages-tickets in most cases/always !?
             }
@@ -40,7 +44,7 @@
       <div><h1>Log List for <b><?php echo $_GET['ticket']; ?></b></h1></div>
       
       <div class="addDataBtn">
-        <a href="javascript:void(0);" class="btn btn-success onlyDevAction" onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a>
+        <a href="javascript:void(0);" class="btn btn-success onlyDevAction getTicketStatusRef1" data-cstatus="<?=$ticket_c_status ?>" onclick="addData()"><i class="bi bi-plus-circle-fill"></i> Add New Log</a>
         <?php if($_GET['ticket'] && $_SESSION['user_type'] == 1) echo '<a href="/timeline.php?ticket='.$_GET['ticket'].'" class="btn btn-secondary onlyPMAction"><i class="bi bi-eye-fill"></i> View Timeline</a>'; ?>
       </div>
     </div><!-- End Page Title -->
@@ -59,7 +63,7 @@
                       <tr>
                           <th>S.N</th>
                           <th>Date</th>
-                          <th>Hours</th>
+                          <th>Logged Hours</th>
                           <th>Status</th>
                           <th>What Is Done</th>
                           <th>What is pending</th>
@@ -71,7 +75,7 @@
                       <tr>
                           <th>S.N</th>
                           <th>Date</th>
-                          <th>Hours</th>
+                          <th>Logged Hours</th>
                           <th>Status</th>
                           <th>What Is Done</th>
                           <th>What is pending</th>

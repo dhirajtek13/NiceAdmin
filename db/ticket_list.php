@@ -17,26 +17,62 @@ $dbDetails = array(
 // print_r($dbDetails); die();
 // DB table to use 
 // $table = 'tickets';
+// $table = <<<EOT
+//  (
+//     SELECT 
+//     tickets.id, tickets.ticket_id as ticket_id, tickets.type_id as type_id,  tickets.c_status as c_status,   tickets.assignee_id as assignee_id, 
+//     tickets.assigned_date as assigned_date, tickets.plan_start_date as plan_start_date, tickets.plan_end_date as plan_end_date, tickets.actual_start_date as actual_start_date, tickets.actual_end_date as actual_end_date, tickets.planned_hrs as planned_hrs, 
+//     SUM(log_history.hrs) as actual_hrs,
+//     ticket_types.type_name as ticket_type ,  c_status_types.type_name as c_type_name, CONCAT(users.fname, ' ', users.lname) as assignee, tickets.project_id
+//     FROM tickets 
+//     LEFT JOIN ticket_types
+//     ON tickets.type_id = ticket_types.id
+//     LEFT JOIN c_status_types
+//     ON tickets.c_status = c_status_types.id
+//     LEFT JOIN 	users
+//     ON tickets.assignee_id = users.id
+//     LEFT JOIN 	log_history
+//     ON tickets.id = log_history.ticket_id
+//     GROUP BY tickets.id
+//     ORDER BY tickets.id DESC
+//  ) temp
+// EOT; 
+
+
+    
+
+$db_string = "SELECT 
+                    tickets.id, tickets.ticket_id as ticket_id, tickets.type_id as type_id,  tickets.c_status as c_status,   tickets.assignee_id as assignee_id, 
+                    tickets.assigned_date as assigned_date, tickets.plan_start_date as plan_start_date, tickets.plan_end_date as plan_end_date, tickets.actual_start_date as actual_start_date, tickets.actual_end_date as actual_end_date, tickets.planned_hrs as planned_hrs, 
+                    SUM(log_history.hrs) as actual_hrs,
+                    ticket_types.type_name as ticket_type ,  c_status_types.type_name as c_type_name, CONCAT(users.fname, ' ', users.lname) as assignee, tickets.project_id
+                FROM tickets 
+                LEFT JOIN ticket_types
+                ON tickets.type_id = ticket_types.id
+                LEFT JOIN c_status_types
+                ON tickets.c_status = c_status_types.id
+                LEFT JOIN 	users
+                ON tickets.assignee_id = users.id
+                LEFT JOIN 	log_history
+                ON tickets.id = log_history.ticket_id";
+// if(!isset($_GET['ticket_id'])) {
+//     $this_ticket = $_GET['ticket_id'];
+
+//     $db_string .= " WHERE tickets.ticket_id='$this_ticket'";
+// } 
+
+$db_string .=    " GROUP BY tickets.id
+                ORDER BY tickets.id DESC";
+
+
+//   echo "<pre>"; print_r($db_string); die();              
 $table = <<<EOT
- (
-    SELECT 
-    tickets.id, tickets.ticket_id as ticket_id, tickets.type_id as type_id,  tickets.c_status as c_status,   tickets.assignee_id as assignee_id, 
-    tickets.assigned_date as assigned_date, tickets.plan_start_date as plan_start_date, tickets.plan_end_date as plan_end_date, tickets.actual_start_date as actual_start_date, tickets.actual_end_date as actual_end_date, tickets.planned_hrs as planned_hrs, 
-    SUM(log_history.hrs) as actual_hrs,
-    ticket_types.type_name as ticket_type ,  c_status_types.type_name as c_type_name, CONCAT(users.fname, ' ', users.lname) as assignee
-    FROM tickets 
-    LEFT JOIN ticket_types
-    ON tickets.type_id = ticket_types.id
-    LEFT JOIN c_status_types
-    ON tickets.c_status = c_status_types.id
-    LEFT JOIN 	users
-    ON tickets.assignee_id = users.id
-    LEFT JOIN 	log_history
-    ON tickets.id = log_history.ticket_id
-    GROUP BY log_history.ticket_id
-    ORDER BY tickets.id DESC
- ) temp
-EOT; 
+    (
+        $db_string
+    ) temp
+    EOT;
+
+
 // $table = <<<EOT
 //  (
 //     SELECT 
@@ -150,10 +186,12 @@ $columns = array(
                 <a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
                 <a href="/log.php?ticket='.$row['ticket_id'].'" class="btn btn-success">Log</a>&nbsp;
                 <a href="/timeline.php?ticket='.$row['ticket_id'].'" class="btn btn-info">Timeline</a>
+                <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteData('.$d.')">Delete</a> 
                 </div>
             '; 
         } 
     ),
+    array( 'db' => 'project_id',  'dt' => 14 ), 
     // array( 
     //     'db'        => 'id', 
     //     'dt'        => 7, 

@@ -76,6 +76,7 @@
     $("#what_is_done").val("");
     $("#what_is_pending").val("");
     $("#what_support_required").val("");
+    $('#editID').val(0);
   
     $("#userDataModal").modal("show");
   }
@@ -128,12 +129,13 @@
       .then((response) => response.json())
       .then((data) => {
         if (data.status == 1) {
+          $("#dataList").DataTable().draw();
           Swal.fire({
             title: data.msg,
             icon: "success",
           }).then((result) => {
             // Redraw the table
-            $("#dataList").DataTable().draw();
+            
   
             $("#userDataModal").modal("hide");
             $("#userDataFrm")[0].reset();

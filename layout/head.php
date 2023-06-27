@@ -1,14 +1,28 @@
 <?php
 session_start();
 // echo "<pre>"; print_r($_SERVER); die();
-if($_SERVER['PHP_SELF'] != '/pages-login.php') {//just if not login page itself
-  if( !isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true){
+if ($_SERVER['PHP_SELF'] != '/pages-login.php') { //just if not login page itself
+  if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
     header("location: pages-login.php");
     exit;
   }
 }
 
 include_once "db/config.php";
+if (isset($_GET['project'])) {
+  $projectSelected = $_GET['project'];
+  if($_GET['project'] != 0){
+    //check if this projects belongs to logged in user
+    $sql2 = "SELECT * FROM project_user_map where project_id='$projectSelected' and user_id='".$_SESSION['user_id']."'";
+    $result2 = mysqli_query($conn, $sql2);
+    $num2 = mysqli_num_rows($result2);
+    if($num2 == 0){
+        // print_r($num2); die();
+        header("location: project_managment.php");
+        exit;
+    }
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +31,7 @@ include_once "db/config.php";
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title><?php echo SITE_NAME; ?>  </title>
+  <title><?php echo SITE_NAME; ?> </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -38,16 +52,20 @@ include_once "db/config.php";
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-    <!-- version 1 inherited --> 
-    <script src="./assets/libraries/js/jquery-3.6.4.min.js"  crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./assets/css/custom_bt1.css" >
-    <!-- <link rel="stylesheet" href="./assets/css/datatable_custom.css" > -->
-    <!-- <link rel="stylesheet" href="./assets/css/mateial-icons.css" > -->
-    <link rel="stylesheet" type="text/css" href="./assets/libraries/DataTables/jquery.dataTables.min.css"/>
-    <script type="text/javascript" src="./assets/libraries/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="./assets/libraries/DataTables/dataTables.fixedHeader.min.js"></script>    
-    <script src="./assets/libraries/js/sweetalert2.all.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   
+  <!-- version 1 inherited -->
+  <script src="./assets/libraries/js/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./assets/css/custom_bt1.css">
+  <!-- <link rel="stylesheet" href="./assets/css/datatable_custom.css" > -->
+  <!-- <link rel="stylesheet" href="./assets/css/mateial-icons.css" > -->
+  <link rel="stylesheet" type="text/css" href="./assets/libraries/DataTables/jquery.dataTables.min.css" />
+  <script type="text/javascript" src="./assets/libraries/DataTables/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="./assets/libraries/DataTables/dataTables.fixedHeader.min.js"></script>
+  <script src="./assets/libraries/js/sweetalert2.all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">

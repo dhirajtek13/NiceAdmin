@@ -23,13 +23,13 @@ $(document).ready(function () {
       columnDefs: [
         {
           orderable: false,
-          targets: 10,
+          targets: 12,
         },
         {
           orderable: false,
           targets: 0,
         },
-        {
+         {
             target: 7,
             visible: false,
         },
@@ -37,10 +37,10 @@ $(document).ready(function () {
             target: 8,
             visible: false,
         },
-        {
-            target: 9,
-            visible: false,
-        },
+        // {
+        //     target: 9,
+        //     visible: false,
+        // },
         {
           target: 11,
           visible: false,
@@ -72,6 +72,10 @@ $(document).ready(function () {
     setTimeout(() => {
         $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
     }, 100);
+
+    //sidebar operations
+    $("#user-nav").addClass("show");
+    $("#user-nav").parent().find('a').removeClass("collapsed");
   });
   
 
@@ -91,7 +95,7 @@ $(document).ready(function () {
   //   $("#what_is_done").val("");
   //   $("#what_is_pending").val("");
   //   $("#what_support_required").val("");
-  
+  // $('#editID').val(0);
   //   $("#userDataModal").modal("show");
   // }
   
@@ -100,7 +104,7 @@ $(document).ready(function () {
   
       $("#userModalLabel").html("Edit User Data ");
 
-      // console.log(user_data);
+      console.log(user_data);
       $("#username").val(user_data.username);
       $("#email").val(user_data.email);
       $("#employee_id").val(user_data.employee_id);
@@ -110,6 +114,17 @@ $(document).ready(function () {
       $("#fname").val(user_data.fname);
       $("#lname").val(user_data.lname);
       $("#user_type option").filter(function() {return this.text == user_data.user_type_name ;}).attr('selected', true);
+
+      if(user_data.project_name) {
+        const projectsArray =  user_data.project_name.split(",");
+        projectsArray.forEach(element => {
+          var project = element.trim();
+          $("#projects option").filter(function() {return this.text == project ;}).attr('selected', true);
+        });
+      }
+      
+
+      // $("#user_type option").filter(function() {return this.text == user_data.user_type_name ;}).attr('selected', true);
   
       $('#editID').val(user_data.id);
       $("#userDataModal").modal("show");
@@ -191,6 +206,7 @@ $(document).ready(function () {
       document.getElementById("lname").value,
 
       document.querySelector('select[name="user_type"]').value,
+      $('#projects').val(),
   
       document.getElementById('editID').value,
     ];
