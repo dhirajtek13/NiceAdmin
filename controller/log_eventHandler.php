@@ -14,7 +14,7 @@ $jsonStr = file_get_contents('php://input');
 $jsonObj = json_decode($jsonStr); 
 
 
- 
+
 if($jsonObj->request_type == 'addEdit'){ 
     $user_data = $jsonObj->user_data;
     // print_r($user_data); die();
@@ -45,7 +45,7 @@ if($jsonObj->request_type == 'addEdit'){
     //     'ticket_id' => $ticket_id,
     //     'ticket_id' => $ticket_id,
     // ];
- 
+    // print_r($remark); die();
     $err = ''; 
     if(empty($dates)){ 
         $err .= 'Please enter date for worklog.<br/>'; 
@@ -137,7 +137,7 @@ if($jsonObj->request_type == 'addEdit'){
                 if ($insert) { 
                     //Also add in the log_timings
                     $details = json_encode($user_data);
-                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $dates, $details, $ticket_assigned_user);
+                    addTiming($conn, $ticket_id, $current_user_id,  $c_status, 'ADD_LOG', $dates, $details, $ticket_assigned_user, $remark);
 
                     if($shouldUpdate_wip_start_datetime) {
                         updateWIP_start($conn, $shouldUpdate_wip_start_datetime, $ticket_id);
@@ -181,7 +181,6 @@ if($jsonObj->request_type == 'addEdit'){
 }
 
 function addTiming($conn, $ticket_id, $user_id,  $ticket_status, $activity_type, $dates, $details='', $assignee_id, $remark='') {
-
     $sqlQ = "INSERT INTO log_timing (ticket_id,user_id, c_status,activity_type,details,assignee_id,remark, dates)
                 VALUES (?,?,?,?,?,?,?,?)"; 
                 $stmt = $conn->prepare($sqlQ); 

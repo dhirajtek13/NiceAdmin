@@ -110,6 +110,39 @@
           </ul>
         </li>
 
+
+        <li class="nav-item">
+          <a class="nav-link collapsed " data-bs-target="#report-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-person"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="report-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/report_timecompletion.php">
+                <i class="bi bi-card-list"></i>
+                <span>70% time completed</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/report_crossedtime.php">
+                <i class="bi bi-card-list"></i>
+                <span>Crossed time</span> 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/report_notstarted.php">
+                <i class="bi bi-card-list"></i>
+                <span>Not started</span> 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/report_holdreason.php">
+                <i class="bi bi-card-list"></i>
+                <span>On Hold tickets</span> 
+              </a>
+            </li>
+          </ul>
+        </li>
+
       <?php } ?>
 
       <?php if (isset($_SESSION['user_type']) && $_SESSION['user_type'] != 1) { ?>

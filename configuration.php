@@ -7,6 +7,8 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] != true) {
   exit;
 }
 
+//how to export datatable list in excel?
+
 //fetch system configuration
  include('db/fetchConfiguration.php');
 

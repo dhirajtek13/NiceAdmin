@@ -88,3 +88,11 @@ hr {
     background-color: white;
     animation: FadeIn 2.75s ease-in-out forwards;
 }
+
+.dt-button_custom {
+    margin: 10px 0px 0px 0px !important;
+    background: cadetblue !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border-radius: 5px !important;
+}
