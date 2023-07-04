@@ -195,14 +195,5 @@ if ($jsonObj->request_type == 'fetch') {
         </tbody>
     </table>
     <!-- </span> -->
-    <?php
-
-
-    ?>
-
-
-
-
-
 
 <?php } ?>

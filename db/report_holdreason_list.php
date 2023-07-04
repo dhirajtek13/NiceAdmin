@@ -8,9 +8,13 @@ $dbDetails = array(
     'pass' => DB_PASS, 
     'db'   => DB_NAME 
 ); 
-// print_r($dbDetails); die();
-// DB table to use 
+// print_r($_GET); die();
 $CLOSED_STATUS_ID = '2';//hold
+if(isset($_GET['status'])) {
+    $CLOSED_STATUS_ID = $_GET['status'];
+}
+// DB table to use 
+
 
 $db_string = "WITH ranked_messages AS 
                 ( SELECT lt.id, t.ticket_id, lt.remark, t.c_status, lt.dates, cs.type_name,  ROW_NUMBER() OVER (PARTITION BY lt.ticket_id ORDER BY lt.id DESC) AS rn 

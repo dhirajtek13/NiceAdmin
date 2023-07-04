@@ -137,7 +137,35 @@ if($jsonObj->request_type == 'addEdit'){
     }else{ 
         echo json_encode(['error' => trim($err, '<br/>')]); 
     } 
-}elseif($jsonObj->request_type == 'deleteUser'){ 
+} elseif($jsonObj->request_type == 'addActivity'){ 
+    $user_data = $jsonObj->user_data;
+    // print_r($user_data); die();
+
+
+    $act = !empty($user_data[0])?$user_data[0]:''; 
+    $planned_hrs = !empty($user_data[1])?$user_data[1]:0;
+    $parent_ticket = !empty($user_data[3])?$user_data[3]:0;
+
+    $ACTIVITY_TYPE_ID = 7;
+    
+     // Insert event data into the database 
+     $sqlQ = "INSERT INTO tickets (ticket_id,parent_id,type_id,planned_hrs)
+     VALUES (?,?,?,?)"; 
+     $stmt = $conn->prepare($sqlQ); 
+     $stmt->bind_param("siid", $act, $parent_ticket, $ACTIVITY_TYPE_ID, $planned_hrs); 
+     $insert = $stmt->execute();
+
+     if ($insert) { 
+        $output = [ 
+            'status' => 1, 
+            'msg' => 'Activity added successfully!' 
+        ]; 
+        echo json_encode($output); 
+    }else{ 
+        echo json_encode(['error' => 'Activity Add request failed!']); 
+    } 
+
+} elseif($jsonObj->request_type == 'deleteUser'){ 
     $id = $jsonObj->user_id; 
  
     $sql = "DELETE FROM tickets WHERE id=$id"; 

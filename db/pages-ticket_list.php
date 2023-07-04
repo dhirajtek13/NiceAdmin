@@ -157,11 +157,17 @@ $columns = array(
         'dt'        => 12,
         'formatter' => function( $d, $row ) { 
             
-            return ' <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            $ret =  '<div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
-                <a href="/log.php?ticket='.$row['ticket_id'].'" class="btn btn-success">Log</a>&nbsp;
-                </div>
-            '; 
+                <a href="/log.php?ticket='.$row['ticket_id'].'" class="btn btn-success">Log</a>&nbsp;';
+            
+                if($row['ticket_type'] == 'Story'){
+                    $ret .= '<a href="javascript:void(0);" class="btn btn-info" onclick="wbsData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">WBS</a>&nbsp';
+                }               
+
+            $ret .= '</div>'; 
+
+            return $ret;
         } 
     ),
     // array( 

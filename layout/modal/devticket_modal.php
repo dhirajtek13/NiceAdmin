@@ -77,23 +77,72 @@
     </div>
 </div>
 </div>
-<script>
-// function nowAsDuration(){
-//     return moment.duration({
-//         hours:   moment().hour(),
-//         minutes: moment().minute(),
-//         seconds: moment().second()
-//     });
-// }
+<div class="modal fade" id="wbsDataModal" tabindex="-1" aria-labelledby="wbsAddEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="wbsModalLabel">Activity</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                <div>
+                                        <h5><b>Add Activity:</b></h5>
+                                        <form name="wbsDataFrm" id="wbsDataFrm">
+                                                <div class="frm-status2"></div>
+                                                <div class="container">
+                                                        <div class="row g-3">
+
+                                                                <!-- <div class="col-md-12">
+                                                                <label for="userFirstName" class="form-label">Sr<span class="required_mark">*</span></label>
+                                                                <input type="text" class="form-control" id="sr" placeholder="">
+                                                        </div> -->
+                                                                <div class="col-md-12">
+                                                                        <label for="activity_name" class="form-label">Activity Name<span class="required_mark">*</span></label>
+                                                                        <input type="text" class="form-control" id="activity_name" placeholder="Enter Activity Name">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                        <label for="act_planned_hrs" class="form-label">Planned Hours <span class="required_mark">*</span></label>
+                                                                        <input type="number" class="form-control" id="act_planned_hrs" placeholder="00.0">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                        <label for="act_actual_hrs" class="form-label">Actual Hours</label>
+                                                                        <input type="number" class="form-control" id="act_actual_hrs" placeholder="00.0" disabled="">
+                                                                        <!-- <em>(as per log: )</em> -->
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div class="m-2 float-right">
+                                                        <input type="hidden" id="editID" value="0">
+                                                        <input type="hidden" id="ticket_id" value="0">
+                                                        <!-- <input type="hidden" id="previousStatus" value="0">
+                                                        <input type="hidden" id="updatedStatus" value="0"> -->
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary" onclick="submitWBSData()">Submit</button>
+                                                </div>
+
+                                        </form>
+                                </div>
+                                <div class="modal-footer"></div>
+                                <div>
+                                        <h5><b>Activity List:</b></h5>
+
+                                        <table id="phptable" class="table display">
+                                                <tr>
+                                                        <td>Sr</td>
+                                                        <td>Activity</td>
+                                                </tr>
+                                                <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                </tr>
+                                        </table>
+                                </div>
+
+                                <!-- <div class="modal-footer"></div> -->
 
 
-// $(".datelocalformatted").on("change", function() {
-//     var a = moment(this.value);
-//     var b = nowAsDuration();
-//     var c = a.add(b);
-    
-        
-//     this.setAttribute("my-date", c.format( this.getAttribute("my-date-format") )
-//     )
-// }).trigger("change")
-</script>
+                        </div>
+
+                </div>
+        </div>
+</div>

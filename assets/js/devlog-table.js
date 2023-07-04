@@ -136,6 +136,9 @@
       document.getElementById("remark").value,
       document.getElementById("previousStatus").value,
       document.getElementById("updatedStatus").value,
+
+      $('input[name="activity_selected"]:checked').val()
+
     ];
   
     fetch("controller/log_eventHandler.php", {

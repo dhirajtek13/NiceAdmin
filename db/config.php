@@ -7,8 +7,8 @@ if(!defined('BASE_PATH')){
     
     // Database credentials 
     define('DB_HOST', 'localhost'); 
-    define('DB_USER', 'root'); 
-    define('DB_PASS', ''); 
+    define('DB_USER', 'root'); //pmbookuser
+    define('DB_PASS', ''); //wdqXSX26+B72
     define('DB_NAME', 'niceadmin'); 
     define('MIN_HRS', 7.5); 
 }

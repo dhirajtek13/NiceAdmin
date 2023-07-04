@@ -11,20 +11,44 @@ $(document).ready(function () {
         }
     });
 
-    //how to export datatable to excel?
+    var status_selected = $("#status_selector").val();
+    var status_name = $("#status_selector option:selected").text();
+
+    
+    
+    // setTimeout(() => {
+    //     $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
+    //     $(".dt-button").addClass('dt-button_custom');
+    // }, 100);
+
+        //sidebar operations
+        $("#report-nav").addClass("show");
+        $("#report-nav").parent().find('a').removeClass("collapsed");
+
+
+        statusChanged() //load data for default status i.e hold
+  });
+
+
+  function statusChanged() {
+    var status_selected = $("#status_selector").val();
+    var status_name = $("#status_selector option:selected").text();
+
+    $("#dataList").DataTable().destroy();
+
     var table = $("#dataList").DataTable({
       dom: 'Bfrtip',
       buttons: [
           {
             extend: 'excel',
-            title: 'PM Book - Hold and Reasons'
+            title: 'PM Book - '+status_name+' and Reasons'
           }
       ],
       processing: true,
       serverSide: true,
       bLengthChange: false,
       // bFilter:false,
-      ajax: "db/report_holdreason_list.php",
+      ajax: "db/report_holdreason_list.php?status="+status_selected,
       scrollX: true,
       columnDefs: [
         {
@@ -52,16 +76,14 @@ $(document).ready(function () {
               });
       },
     });
-    
-    setTimeout(() => {
-        $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
-        $(".dt-button").addClass('dt-button_custom');
-    }, 100);
 
-        //sidebar operations
-        $("#report-nav").addClass("show");
-        $("#report-nav").parent().find('a').removeClass("collapsed");
-  });
+    setTimeout(() => {
+      $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");
+      $(".dt-button").addClass('dt-button_custom');
+  }, 100);
+    
+
+  }
   
 
   

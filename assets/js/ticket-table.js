@@ -212,6 +212,94 @@
       })
       .catch(console.error);
   }
+
+
+  function wbsData(user_data) {
+    // console.log(user_data);
+    var ticket_id = user_data.id;
+    
+    //fetch all the list of activities in this ticket
+    fetch("controller/story_eventHandler.php", {
+      method: "POST",
+      dataType: "html",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        request_type: "fetch",
+        ticket_id: ticket_id,
+      }),
+    })
+    .then(function (response) {
+      return response.text();
+    })
+    .then((html) => {
+      
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, "text/html");
+      var docArticle = doc.querySelector(".phptableclass2").innerHTML;
+      console.log(docArticle);
+      $("#phptable").html(docArticle);
+      //
+      })
+      .catch(console.error);
+
+    $('#ticket_id').val(user_data.ticket_id);
+    $('#act_actual_hrs').val(user_data.actual_hrs);
+    $('#editID').val(user_data.id);
+    $("#wbsDataModal").modal("show");
+  }
+
+  function submitWBSData() {
+    $(".frm-status2").html("");
+    let input_data_arr = [
+      document.getElementById("activity_name").value,//0  
+      // document.querySelector('select[name="type_id"]').value,//1
+      // document.querySelector('select[name="c_status"]').value,//2
+      // document.querySelector('select[name="assignee_id"]').value,//3
+      document.getElementById("act_planned_hrs").value,//4
+      document.getElementById("act_actual_hrs").value,//5
+      document.getElementById('editID').value,//8
+      document.getElementById('ticket_id').value,//8
+      
+    ];
+
+    // console.log(input_data_arr);alert(111);
+  
+    fetch("controller/ticket_eventHandler.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        request_type: "addActivity",
+        user_data: input_data_arr,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status == 1) {
+          Swal.fire({
+            title: data.msg,
+            icon: "success",
+          }).then((result) => {
+            // Redraw the table
+            // table.draw();
+            $("#dataList").DataTable().draw();
+  
+            $("#wbsDataModal").modal("hide");
+            $("#wbsDataFrm")[0].reset();
+          });
+        } else {
+          $(".frm-status").html(
+            '<div class="alert alert-danger" role="alert">' +
+              data.error +
+              "</div>"
+          );
+        }
+      })
+      .catch(console.error);
+  }
   
   //TODO 
   function deleteData(user_id) {

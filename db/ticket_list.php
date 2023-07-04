@@ -54,7 +54,8 @@ $db_string = "SELECT
                 LEFT JOIN 	users
                 ON tickets.assignee_id = users.id
                 LEFT JOIN 	log_history
-                ON tickets.id = log_history.ticket_id";
+                ON tickets.id = log_history.ticket_id
+                WHERE tickets.parent_id = 0";
 // if(!isset($_GET['ticket_id'])) {
 //     $this_ticket = $_GET['ticket_id'];
 
@@ -99,7 +100,7 @@ $columns = array(
     // array( 'db' => 'c_status', 'dt' => -1 ), 
     // array( 'db' => 'assignee_id', 'dt' => -1 ), 
     array( 
-        'db' => 'ticket_id', 
+        'db' => 'id', 
         'dt' => 0, 
         'formatter' => function ($d, $row){
             return $row['id']; 
@@ -181,14 +182,19 @@ $columns = array(
         'db'        => 'id', 
         'dt'        => 13,
         'formatter' => function( $d, $row ) { 
-            
-            return ' <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
+            $ret =  ' <div class="btn-group btn-group-toggle" data-toggle="buttons">';            
+                
+            $ret .=    '<a href="javascript:void(0);" class="btn btn-warning" onclick="editData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">Edit</a>&nbsp;
                 <a href="/log.php?ticket='.$row['ticket_id'].'" class="btn btn-success">Log</a>&nbsp;
-                <a href="/timeline.php?ticket='.$row['ticket_id'].'" class="btn btn-info">Timeline</a>
-                <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteData('.$d.')">Delete</a> 
-                </div>
-            '; 
+                <a href="/timeline.php?ticket='.$row['ticket_id'].'" class="btn btn-secondary">Timeline</a>
+                <a href="javascript:void(0);" class="btn btn-danger" onclick="deleteData('.$d.')">Delete</a>';
+
+            if($row['ticket_type'] == 'Story'){
+                $ret .= '<a href="javascript:void(0);" class="btn btn-info" onclick="wbsData('.htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8').')">WBS</a>&nbsp';
+            }
+            $ret .= '</div>';
+
+            return $ret;
         } 
     ),
     array( 'db' => 'project_id',  'dt' => 14 ), 

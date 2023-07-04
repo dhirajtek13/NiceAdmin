@@ -16,7 +16,7 @@
 <main id="main" class="main">
 
 <div class="pagetitle">
-  <div><h1>Report - Crossed Time and Date </h1></div>
+  <div><h1>Report - Tickets Delayed</h1></div>
 </div><!-- End Page Title -->
 
 <section class="section">
@@ -32,7 +32,7 @@
                     <th scope="col">Ticket Id</th>
                     <th scope="col">Planned Hrs</th>
                     <th scope="col">Actual Hrs</th>
-                    <th scope="col">Planned Date</th>
+                    <th scope="col">Planned End Date</th>
                     <th scope="col">Variance</th>
                     <th scope="col">Days Behind</th>
                 </tr>
@@ -43,7 +43,7 @@
                     <th>Ticket Id</th>
                     <th>Planned Hrs</th>
                     <th>Actual Hrs</th>
-                    <th>Planned Date</th>
+                    <th>Planned End Date</th>
                     <th>Variance</th>
                     <th>Days Behind</th>
                 </tr>
