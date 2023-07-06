@@ -6,6 +6,10 @@
          header("location: pages-ticket.php");
          exit;
        }
+
+       $today = date('Y-m-d');
+$start_date = date('Y-m-01');
+$end_date = date("Y-m-t", strtotime($today));
 ?>
 
 <body>
@@ -17,6 +21,22 @@
 
 <div class="pagetitle">
   <div><h1>Report - Not started on planned start date </h1></div>
+  <div class="row mt-2">
+        <div class="col-3 ">
+          <div class="form-floating">
+            <input type="date" value="<?= $start_date; ?>" name="kpi_start_date" id="kpi_start_date" class="form-control" oninput="fetchRUData()">
+            <label for="kpi_start_date">start date</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-floating">
+            <input type="date" value="<?= $end_date; ?>" name="kpi_end_date" id="kpi_end_date" class="form-control" oninput="fetchRUData()">
+            <label for="kpi_end_date">end date</label>
+          </div>
+        </div>
+        <div class="col-3">
+        </div>
+      </div>
 </div><!-- End Page Title -->
 
 <section class="section">
@@ -30,6 +50,7 @@
                 <tr>
                     <th>S.N</th>
                     <th scope="col">Ticket Id</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Plan start date</th>
                     <th scope="col">Actual start date</th>
                     <th scope="col">First Logged Date</th>
@@ -39,6 +60,7 @@
                 <tr>
                     <th>S.N</th>
                     <th>Ticket Id</th>
+                    <th>Status</th>
                     <th>Plan start date</th>
                     <th>Actual start date</th>
                     <th>First Logged Date</th>

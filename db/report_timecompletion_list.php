@@ -8,13 +8,23 @@ $dbDetails = array(
     'pass' => DB_PASS, 
     'db'   => DB_NAME 
 ); 
-// print_r($dbDetails); die();
+
+$today = date('Y-m-d');
+$startdate = date('Y-m-01');
+$enddate = date("Y-m-t", strtotime($today));
+if(isset($_GET['start_date'])) {
+    $startdate = $_GET['start_date'];
+    $enddate = $_GET['end_date'];
+}
+
 // DB table to use 
 $CLOSED_STATUS_ID = '3,7,19,18,17,16';
 
-$db_string = "SELECT id, ticket_id, planned_hrs, actual_hrs, ROUND((actual_hrs / planned_hrs )*100,2) AS per_completed, (planned_hrs-actual_hrs) AS variance 
+$db_string = "SELECT tickets.id as id1, ticket_id, planned_hrs, actual_hrs, c_status_types.type_name, (100 - ROUND((actual_hrs / planned_hrs )*100,2)) AS per_completed, (planned_hrs-actual_hrs) AS variance 
                 FROM `tickets` 
-                WHERE ROUND((actual_hrs / planned_hrs )*100,2) > 70
+                LEFT JOIN c_status_types ON c_status_types.id = tickets.c_status
+                WHERE (100 - ROUND((actual_hrs / planned_hrs )*100,2)) <  30 
+                AND DATE_FORMAT(tickets.`assigned_date`, '%Y-%m-%d') <= '$enddate' AND DATE_FORMAT(tickets.`assigned_date`, '%Y-%m-%d') >= '$startdate'
                 AND c_status NOT IN ($CLOSED_STATUS_ID) ";
 
 $table = <<<EOT
@@ -24,14 +34,14 @@ $table = <<<EOT
     EOT;
  
 // Table's primary key 
-$primaryKey = 'id';
+$primaryKey = 'id1';
  
 $columns = array( 
     array( 
-        'db' => 'id', 
+        'db' => 'id1', 
         'dt' => 0, 
         'formatter' => function ($d, $row){
-            return $row['id']; 
+            return $row['id1']; 
         }
     ), 
     array( 
@@ -41,10 +51,11 @@ $columns = array(
             return "<a href='/tickets.php?ticket_id=".$d."'>".$d. "</a>"; 
          } 
      ),
-    array( 'db' => 'planned_hrs',  'dt' => 2 ),
-    array( 'db' => 'actual_hrs',  'dt' => 3 ),
-    array( 'db' => 'per_completed',  'dt' => 4 ),
-    array( 'db' => 'variance',  'dt' => 5 ),
+    array( 'db' => 'type_name',  'dt' => 2 ),
+    array( 'db' => 'planned_hrs',  'dt' => 3 ),
+    array( 'db' => 'actual_hrs',  'dt' => 4 ),
+    array( 'db' => 'per_completed',  'dt' => 5 ),
+    array( 'db' => 'variance',  'dt' => 6 ),
 ); 
  
 // Include SQL query processing class 

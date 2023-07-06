@@ -6,6 +6,9 @@ if (isset($_SESSION) && $_SESSION['user_type'] != 1) {
   header("location: pages-ticket.php");
   exit;
 }
+$today = date('Y-m-d');
+$start_date = date('Y-m-01');
+$end_date = date("Y-m-t", strtotime($today));
 ?>
 
 <body>
@@ -19,6 +22,9 @@ if (isset($_SESSION) && $_SESSION['user_type'] != 1) {
       <div>
         <h1>Report - Tickets status with Reason </h1>
       </div>
+      
+
+      <div class="row mt-2">
       <div class="form-floating col-2">
         <select name="status_selector" id="status_selector" class="form-control" onchange="statusChanged()">
           <option value="2">Hold</option>
@@ -26,6 +32,21 @@ if (isset($_SESSION) && $_SESSION['user_type'] != 1) {
           <option value="10,11,12">Rework</option>
         </select>
         <label for="floatingName">Select Status</label>
+      </div>
+        <div class="col-3 ">
+          <div class="form-floating">
+            <input type="date" value="<?= $start_date; ?>" name="kpi_start_date" id="kpi_start_date" class="form-control" oninput="fetchRUData()">
+            <label for="kpi_start_date">start date</label>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-floating">
+            <input type="date" value="<?= $end_date; ?>" name="kpi_end_date" id="kpi_end_date" class="form-control" oninput="fetchRUData()">
+            <label for="kpi_end_date">end date</label>
+          </div>
+        </div>
+        <div class="col-3">
+        </div>
       </div>
 
     </div><!-- End Page Title -->

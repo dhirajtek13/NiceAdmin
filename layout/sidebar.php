@@ -119,7 +119,7 @@
             <li class="nav-item">
               <a class="nav-link collapsed" href="/report_timecompletion.php">
                 <i class="bi bi-card-list"></i>
-                <span>70% time completed</span>
+                <span>30% time left</span>
               </a>
             </li>
             <li class="nav-item">
