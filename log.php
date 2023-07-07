@@ -1,5 +1,5 @@
 
- <?php include('layout/head.php'); ?>
+<?php include('layout/head.php'); ?>
  <?php 
       //Middleware: check user type and restrict access 
       // if(isset($_SESSION) && $_SESSION['user_type'] != 1) {//there is separate log page created
