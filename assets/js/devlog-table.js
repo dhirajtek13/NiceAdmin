@@ -10,6 +10,8 @@
         }
     });
 
+    // alert($("#ticketId").val());
+
     var table = $("#dataList").DataTable({
       processing: true,
       serverSide: true,
@@ -28,7 +30,7 @@
         },
         {
           visible: false,
-          target: 8,
+          target: 9,
         },
       ],
       fnRowCallback : function(nRow, aData, iDisplayIndex){
@@ -221,5 +223,9 @@
         Swal.close();
       }
     });
+  }
+
+  function fetchActData (c_status) {
+    $("#c_status").val(c_status);
   }
   

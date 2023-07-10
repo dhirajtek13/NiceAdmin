@@ -11,25 +11,27 @@ $(document).ready(function () {
   fetchOTDData();
 
 
-  var table = $("#phptable").DataTable({
-    scrollX: true,
-    bLengthChange: false,
-    searching: false,
-    paging: false,
-    info: false,
-    columnDefs: [
-      {
-        orderable: false,
-        targets: "no-sort",
-      },
-    ],
-  });
+  // var table = $("#phptable").DataTable({
+  //   scrollX: true,
+  //   bLengthChange: false,
+  //   searching: false,
+  //   paging: false,
+  //   info: false,
+  //   columnDefs: [
+  //     {
+  //       orderable: false,
+  //       targets: "no-sort",
+  //     },
+  //   ],
+  // });
 });
 
 function reloadData() {
   var dateselected = $("#dateSelected").val();
   var projectselected = $("#project_selection").val();
   var actual_hrs = $("#hidden_actual_hrs").val();
+  
+  // $("#phptable").addClass('loading');
 
   fetch("controller/weekly_fetchHandler.php", {
     method: "POST",
@@ -60,7 +62,7 @@ function reloadData() {
       // Example:
       var docArticle = doc.querySelector(".phptableclass").innerHTML;
       $("#phptable").html(docArticle);
-      // console.log(docArticle);
+      // $("#phptable").removeClass('loading');
     })
     .catch(function (err) {
       console.log("Failed to fetch page: ", err);
@@ -76,6 +78,7 @@ function fetchTicketStatusData() {
   // var actual_hrs = $("#project_selection").val();
 
   $("#ticket_status_end_date").prop("min", startdate);
+  // $("#phptable").addClass('loading');
 
   fetch("controller/ticketStatus_fetchHandler.php", {
     method: "POST",
@@ -101,7 +104,7 @@ function fetchTicketStatusData() {
 
       // console.log(docArticle2);
       $("#phptable2").html(docArticle2);
-      // console.log(docArticle);
+      $(".ticket_status_table_response").removeClass('spinner-border');
     })
     .catch(function (err) {
       console.log("Failed to fetch page: ", err);
@@ -115,6 +118,7 @@ function fetchEffortData() {
   // var actual_hrs = $("#project_selection").val();
 
   $("#efforts_end_date").prop("min", startdate);
+  // $("#phptable").addClass('loading');
 
   fetch("controller/efforts_fetchHandler.php", {
     method: "POST",
@@ -140,7 +144,7 @@ function fetchEffortData() {
 
       // console.log(docArticle2);
       $("#effortTable_id").html(docArticle3);
-      // console.log(docArticle);
+      $(".efforts_table_response").removeClass('spinner-border');
     })
     .catch(function (err) {
       console.log("Failed to fetch page: ", err);
@@ -154,6 +158,7 @@ function fetchCountData() {
   // var actual_hrs = $("#project_selection").val();
 
   $("#counts_end_date").prop("min", startdate);
+  // $("#phptable").addClass('loading');
 
   fetch("controller/counts_fetchHandler.php", {
     method: "POST",
@@ -179,7 +184,7 @@ function fetchCountData() {
 
       // console.log(docArticle2);
       $("#countTable_id").html(docArticle4);
-      // console.log(docArticle);
+      $(".counts_table_response").removeClass('spinner-border');
     })
     .catch(function (err) {
       console.log("Failed to fetch page: ", err);
@@ -195,6 +200,7 @@ function fetchOTDData() {
   // var actual_hrs = $("#project_selection").val();
 
   $("#otd_end_date").prop("min", startdate);
+  // $("#phptable").addClass('loading');
 
   fetch("controller/kpi_fetchHandler.php", {
     method: "POST",
@@ -221,7 +227,7 @@ function fetchOTDData() {
       var docArticle2 = doc.querySelector(".kpiTable1class").innerHTML;
 
       $("#kpiTable1").html(docArticle2);
-      // console.log(docArticle);
+      $(".kpi_table_response").removeClass('spinner-border');
     })
     .catch(function (err) {
       console.log("Failed to fetch page: ", err);

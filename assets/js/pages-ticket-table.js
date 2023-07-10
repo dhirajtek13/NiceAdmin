@@ -211,9 +211,12 @@
       })
       .catch(console.error);
 
-    $('#ticket_id').val(user_data.ticket_id);
+    $('#ticket_id_wbshidden').val(user_data.ticket_id);
     $('#act_actual_hrs').val(user_data.actual_hrs);
-    $('#editID').val(user_data.id);
+    $('#parentID_wbshidden').val(user_data.id);
+    $('#assignee_id_wbshidden').val(user_data.assignee_id);
+    $('#projectID_wbshidden').val(user_data.project_id);
+
     $("#wbsDataModal").modal("show");
   }
 
@@ -226,8 +229,10 @@
       // document.querySelector('select[name="assignee_id"]').value,//3
       document.getElementById("act_planned_hrs").value,//4
       document.getElementById("act_actual_hrs").value,//5
-      document.getElementById('editID').value,//8
-      document.getElementById('ticket_id').value,//8
+      document.getElementById('parentID_wbshidden').value,//8
+      document.getElementById('ticket_id_wbshidden').value,//8
+      document.getElementById('assignee_id_wbshidden').value,//8
+      document.getElementById('projectID_wbshidden').value,//8
       
     ];
 

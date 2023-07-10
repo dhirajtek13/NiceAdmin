@@ -17,12 +17,13 @@ if ($jsonObj->request_type == 'fetch') {
     
 
     //holidays
-    $sql3 = "SELECT ticket_id  FROM tickets WHERE parent_id=$parent_id";
+    $sql3 = "SELECT id, ticket_id, actual_hrs  FROM tickets WHERE parent_id=$parent_id";
     $logStatusQuery3 = $conn->query($sql3);
     $userData = [];
     if ($logStatusQuery3->num_rows > 0) {
         while ($row3 = $logStatusQuery3->fetch_assoc()) {
-            $userData[] =  $row3['ticket_id'];
+            $userData[$row3['id']]['ticket_id'] =  $row3['ticket_id'];
+            $userData[$row3['id']]['actual_hrs'] =  $row3['actual_hrs'];
         }
     }
     // print_r($userData); die();
@@ -33,6 +34,7 @@ if ($jsonObj->request_type == 'fetch') {
             <tr>
                 <td>S.N</td>
                 <td>Activity Name</td>
+                <td>Logged Hrs</td>
             </tr>
         </thead> 
         <tbody >
@@ -43,10 +45,12 @@ if ($jsonObj->request_type == 'fetch') {
                 echo "<tr><td colspan='2'>No record found!</td></tr>";
             } else {
             foreach ($userData as $k => $v) {
+                // echo "<pre>"; print_r($v); die();
                 echo '<tr>';
                 $sr++;
                 echo "<td>$sr</td>";
-                echo "<td>$v</td>";
+                echo "<td>".$v['ticket_id']."</td>";
+                echo "<td>".$v['actual_hrs']."</td>";
                 echo '</tr>';
             }}
             ?>

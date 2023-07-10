@@ -113,10 +113,11 @@
                                                         </div>
                                                 </div>
                                                 <div class="m-2 float-right">
-                                                        <input type="hidden" id="editID" value="0">
-                                                        <input type="hidden" id="ticket_id" value="0">
-                                                        <!-- <input type="hidden" id="previousStatus" value="0">
-                                                        <input type="hidden" id="updatedStatus" value="0"> -->
+                                                        <input type="hidden" id="parentID_wbshidden" value="0">
+                                                        <input type="hidden" id="ticket_id_wbshidden" value="0">
+                                                         <input type="hidden" id="assignee_id_wbshidden" value="0">
+                                                         <input type="hidden" id="projectID_wbshidden" value="0">
+                                                        <!--<input type="hidden" id="updatedStatus" value="0"> -->
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         <button type="button" class="btn btn-primary" onclick="submitWBSData()">Submit</button>
                                                 </div>
@@ -131,8 +132,10 @@
                                                 <tr>
                                                         <td>Sr</td>
                                                         <td>Activity</td>
+                                                        <td>Logged hrs</td>
                                                 </tr>
                                                 <tr>
+                                                        <td></td>
                                                         <td></td>
                                                         <td></td>
                                                 </tr>

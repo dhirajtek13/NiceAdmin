@@ -44,9 +44,11 @@ $allDaysColArr = dates_month(date('m'), date('Y'));
     </div><!-- End Page Title -->
 
     <section class="section">
-      <div class="row">
-        <div class="col-12">
-          <table id="phptable" class="phptableclass display" style="width:225%;">
+      <div class="row ">
+        <div class="col-12  ">
+
+        <div class="spinner-border loader" role="status">
+          <table id="phptable" class="phptableclass  display loadingtable d-none" style="width:225%;">
             <thead class="org_thead">
               <tr>
 
@@ -63,6 +65,7 @@ $allDaysColArr = dates_month(date('m'), date('Y'));
 
             </thead>
           </table>
+          </div>
         </div>
       </div>
     </section>

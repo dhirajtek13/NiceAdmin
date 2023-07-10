@@ -33,6 +33,11 @@ if($jsonObj->request_type == 'addEdit'){
     $previousStatus = !empty($user_data[10])?$user_data[10]: 'NA';
     $updatedStatus = !empty($user_data[11])?$user_data[11]: 'NA';
 
+    $activity_id = !empty($user_data[12])?$user_data[12]: '';
+
+    $ticket_id = ($activity_id) ? $activity_id : $ticket_id;
+
+
     //TODO - for multi purpose
     // $details = [
     //     'ticket_id' => $ticket_id,
@@ -81,6 +86,7 @@ if($jsonObj->request_type == 'addEdit'){
             // But again we have not implemented multiple user logged into same ticket. as of now only PM can access the ticket log and add/update it.
 
             // i think may be PM wants to just update comments so user_id we need to get as ticket assigned user's id
+            
             
 
             $sqlQ = "UPDATE log_history SET user_id=?, ticket_id=?, dates=?, hrs=?, c_status=?, what_is_done=?, what_is_pending=?, what_support_required=?, updated_at=NOW()  WHERE id=?"; 

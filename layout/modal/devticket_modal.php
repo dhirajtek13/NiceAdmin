@@ -102,7 +102,9 @@
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                         <label for="act_planned_hrs" class="form-label">Planned Hours <span class="required_mark">*</span></label>
-                                                                        <input type="number" class="form-control" id="act_planned_hrs" placeholder="00.0">
+                                                                        <input type="number" class="form-control" id="act_planned_hrs" placeholder="00.0" 
+                                                                        <?php echo ($_SESSION['user_id'] != 1 ) ? 'disabled': ''; ?>
+                                                                        >
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                         <label for="act_actual_hrs" class="form-label">Actual Hours</label>
@@ -112,8 +114,10 @@
                                                         </div>
                                                 </div>
                                                 <div class="m-2 float-right">
-                                                        <input type="hidden" id="editID" value="0">
-                                                        <input type="hidden" id="ticket_id" value="0">
+                                                        <input type="hidden" id="parentID_wbshidden" value="0">
+                                                        <input type="hidden" id="ticket_id_wbshidden" value="0">
+                                                         <input type="hidden" id="assignee_id_wbshidden" value="0">
+                                                         <input type="hidden" id="projectID_wbshidden" value="0">
                                                         <!-- <input type="hidden" id="previousStatus" value="0">
                                                         <input type="hidden" id="updatedStatus" value="0"> -->
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

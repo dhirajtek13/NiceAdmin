@@ -7,7 +7,13 @@ $(document).ready(function () {
   var table = $("#phptable").DataTable({
     scrollX: true,
     bLengthChange: false,
+    processing: true,
+    deferLoading: 57,
     searching: false,
+    language: {
+      loadingRecords: '&nbsp;',
+      processing: '<div class="spinner"></div>'
+    },
     paging: false,
     info: false,
     columnDefs: [
@@ -26,7 +32,9 @@ function fetchLeaveTrackerData() {
   const month = dategiven.getMonth()+1;
   const year = dategiven.getFullYear();
 
-//   console.log(year);
+    //   console.log(year);
+    $(".loader").addClass('spinner-border');
+    $(".loadingtable").addClass('d-none');
 
   fetch("controller/leavetracker_fetchHandler.php", {
     method: "POST",
@@ -62,6 +70,8 @@ function fetchLeaveTrackerData() {
 
         $(".org_thead").remove();//remove org thead //directly remove giving js error
       $("#phptable").html(docArticle);
+      $(".loader").removeClass('spinner-border');
+      $(".loadingtable").removeClass('d-none');
       // console.log(docArticle);
     })
     .catch(function (err) {

@@ -126,7 +126,7 @@ if ($jsonObj->request_type == 'fetch') {
 
 ?>
         <!-- <span class="weekly_fetch_html" id="weekly_fetch_html"> -->
-            <table id="phptable" class="phptableclass display" style="width:100%">
+            <table id="phptable" class="phptableclass display loading" style="width:100%">
             <thead>
                 <tr>
                     <th>S.N</th>

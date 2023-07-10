@@ -6,16 +6,20 @@
       //   header("location: devlog.php?ticket=".$_GET['ticket']);
       //   exit;
       // }
+      // print_r($_GET['ticket']); die();
 
+      $STORY_TYPE_ID = 2; //TODO
       if(!isset($_GET['ticket'])) { //redirect if no ticket id given to list its log
           header("Location: /");
       } else {
 
           $get_ticket = $_GET['ticket'];
-          $sql = "Select assignee_id, c_status from tickets where ticket_id='$get_ticket' ";
+          $sql = "Select assignee_id, c_status, type_id from tickets where ticket_id='$get_ticket' ";
           $result = mysqli_query($conn, $sql);
           $row = mysqli_fetch_assoc($result);
+          // print_r($row); die();
           $ticket_c_status = $row['c_status'];
+          $ticket_type_id = $row['type_id'];
           // print_r($ticket_c_status); die();
           //Recheck check if $_GET['ticket'] ticket belongs to current user otherwise redirect
           if($_SESSION['user_type'] != 1) { //if not PM then check only
@@ -58,11 +62,12 @@
               <!-- <h5 class="card-title">Datatables</h5> -->
              
               <!-- Table with stripped rows -->
-              <table id="dataList" class="display" style="width:100%">
+              <table id="dataList" class="display" style="width:150%">
                   <thead>
                       <tr>
                           <th>S.N</th>
                           <th>Date</th>
+                          <th>Ticket</th>
                           <th>Logged Hours</th>
                           <th>Status</th>
                           <th>What Is Done</th>
@@ -75,6 +80,7 @@
                       <tr>
                           <th>S.N</th>
                           <th>Date</th>
+                          <th>Ticket</th>
                           <th>Logged Hours</th>
                           <th>Status</th>
                           <th>What Is Done</th>

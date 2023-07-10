@@ -18,14 +18,15 @@ $otd_allDaysColArr = x_week_range($otd_dateSelected);
     </div>
 </div>
 <div class="card-body mt-4">
-    
-    <table id="kpiTable1" class="display table table-striped " style="width:100%">
-        <tr>
-            <th>KPI Name</th>
-            <th>Target</th>
-            <th>Metrics</th>
-            <th>% Achieved</th>
-            <th>Status</th>
-        </tr>
-    </table>
+    <span class="kpi_table_response spinner-border">
+        <table id="kpiTable1" class="display table table-striped " style="width:100%">
+            <!-- <tr>
+                <th>KPI Name</th>
+                <th>Target</th>
+                <th>Metrics</th>
+                <th>% Achieved</th>
+                <th>Status</th>
+            </tr> -->
+        </table>
+    </span>
 </div>

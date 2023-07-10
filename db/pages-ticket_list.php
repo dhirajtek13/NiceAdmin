@@ -37,6 +37,7 @@ $db_string = "SELECT
     LEFT JOIN 	log_history
     ON tickets.id = log_history.ticket_id
     WHERE users.id = '".$current_user_id."'
+    AND tickets.parent_id = 0
     GROUP BY  tickets.id
     ORDER BY tickets.id DESC";
 

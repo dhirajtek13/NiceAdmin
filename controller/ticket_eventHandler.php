@@ -144,15 +144,18 @@ if($jsonObj->request_type == 'addEdit'){
 
     $act = !empty($user_data[0])?$user_data[0]:''; 
     $planned_hrs = !empty($user_data[1])?$user_data[1]:0;
-    $parent_ticket = !empty($user_data[3])?$user_data[3]:0;
+    $parent_ticket_id = !empty($user_data[3])?$user_data[3]:0;
+    $parent_ticket_name = !empty($user_data[4])?$user_data[4]:0;
+    $assignee_id = !empty($user_data[5])?$user_data[5]:0;
+    $project_id = !empty($user_data[6])?$user_data[6]:0;
 
-    $ACTIVITY_TYPE_ID = 7;
-    
+    $ACTIVITY_TYPE_ID = 7;//TODO
+    $DEFAULT_C_STATUS = 1;//TODO
      // Insert event data into the database 
-     $sqlQ = "INSERT INTO tickets (ticket_id,parent_id,type_id,planned_hrs)
-     VALUES (?,?,?,?)"; 
+     $sqlQ = "INSERT INTO tickets (ticket_id,parent_id,type_id,planned_hrs, c_status, assignee_id, project_id)
+     VALUES (?,?,?,?,?,?,?)"; 
      $stmt = $conn->prepare($sqlQ); 
-     $stmt->bind_param("siid", $act, $parent_ticket, $ACTIVITY_TYPE_ID, $planned_hrs); 
+     $stmt->bind_param("siidiii", $act, $parent_ticket_id, $ACTIVITY_TYPE_ID, $planned_hrs, $DEFAULT_C_STATUS, $assignee_id, $project_id); 
      $insert = $stmt->execute();
 
      if ($insert) { 

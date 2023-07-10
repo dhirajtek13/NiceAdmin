@@ -20,7 +20,7 @@
       columnDefs: [
         {
           orderable: false,
-          targets: 7,
+          targets: 8,
         },
         {
           orderable: false,
@@ -32,6 +32,7 @@
         $("td:first", nRow).html(iDisplayIndex +1);
         return nRow;
       },
+      aaSorting: [[ 1, "desc" ]],//sort by 2nd column i.e date logged
       orderCellsTop: true,
       initComplete: function () {
           // Apply the search

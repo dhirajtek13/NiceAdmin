@@ -16,14 +16,39 @@ $dbDetails = array(
 ); 
 
 $this_ticket = $_GET['ticket'];
+
+// //get ticket id from ticket name
+// $sql = "SELECT id FROM tickets  WHERE ticket_id= $this_ticket";
+// $stmt1 = $conn->prepare($sql); 
+// // $stmt1->bind_param("s", $this_ticket);
+// $stmt1->execute();
+// $result1 = $stmt1->get_result(); // get the mysqli result
+// $select_data = $result1->fetch_assoc(); // fetch data
+// $ticket_id = $select_data['id'];
+
+
+$sql = "SELECT id FROM tickets  WHERE ticket_id='". $this_ticket. "'";
+$logStatusQuery = $conn->query($sql);
+$userData = [];
+if ($logStatusQuery->num_rows > 0) {
+    while ($row = $logStatusQuery->fetch_assoc()) {
+        $ticket_id = $row['id'];
+        // $select_data['type_id'] = $row['type_id'];
+    }
+}
+
+// print_r($select_data); die();
+
 $db_string = "SELECT 
-                log_history.*, c_status_types.type_name as c_type_name, tickets.c_status AS ticketFinalStatus
+                log_history.*, tickets.ticket_id AS ticketID, c_status_types.type_name as c_type_name, tickets.c_status AS ticketFinalStatus
                 FROM log_history 
                 LEFT JOIN tickets
                 ON tickets.id = log_history.ticket_id
                 LEFT JOIN c_status_types
                 ON log_history.c_status = c_status_types.id
-                WHERE tickets.ticket_id = '".$this_ticket."'";
+                WHERE ( tickets.id = '".$ticket_id ."' OR tickets.parent_id = '".$ticket_id ."')
+                ORDER BY log_history.id DESC
+                ";
 
 // print_r($db_string);
 // die();
@@ -77,6 +102,7 @@ $columns = array(
             // return date( 'd-m-Y', strtotime($d)); 
         } 
     ), 
+    array( 'db' => 'ticketID', 'dt' => 2 ),
     array( 
         'db'        => 'dates', 
         'dt'        => 1, 
@@ -85,14 +111,14 @@ $columns = array(
             // return date( 'd-m-Y', strtotime($d)); 
         } 
     ), 
-    array( 'db' => 'hrs', 'dt' => 2 ), 
-    array( 'db' => 'c_type_name',  'dt' => 3 ), 
-    array( 'db' => 'what_is_done',      'dt' => 4 ), 
-    array( 'db' => 'what_is_pending',     'dt' => 5 ), 
-    array( 'db' => 'what_support_required',     'dt' => 6 ), 
+    array( 'db' => 'hrs', 'dt' => 3 ), 
+    array( 'db' => 'c_type_name',  'dt' => 4 ), 
+    array( 'db' => 'what_is_done',      'dt' => 5 ), 
+    array( 'db' => 'what_is_pending',     'dt' => 6 ), 
+    array( 'db' => 'what_support_required',     'dt' => 7 ), 
     array( 
         'db'        => 'id', 
-        'dt'        => 7,
+        'dt'        => 8,
         'formatter' => function( $d, $row ) { 
             // print_r($row); die();
             return ' 
@@ -106,7 +132,7 @@ $columns = array(
                 '; 
             } 
         ),
-        array( 'db' => 'ticketFinalStatus',     'dt' => 8 ), 
+        array( 'db' => 'ticketFinalStatus',     'dt' => 9 ), 
 ); 
  
 // Include SQL query processing class 

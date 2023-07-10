@@ -116,6 +116,7 @@ $columns = array(
     array( 'db' => 'ticket_type',  'dt' => 2 ), 
     array( 'db' => 'c_type_name',      'dt' => 3 ), 
     array( 'db' => 'assignee',     'dt' => 4 ), 
+    array( 'db' => 'assignee_id',     'dt' => 15 ), 
     array( 
         'db'        => 'assigned_date', 
         'dt'        => 5, 
