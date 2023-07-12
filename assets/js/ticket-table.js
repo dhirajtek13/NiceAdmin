@@ -92,7 +92,7 @@
     }
   });
 
-  $('#act_planned_hrs').on('keyup', function() {
+  $('#act_planned_hrs').on('focusout', function() {
     var act_planned_hrs = $("#act_planned_hrs").val();
     //planned - actual hrs //23 - 20 == 3hrs left.s o actual_planned_hrs < 3 hrs.
     var act_actual_hrs = $("#act_actual_hrs").val();
