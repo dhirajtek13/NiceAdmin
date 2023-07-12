@@ -55,14 +55,14 @@ $db_string = "SELECT
                 ON tickets.assignee_id = users.id
                 LEFT JOIN 	log_history
                 ON tickets.id = log_history.ticket_id
-                WHERE tickets.parent_id = 0";
+                ";
 // if(!isset($_GET['ticket_id'])) {
 //     $this_ticket = $_GET['ticket_id'];
 
 //     $db_string .= " WHERE tickets.ticket_id='$this_ticket'";
 // } 
 
-$db_string .=    " GROUP BY tickets.id
+$db_string .=    " GROUP BY tickets.source
                 ORDER BY tickets.id DESC";
 
 

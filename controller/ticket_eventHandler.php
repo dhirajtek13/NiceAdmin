@@ -112,10 +112,14 @@ if($jsonObj->request_type == 'addEdit'){
                 $stmt->bind_param("ssiiisssssddi", $ticket_id, $zira_link, $type_id, $c_status, $assignee_id, $assigned_date, $plan_start_date, $plan_end_date, $actual_start_date, $actual_end_date, $planned_hrs, $actual_hrs, $project_id); 
                 $insert = $stmt->execute(); 
 
-                // print_r($insert); die();
-
                 if ($insert) { 
                     $new_ticket_id = $stmt->insert_id;
+                    //add source same as id
+                    $sqlQ = "UPDATE tickets SET source=?  WHERE id=?"; 
+                    $stmt = $conn->prepare($sqlQ);
+                    $stmt->bind_param("ii", $new_ticket_id, $new_ticket_id); 
+                    $update = $stmt->execute();
+
                     addTiming($conn,  $new_ticket_id, $current_user_id,  $c_status, 'ADD_TICKET',date("Y-m-d H:i:s"), $assignee_id);
 
                     //do not need to update wip start because while creating PM will set status only ready for development not wip
@@ -159,6 +163,13 @@ if($jsonObj->request_type == 'addEdit'){
      $insert = $stmt->execute();
 
      if ($insert) { 
+        $new_ticket_id = $stmt->insert_id;
+        //add source same as id
+        $sqlQ = "UPDATE tickets SET source=?  WHERE id=?"; 
+        $stmt = $conn->prepare($sqlQ);
+        $stmt->bind_param("ii", $parent_ticket_id, $new_ticket_id); 
+        $update = $stmt->execute();
+
         $output = [ 
             'status' => 1, 
             'msg' => 'Activity added successfully!' 

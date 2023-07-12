@@ -37,8 +37,8 @@ $db_string = "SELECT
     LEFT JOIN 	log_history
     ON tickets.id = log_history.ticket_id
     WHERE users.id = '".$current_user_id."'
-    AND tickets.parent_id = 0
-    GROUP BY  tickets.id
+    #AND tickets.parent_id = 0
+    GROUP BY  tickets.source
     ORDER BY tickets.id DESC";
 
 
@@ -107,13 +107,13 @@ $columns = array(
     ),
     array( 
         'db'        => 'plan_end_date', 
-        'dt'        => 6, 
+        'dt'        => 6,
         'formatter' => function( $d, $row ) { 
            return ($d != '0000-00-00 00:00:00') ?  date( 'd-m-Y', strtotime($d)) : ''; 
         } 
     ),
     array( 
-        'db'        => 'planned_hrs', 
+        'db'        => 'planned_hrs',
         'dt'        => 7, 
         'formatter' => function( $d, $row ) { 
            return ($d != '0.00') ?  $d : ''; 

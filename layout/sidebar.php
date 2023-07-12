@@ -140,6 +140,12 @@
                 <span>On Hold tickets</span> 
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/report_userwisedata.php">
+                <i class="bi bi-card-list"></i>
+                <span>Userwise Efforts</span> 
+              </a>
+            </li>
           </ul>
         </li>
 
