@@ -92,6 +92,21 @@
     }
   });
 
+  $('#act_planned_hrs').on('keyup', function() {
+    var act_planned_hrs = $("#act_planned_hrs").val();
+    //planned - actual hrs //23 - 20 == 3hrs left.s o actual_planned_hrs < 3 hrs.
+    var act_actual_hrs = $("#act_actual_hrs").val();
+    var story_planned_hr_wbshidden = $("#story_planned_hr_wbshidden").val();
+    var variance = parseFloat(story_planned_hr_wbshidden) - parseFloat(act_actual_hrs);
+    if(act_planned_hrs > variance){
+      var errHtml = '<div class="alert alert-danger" role="alert">Activity planned hrs should be less than hrs left in Story!</div>';
+      $(".frm-status2").html(errHtml);
+    } else {
+      $(".frm-status2").html('');
+    }
+    // console.log(act_planned_hrs);
+  })
+
 
   //Modal CRUD operations 
   function addData() {
@@ -220,9 +235,9 @@
 
   function wbsData(user_data) {
     var ticket_id = user_data.id;
-    console.log(user_data);
+    // console.log(user_data);
     // var assignee_id = user_data.assignee_id;
-    
+    $(".frm-status2").html("");
     //fetch all the list of activities in this ticket
     fetch("controller/story_eventHandler.php", {
       method: "POST",
@@ -254,6 +269,8 @@
     $('#parentID_wbshidden').val(user_data.id);
     $('#assignee_id_wbshidden').val(user_data.assignee_id);
     $('#projectID_wbshidden').val(user_data.project_id);
+
+    $("#story_planned_hr_wbshidden").val(user_data.planned_hrs);
 
     $("#wbsDataModal").modal("show");
   }

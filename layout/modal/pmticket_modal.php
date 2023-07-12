@@ -117,6 +117,7 @@
                                                         <input type="hidden" id="ticket_id_wbshidden" value="0">
                                                          <input type="hidden" id="assignee_id_wbshidden" value="0">
                                                          <input type="hidden" id="projectID_wbshidden" value="0">
+                                                         <input type="hidden" id="story_planned_hr_wbshidden" value="0">
                                                         <!--<input type="hidden" id="updatedStatus" value="0"> -->
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         <button type="button" class="btn btn-primary" onclick="submitWBSData()">Submit</button>
