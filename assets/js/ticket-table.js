@@ -1,11 +1,12 @@
 // Initialize DataTables API object and configure table
 
-  
-  $(document).ready(function () {
+  function fetchRUData() {
+    $("#dataList").DataTable().destroy();
 
-    let ticket_id_hidden = $("#ticket_id_hidden").val();
-    // var ajax_url = (ticket_id_hidden == '') ? "db/ticket_list.php" : "db/ticket_list.php?ticket_id="+ticket_id_hidden;
-    var ajax_url = (ticket_id_hidden == '') ? "db/ticket_list.php" : "db/ticket_list.php";
+    var start_date = $("#kpi_start_date").val();
+    var end_date = $("#kpi_end_date").val();
+    // var ajax_url = (ticket_id_hidden == '') ? "db/ticket_list.php" : "db/ticket_list.php";
+    var ajax_url =  "db/ticket_list.php?start_date="+start_date+"&end_date="+end_date;
 
     $('#dataList tfoot th').each(function () {
         var title = $(this).text();
@@ -68,6 +69,18 @@
               });
       },
     });
+    
+  }
+  
+  $(document).ready(function () {
+
+    let ticket_id_hidden = $("#ticket_id_hidden").val();
+    // var ajax_url = (ticket_id_hidden == '') ? "db/ticket_list.php" : "db/ticket_list.php?ticket_id="+ticket_id_hidden;
+
+    fetchRUData();
+
+
+
     
     setTimeout(() => {
         $("#dataList_wrapper").find(".sorting_disabled").removeClass("sorting_asc");

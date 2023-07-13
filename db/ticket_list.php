@@ -37,7 +37,10 @@ $dbDetails = array(
 //     ORDER BY tickets.id DESC
 //  ) temp
 // EOT; 
-
+if(isset($_GET['start_date'])) {
+    $startdate = $_GET['start_date'];
+    $enddate = $_GET['end_date'];
+}
 
     
 
@@ -55,6 +58,7 @@ $db_string = "SELECT
                 ON tickets.assignee_id = users.id
                 LEFT JOIN 	log_history
                 ON tickets.id = log_history.ticket_id
+                WHERE DATE_FORMAT(tickets.`assigned_date`, '%Y-%m-%d') <= '$enddate' AND DATE_FORMAT(tickets.`assigned_date`, '%Y-%m-%d') >= '$startdate'
                 ";
 // if(!isset($_GET['ticket_id'])) {
 //     $this_ticket = $_GET['ticket_id'];
