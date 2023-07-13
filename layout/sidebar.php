@@ -143,7 +143,13 @@
             <li class="nav-item">
               <a class="nav-link collapsed" href="/report_userwisedata.php">
                 <i class="bi bi-card-list"></i>
-                <span>Userwise Efforts</span> 
+                <span>Userwise Count & Efforts</span> 
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link collapsed" href="/report_actualefforts.php">
+                <i class="bi bi-card-list"></i>
+                <span>Userwise Actual Efforts</span> 
               </a>
             </li>
           </ul>
