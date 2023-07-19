@@ -7,8 +7,10 @@
       //   exit;
       // }
       // print_r($_GET['ticket']); die();
-
-      $STORY_TYPE_ID = 2; //TODO
+      $sql11 = "Select id FROM ticket_types where type_name='Story'";
+      $result11 = mysqli_query($conn, $sql11);
+      $row11 = mysqli_fetch_assoc($result11);
+      $STORY_TYPE_ID = $row11['id'];
       if(!isset($_GET['ticket'])) { //redirect if no ticket id given to list its log
           header("Location: /");
       } else {
